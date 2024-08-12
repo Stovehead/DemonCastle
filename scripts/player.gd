@@ -2,8 +2,8 @@ extends CharacterBody2D
 
 const ACCELERATION:float = 1200
 const MAX_SPEED:float = 60
-const JUMP_SPEED:float = -180
-const FAST_FALL_SPEED:float = 180
+const JUMP_SPEED:float = -185
+const FAST_FALL_SPEED:float = 280
 
 var player_direction:int = 1
 var player_has_control:bool = false
@@ -26,7 +26,7 @@ var current_step:int
 @onready var jump_timer:Timer = $JumpTimer
 @onready var animation_player:AnimationPlayer = $AnimationPlayer
 @onready var sprite:Sprite2D = $Sprite
-@onready var whip:Area2D = $Whip
+@onready var whip:Whip = $Whip
 @onready var whip_animation_player:AnimationPlayer = $Whip/AnimationPlayer
 @onready var stun_timer:Timer = $StunTimer
 
@@ -72,6 +72,7 @@ func handle_input(delta:float) -> void:
 				if(current_step <= 0 || current_step >= current_stair.height):
 					on_stairs = false
 					position.x = current_stair.position.x + Stairs.SINGLE_STAIR_HEIGHT * current_step * player_direction
+					position.y -= 1
 					velocity.y = 100
 					animation_player.play("idle")
 				if(on_stairs):
@@ -151,7 +152,6 @@ func handle_input(delta:float) -> void:
 			jump_timer.start()
 
 		if(is_on_floor()):
-			print(velocity.y)
 			is_jumping = false
 			is_falling = false
 			# Horizontal movement
@@ -207,6 +207,8 @@ func _ready():
 	animation_player.play("idle")
 
 func _physics_process(delta:float) -> void:
+	if(!is_on_floor() && !on_stairs): 
+		print(velocity.y)
 	handle_input(delta)
 	if(on_stairs):
 		collision.disabled = true
