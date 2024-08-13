@@ -4,6 +4,7 @@ extends Node2D
 const SINGLE_STAIR_HEIGHT:int = 8
 
 @onready var top:Area2D = $Top
+@onready var bottom:Area2D = $Bottom
 
 @export var height:int = 2
 

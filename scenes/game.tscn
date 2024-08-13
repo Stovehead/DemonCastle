@@ -1,3 +1,26 @@
-[gd_scene format=3 uid="uid://dm2gjidl1pws5"]
+[gd_scene load_steps=2 format=3 uid="uid://dm2gjidl1pws5"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_ml3fd"]
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_ml3fd")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 1, 0)
+
+[node name="Blackout" type="ColorRect" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+offset_top = 24.0
+offset_right = 384.0
+offset_bottom = 216.0
+color = Color(0, 0, 0, 1)
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3

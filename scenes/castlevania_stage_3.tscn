@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://e12jw22rlaos"]
+
+[ext_resource type="Script" path="res://scripts/stage.gd" id="1_e0aqt"]
+[ext_resource type="AudioStream" uid="uid://ci2qwkqmt4pqx" path="res://media/music/vampirekiller.wav" id="2_7abjw"]
+[ext_resource type="TileSet" uid="uid://bpyv70mj7h5m5" path="res://tilesets/cv_level_1.tres" id="2_aa8q8"]
+[ext_resource type="PackedScene" uid="uid://bjgdyfygxemn4" path="res://scenes/stairs.tscn" id="3_v3dd7"]
+[ext_resource type="PackedScene" uid="uid://dkglrvtudtp53" path="res://scenes/player_spawner.tscn" id="4_t3fmr"]
+
+[node name="Stage" type="Node2D" node_paths=PackedStringArray("tile_map", "objects", "player_spawner")]
+script = ExtResource("1_e0aqt")
+tile_map = NodePath("TileMap")
+objects = NodePath("Objects")
+player_spawner = NodePath("PlayerSpawner")
+right_limit = 512
+music = ExtResource("2_7abjw")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("2_aa8q8")
+format = 2
+layer_0/tile_data = PackedInt32Array(65536, 327680, 2, 131072, 327680, 3, 196608, 327680, 4, 262144, 327680, 2, 327680, 327680, 2, 393216, 327680, 5, 65537, 262144, 2, 131073, 327680, 6, 196609, 393216, 1, 262145, 327680, 7, 327681, 262144, 2, 393217, 393216, 0, 65538, 262144, 2, 131074, 262144, 2, 196610, 393216, 1, 262146, 327680, 7, 327682, 262144, 2, 393218, 393216, 1, 65539, 65536, 1, 131075, 327680, 1, 196611, 65536, 3, 262147, 327680, 1, 327683, 327680, 1, 393219, 65536, 3, 65540, 262144, 2, 131076, 262144, 2, 196612, 262144, 2, 262148, 393216, 1, 327684, 327680, 7, 393220, 393216, 1, 65541, 262144, 2, 131077, 393216, 2, 196613, 262144, 2, 262149, 393216, 0, 327685, 327680, 1, 393221, 65536, 3, 65542, 262144, 2, 131078, 393216, 2, 196614, 327680, 7, 262150, 393216, 3, 327686, 393216, 4, 393222, 393216, 5, 65543, 262144, 2, 131079, 393216, 2, 196615, 327680, 7, 262151, 327680, 7, 327687, 393216, 3, 393223, 393216, 6, 65544, 327680, 1, 131080, 327680, 1, 196616, 65536, 1, 262152, 393216, 7, 327688, 655360, 7, 393224, 589824, 7, 65545, 262144, 2, 131081, 327680, 6, 196617, 327680, 7, 262153, 393216, 7, 327689, 393216, 7, 393225, 393216, 7, 65546, 327680, 1, 131082, 65536, 1, 196618, 65536, 1, 262154, 262144, 3, 327690, 327680, 1, 393226, 65536, 3, 65547, 262144, 2, 131083, 262144, 2, 196619, 262144, 2, 262155, 393216, 1, 327691, 327680, 7, 393227, 393216, 0, 65548, 262144, 2, 131084, 262144, 2, 196620, 327680, 6, 262156, 393216, 0, 327692, 65536, 1, 393228, 65536, 3, 65549, 262144, 2, 131085, 393216, 2, 196621, 393216, 1, 262157, 393216, 3, 327693, 393216, 4, 393229, 393216, 5, 65550, 262144, 2, 131086, 393216, 2, 196622, 393216, 1, 262158, 327680, 6, 327694, 393216, 3, 393230, 393216, 6, 65551, 393216, 5, 131087, 131072, 5, 196623, 131072, 6, 262159, 262144, 5, 327695, 262144, 5, 393231, 458752, 0)
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Stairs" parent="Objects" instance=ExtResource("3_v3dd7")]
+position = Vector2(240, 208)
+height = 8
+direction = -1
+
+[node name="Stairs2" parent="Objects" instance=ExtResource("3_v3dd7")]
+position = Vector2(464, 208)
+height = 8
+direction = -1
+
+[node name="PlayerSpawner" parent="." instance=ExtResource("4_t3fmr")]
+position = Vector2(48, 96)

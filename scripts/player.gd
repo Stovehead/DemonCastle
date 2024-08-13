@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 const ACCELERATION:float = 1200
@@ -6,7 +7,10 @@ const JUMP_SPEED:float = -185
 const FAST_FALL_SPEED:float = 280
 
 var player_direction:int = 1
-var player_has_control:bool = false
+var player_has_control:bool = true
+var cutscene_control:bool = false
+var cutscene_move_direction:int = 1
+var cutscene_move_speed_factor:float = 1
 var queued_jump:bool = false
 var queued_whip:bool = false
 var is_jumping:bool = false
@@ -14,6 +18,7 @@ var is_falling:bool = false
 var is_whipping:bool = false
 var is_damaged:bool = false
 var is_crouching:bool = false
+
 var on_stairs:bool = false
 var in_stair_bottom:bool = false
 var in_stair_top:bool = false
@@ -29,15 +34,22 @@ var current_step:int
 @onready var whip:Whip = $Whip
 @onready var whip_animation_player:AnimationPlayer = $Whip/AnimationPlayer
 @onready var stun_timer:Timer = $StunTimer
+@onready var jump_blocker_l:RayCast2D = $JumpBlockerL
+@onready var jump_blocker_r:RayCast2D = $JumpBlockerR
 
+func can_jump():
+	return !jump_blocker_l.is_colliding() && !jump_blocker_r.is_colliding()
 
-func horizontal_movement(input_direction:float, delta:float):
+func horizontal_movement(input_direction:float, speed_factor:float, delta:float):
+	# Set velocity to position so that it's easier to work with
 	velocity.x = abs(velocity.x)
+	# If moving
 	if(input_direction != 0 && !is_whipping && !is_crouching):
 		velocity.x += ACCELERATION * delta
+	# If not moving
 	else:
 		velocity.x -= ACCELERATION * delta
-	velocity.x = clamp(velocity.x, 0, MAX_SPEED)
+	velocity.x = clamp(velocity.x, 0, MAX_SPEED * speed_factor)
 	if(input_direction != 0 && !is_whipping):
 		player_direction = input_direction
 	velocity.x *= input_direction
@@ -45,135 +57,155 @@ func horizontal_movement(input_direction:float, delta:float):
 func handle_input(delta:float) -> void:
 	var did_horizontal_movement:bool = false
 	# Attacking
-	if(Input.is_action_just_pressed("attack")):
-		if(!is_whipping):
-			if(on_stairs):
-				queued_whip = true
-			else:
-				if(is_crouching && is_on_floor()):
-					animation_player.play("crouch_whip")
-				else:
-					animation_player.play("whip")
-				whip_animation_player.play("level2")
-				is_whipping = true
-
-	# Movement on stairs
-	if(on_stairs):
-		if(!is_whipping):
-			if(going_up_stairs):
-				if(abs(position.x - next_step) < 0.2):
-					going_up_stairs = false
-					current_step += current_stair.direction * player_direction
-				else:
-					velocity = Vector2(30 * player_direction, 30 * player_direction * -current_stair.direction)
-			# If stopped on stairs
-			if(!going_up_stairs):
-				# If reached top/bottom
-				if(current_step <= 0 || current_step >= current_stair.height):
-					on_stairs = false
-					position.x = current_stair.position.x + Stairs.SINGLE_STAIR_HEIGHT * current_step * player_direction
-					position.y -= 1
-					velocity.y = 100
-					animation_player.play("idle")
+	if(player_has_control):
+		if(Input.is_action_just_pressed("attack")):
+			if(!is_whipping):
+				# Can't whip immediately on stairs
 				if(on_stairs):
-					if(queued_whip):
-						if(player_direction == current_stair.direction):
-							animation_player.play("stair_up_whip")
-						else:
-							animation_player.play("stair_down_whip")
-						whip_animation_player.play("level2")
-						is_whipping = true
-						queued_whip = false
-						velocity = Vector2.ZERO
+					queued_whip = true
+				else:
+					if(is_crouching && is_on_floor()):
+						animation_player.play("crouch_whip")
 					else:
-						var vertical_input_direction:int = Input.get_axis("down", "up")
-						var horizontal_input_direction:int = Input.get_axis("left", "right") * current_stair.direction
-						# If not holding a direction
-						if(vertical_input_direction == 0 && horizontal_input_direction == 0):
-							velocity = Vector2.ZERO
+						animation_player.play("whip")
+					whip_animation_player.play("level2")
+					is_whipping = true
+					SfxManager.play_sound_effect(SfxManager.WHIP)
+
+		# Movement on stairs
+		if(on_stairs):
+			if(!is_whipping):
+				# Moving
+				if(going_up_stairs):
+					# If reached a step
+					if((position.x-next_step)*(position.x-next_step-get_position_delta().x) <= 0):
+						position.x = next_step
+						going_up_stairs = false
+						current_step += current_stair.direction * player_direction
+					# Move the player to the next step
+					else:
+						velocity = Vector2(30 * player_direction, 30 * player_direction * -current_stair.direction)
+				# If stopped on stairs
+				if(!going_up_stairs):
+					# If reached top/bottom
+					if(current_step <= 0 || current_step >= current_stair.height):
+						on_stairs = false
+						position.x = current_stair.position.x + Stairs.SINGLE_STAIR_HEIGHT * current_step * player_direction
+						position.y -= 1
+						velocity.y = 100
+						animation_player.play("idle")
+					# Making sure the player hasn't reached the top yet
+					# You could probably put an else here, but I don't want to break it
+					if(on_stairs):
+						# Do the whip that was queued earlier
+						if(queued_whip):
 							if(player_direction == current_stair.direction):
-								animation_player.play("stair_up_idle")
+								animation_player.play("stair_up_whip")
 							else:
-								animation_player.play("stair_down_idle")
-						# Start moving up stairs
+								animation_player.play("stair_down_whip")
+							whip_animation_player.play("level2")
+							is_whipping = true
+							queued_whip = false
+							velocity = Vector2.ZERO
 						else:
-							if(vertical_input_direction == 1 || horizontal_input_direction == 1):
-								going_up_stairs = true
-								animation_player.play("stair_up")
-								player_direction = current_stair.direction
-								next_step = next_step + Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
-							elif(vertical_input_direction == -1 || horizontal_input_direction == -1):
-								going_up_stairs = true
-								animation_player.play("stair_down")
-								player_direction = -current_stair.direction
-								next_step = next_step + Stairs.SINGLE_STAIR_HEIGHT * -current_stair.direction
-	if(!on_stairs):
-		# Stairs
-		if(Input.is_action_pressed("up")):
-			if(in_stair_bottom && !is_whipping):
-				if(abs(current_stair.position.x - position.x) < 0.5):
-					current_step = 0
-					position.x = current_stair.position.x
-					next_step = current_stair.position.x + Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
-					on_stairs = true
-					going_up_stairs = true
-					player_direction = current_stair.direction
-					animation_player.play("stair_up")
-					did_horizontal_movement = true
-				# Move towards stair
-				else:
-					horizontal_movement(sign(current_stair.position.x - position.x), delta)
-					did_horizontal_movement = true
-		elif(Input.is_action_pressed("down")):
-			if(in_stair_top && !is_whipping):
-				if(abs((current_stair.position.x + current_stair.height * Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction) - position.x) < 0.5):
-					current_step = current_stair.height
-					position.x = current_stair.position.x + current_stair.height * Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
-					next_step = current_stair.position.x + (current_stair.height - 1) * Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
-					on_stairs = true
-					going_up_stairs = true
-					player_direction = -current_stair.direction
-					animation_player.play("stair_down")
-					did_horizontal_movement = true
-				# Move towards stair
-				else:
-					horizontal_movement(sign((current_stair.position.x + current_stair.height * Stairs.SINGLE_STAIR_HEIGHT) - position.x), delta)
-					did_horizontal_movement = true
-		
-		# Crouching
-		if(Input.is_action_just_pressed("down") && !in_stair_top):
-			is_crouching = true
-		if(Input.is_action_just_released("down")):
-			is_crouching = false
-
-		# Jump timer
-		if(Input.is_action_just_pressed("jump")):
-			queued_jump = true
-			jump_timer.start()
-
-		if(is_on_floor()):
-			is_jumping = false
-			is_falling = false
-			# Horizontal movement
-			if(!did_horizontal_movement):
-				var input_direction:int = Input.get_axis("left", "right")
-				horizontal_movement(input_direction, delta)
+							var vertical_input_direction:int = Input.get_axis("down", "up")
+							var horizontal_input_direction:int = Input.get_axis("left", "right") * current_stair.direction
+							# If not holding a direction
+							if(vertical_input_direction == 0 && horizontal_input_direction == 0):
+								velocity = Vector2.ZERO
+								if(player_direction == current_stair.direction):
+									animation_player.play("stair_up_idle")
+								else:
+									animation_player.play("stair_down_idle")
+							# Start moving up stairs
+							else:
+								if(vertical_input_direction == 1 || horizontal_input_direction == 1):
+									going_up_stairs = true
+									animation_player.play("stair_up")
+									player_direction = current_stair.direction
+									next_step = next_step + Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
+								elif(vertical_input_direction == -1 || horizontal_input_direction == -1):
+									going_up_stairs = true
+									animation_player.play("stair_down")
+									player_direction = -current_stair.direction
+									next_step = next_step + Stairs.SINGLE_STAIR_HEIGHT * -current_stair.direction
+		if(!on_stairs):
+			# Getting on stairs
+			if(Input.is_action_pressed("up")):
+				if(in_stair_bottom && !is_whipping && !is_jumping):
+					if((position.x-current_stair.position.x)*(position.x-current_stair.position.x-get_position_delta().x) <= 0):
+						current_step = 0
+						position.x = current_stair.position.x
+						next_step = current_stair.position.x + Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
+						on_stairs = true
+						going_up_stairs = true
+						player_direction = current_stair.direction
+						animation_player.play("stair_up")
+						did_horizontal_movement = true
+						queued_jump = false
+						jump_timer.stop()
+					# Move towards stair
+					else:
+						horizontal_movement(sign(current_stair.position.x - position.x), 1, delta)
+						did_horizontal_movement = true
+			elif(Input.is_action_pressed("down")):
+				if(in_stair_top && !is_whipping && !is_jumping):
+					var top_stair_position:float = current_stair.position.x + current_stair.height * Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
+					if((position.x-top_stair_position)*(position.x-top_stair_position-get_position_delta().x) <= 0):
+						current_step = current_stair.height
+						position.x = top_stair_position
+						next_step = top_stair_position - Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
+						on_stairs = true
+						going_up_stairs = true
+						player_direction = -current_stair.direction
+						animation_player.play("stair_down")
+						did_horizontal_movement = true
+						queued_jump = false
+						jump_timer.stop()
+					# Move towards stair
+					else:
+						horizontal_movement(sign((current_stair.position.x + current_stair.height * Stairs.SINGLE_STAIR_HEIGHT) - position.x), 1, delta)
+						did_horizontal_movement = true
 			
-			# Jumping
-			if(queued_jump && !is_whipping):
-				queued_jump = false
-				is_jumping = true
-				jump_timer.stop()
-				velocity.y = JUMP_SPEED
-				animation_player.play("jump")
-		else:
-			if(!is_jumping):
-				if(animation_player.assigned_animation == "walk"):
-					animation_player.play("idle")
-				if(!is_falling):
-					is_falling = true
-					velocity.y = FAST_FALL_SPEED
-				velocity.x = 0
+			# Crouching
+			if(Input.is_action_just_pressed("down") && !in_stair_top):
+				is_crouching = true
+			if(Input.is_action_just_released("down")):
+				is_crouching = false
+
+			# Jump timer
+			if(Input.is_action_just_pressed("jump") && can_jump()):
+				queued_jump = true
+				jump_timer.start()
+
+			if(is_on_floor()):
+				is_jumping = false
+				is_falling = false
+				# Horizontal movement
+				if(!did_horizontal_movement):
+					var input_direction:int = Input.get_axis("left", "right")
+					horizontal_movement(input_direction, 1, delta)
+				
+				# Jumping
+				if(queued_jump && !is_whipping && !on_stairs):
+					queued_jump = false
+					is_jumping = true
+					jump_timer.stop()
+					velocity.y = JUMP_SPEED
+					animation_player.play("jump")
+			else:
+				if(!is_jumping):
+					if(animation_player.assigned_animation == "walk"):
+						animation_player.play("idle")
+					if(!is_falling):
+						is_falling = true
+						velocity.y = FAST_FALL_SPEED
+					velocity.x = 0
+	elif(cutscene_control):
+		horizontal_movement(cutscene_move_direction, cutscene_move_speed_factor, delta)
+	else:
+		if(is_on_floor()):
+			horizontal_movement(0, 1, delta)
 
 func handle_animation() -> void:
 	if(animation_player.assigned_animation == "whip" || animation_player.assigned_animation == "crouch_whip"):
@@ -207,15 +239,15 @@ func _ready():
 	animation_player.play("idle")
 
 func _physics_process(delta:float) -> void:
-	if(!is_on_floor() && !on_stairs): 
-		print(velocity.y)
 	handle_input(delta)
 	if(on_stairs):
 		collision.disabled = true
 	else:
 		collision.disabled = false
 		velocity = $GravityComponent.apply_gravity(velocity, delta)
+	var old_velocity = velocity.x
 	move_and_slide()
+	velocity.x = old_velocity
 	handle_animation()
 
 func _on_jump_timer_timeout():

@@ -1,0 +1,126 @@
+[gd_scene load_steps=8 format=3 uid="uid://bfhttmevb2lkw"]
+
+[ext_resource type="Texture2D" uid="uid://dykaqtomiqwpb" path="res://media/graphics/door.png" id="1_4ws22"]
+[ext_resource type="Script" path="res://scripts/door.gd" id="1_7mn0d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3iqk3"]
+size = Vector2(24, 48)
+
+[sub_resource type="Animation" id="Animation_hgsmq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qf0vd"]
+resource_name = "close"
+length = 0.150002
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(11, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_1ikng"]
+resource_name = "open"
+length = 0.083335
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0833333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0833333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(11, 0), Vector2(9, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nmmo2"]
+_data = {
+"RESET": SubResource("Animation_hgsmq"),
+"close": SubResource("Animation_qf0vd"),
+"open": SubResource("Animation_1ikng")
+}
+
+[node name="Door" type="StaticBody2D"]
+collision_layer = 16
+script = ExtResource("1_7mn0d")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_4ws22")
+hframes = 3
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3iqk3")
+
+[node name="RayCast" type="RayCast2D" parent="."]
+target_position = Vector2(-13, 0)
+hit_from_inside = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_nmmo2")
+}
+
+[node name="StartWalkTimer" type="Timer" parent="."]
+wait_time = 0.467
+one_shot = true
+
+[node name="StartScrollTimer" type="Timer" parent="."]
+one_shot = true

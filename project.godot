@@ -11,8 +11,18 @@ config_version=5
 [application]
 
 config/name="DemonCastle"
+run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
+
+[audio]
+
+driver/mix_rate=48000
+
+[autoload]
+
+Globals="*res://scripts/globals.gd"
+SfxManager="*res://sfx_manager.gd"
 
 [display]
 
@@ -69,13 +79,15 @@ attack={
 2d_physics/layer_2="level"
 2d_physics/layer_3="enemies"
 2d_physics/layer_4="stairs"
+2d_physics/layer_5="doors"
 
 [physics]
 
 common/size/window_height_override=432
-common/size/window_width_override=0
+common/size/window_width_override=768
 
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
