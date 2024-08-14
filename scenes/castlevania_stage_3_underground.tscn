@@ -29,6 +29,15 @@ target = 1
 height = 4
 direction = -1
 
+[node name="Transitional Stairs2" parent="Objects" instance=ExtResource("4_xrl0e")]
+position = Vector2(448, 128)
+next_stage_path = "res://scenes/castlevania_stage_3.tscn"
+load_position = Vector2(-40, -200)
+id = 1
+target = 1
+height = 8
+direction = -1
+
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(112, 72)
 script = ExtResource("3_o44tt")

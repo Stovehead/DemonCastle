@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://2ybe1vhgddg4" path="res://scenes/whip.tscn" id="4_1bhh3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ijwls"]
-size = Vector2(16, 30)
+size = Vector2(16, 29.99)
 
 [sub_resource type="Animation" id="Animation_t3t0v"]
 length = 0.001
@@ -68,7 +68,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 30)]
+"values": [Vector2(16, 29.99)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -123,6 +123,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [Vector2(0, 5.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Collision:shape:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.0167),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(16, 21.99)]
 }
 
 [sub_resource type="Animation" id="Animation_1mgdj"]
@@ -187,7 +199,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 22)]
+"values": [Vector2(16, 21.99)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -252,8 +264,8 @@ tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(16, 30)]
+"update": 1,
+"values": [Vector2(16, 29.99)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -264,7 +276,7 @@ tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector2(0, 0)]
 }
 
@@ -317,8 +329,8 @@ tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.0666667, 0.533333),
 "transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(16, 30), Vector2(16, 23), Vector2(16, 30)]
+"update": 1,
+"values": [Vector2(16, 29.99), Vector2(16, 22.99), Vector2(16, 29.99)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -329,7 +341,7 @@ tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector2(0, 0)]
 }
 
@@ -453,7 +465,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 30)]
+"values": [Vector2(16, 29.99)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -588,7 +600,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 30)]
+"values": [Vector2(16, 29.99)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -654,7 +666,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 30)]
+"values": [Vector2(16, 29.99)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -731,7 +743,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 30)]
+"values": [Vector2(16, 29.99)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -769,6 +781,7 @@ size = Vector2(10, 27)
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
 collision_mask = 18
+safe_margin = 0.001
 script = ExtResource("1_qfsi0")
 
 [node name="GravityComponent" parent="." instance=ExtResource("2_41748")]

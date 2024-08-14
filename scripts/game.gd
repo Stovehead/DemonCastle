@@ -70,7 +70,7 @@ func switch_stage():
 
 func move_camera_to_player() -> void:
 	if(is_instance_valid(Globals.current_player)):
-		camera.global_position = floor(Globals.current_player.global_position)
+		camera.global_position = Globals.current_player.global_position
 
 func stop_music() -> void:
 	music_player.stop()
@@ -79,7 +79,7 @@ func tween_camera_x(position:float, speed:float, delta:float):
 	var old_position:float = camera.global_position.x
 	camera.global_position.x = camera.global_position.x + speed * delta * 60
 	var camera_movement_delta:float = camera.global_position.x - old_position
-	camera.global_position = round(camera.global_position)
+	camera.global_position = camera.global_position
 	if((camera.global_position.x - position) * (camera.global_position.x - position - camera_movement_delta) <= 0):
 		camera.global_position.x = position
 		emit_signal("finished_camera_tween")

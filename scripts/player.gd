@@ -164,7 +164,6 @@ func handle_input(delta:float) -> void:
 			elif(Input.is_action_pressed("down")):
 				if(in_stair_top && !is_whipping && !is_jumping):
 					var top_stair_position:float = current_stair.global_position.x + current_stair.height * Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
-					print("Top stair position: ", top_stair_position)
 					if((global_position.x-top_stair_position)*(global_position.x-top_stair_position-get_position_delta().x) <= 0):
 						current_step = current_stair.height
 						global_position.x = top_stair_position
