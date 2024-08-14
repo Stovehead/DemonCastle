@@ -3,12 +3,13 @@
 [ext_resource type="PackedScene" uid="uid://bjgdyfygxemn4" path="res://scenes/stairs.tscn" id="1_pbeit"]
 [ext_resource type="Script" path="res://scripts/transition_stairs.gd" id="2_1fwsg"]
 
-[node name="Transitional Stairs" instance=ExtResource("1_pbeit")]
+[node name="Transitional Stairs" groups=["transitional_stairs"] instance=ExtResource("1_pbeit")]
 script = ExtResource("2_1fwsg")
-target_step = 1
-top_stage = null
-bottom_stage = null
-height = 2
+next_stage_path = ""
+load_position = Vector2(0, 0)
+id = 0
+target = 0
+height = 3
 
 [node name="BlackScreenTimer" type="Timer" parent="." index="2"]
 wait_time = 0.367

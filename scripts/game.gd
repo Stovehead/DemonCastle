@@ -11,7 +11,7 @@ signal finished_camera_tween
 
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = preload("res://scenes/castlevania_stage_2_real.tscn")
+@onready var test_stage:PackedScene = preload("res://scenes/castlevania_stage_3.tscn")
 @onready var blackout:ColorRect = $CanvasLayer/Blackout
 
 func load_stage(stage:PackedScene, load_music:bool) -> void:

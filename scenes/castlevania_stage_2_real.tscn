@@ -15,6 +15,7 @@ objects = NodePath("Objects")
 player_spawner = NodePath("PlayerSpawner")
 right_limit = 1536
 music = ExtResource("2_llt8h")
+has_checkpoint = true
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("3_ln16a")

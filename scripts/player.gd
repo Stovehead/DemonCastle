@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody2D
 
+var debug_mode:bool = false
+
 const ACCELERATION:float = 1200
 const MAX_SPEED:float = 60
 const JUMP_SPEED:float = -185
@@ -26,6 +28,9 @@ var current_stair:Stairs
 var going_up_stairs:bool = false
 var next_step:float
 var current_step:int
+var just_warped:bool = false
+
+@onready var debug_window:Window = $DebugWindow
 
 @onready var collision:CollisionShape2D = $Collision
 @onready var jump_timer:Timer = $JumpTimer
@@ -56,6 +61,7 @@ func horizontal_movement(input_direction:float, speed_factor:float, delta:float)
 
 func handle_input(delta:float) -> void:
 	var did_horizontal_movement:bool = false
+	var just_stair_transitioned:bool = false
 	# Attacking
 	if(player_has_control):
 		if(Input.is_action_just_pressed("attack")):
@@ -78,10 +84,13 @@ func handle_input(delta:float) -> void:
 				# Moving
 				if(going_up_stairs):
 					# If reached a step
-					if((position.x-next_step)*(position.x-next_step-get_position_delta().x) <= 0):
-						position.x = next_step
-						going_up_stairs = false
-						current_step += current_stair.direction * player_direction
+					if((global_position.x-next_step)*(global_position.x-next_step-get_position_delta().x) <= 0):
+						if(just_warped):
+							just_warped = false
+						else:
+							global_position.x = next_step
+							going_up_stairs = false
+							current_step += current_stair.direction * player_direction
 					# Move the player to the next step
 					else:
 						velocity = Vector2(30 * player_direction, 30 * player_direction * -current_stair.direction)
@@ -89,14 +98,18 @@ func handle_input(delta:float) -> void:
 				if(!going_up_stairs):
 					# If reached top/bottom
 					if(current_step <= 0 || current_step >= current_stair.height):
-						on_stairs = false
-						position.x = current_stair.position.x + Stairs.SINGLE_STAIR_HEIGHT * current_step * player_direction
-						position.y -= 1
-						velocity.y = 100
-						animation_player.play("idle")
+						if(current_stair is TransitionalStairs && current_step == current_stair.height * current_stair.target):
+							current_stair.transition(self)
+							just_stair_transitioned = true
+						else:
+							on_stairs = false
+							global_position.x = current_stair.global_position.x + Stairs.SINGLE_STAIR_HEIGHT * current_step * player_direction
+							global_position.y -= 1
+							velocity.y = 100
+							animation_player.play("idle")
 					# Making sure the player hasn't reached the top yet
 					# You could probably put an else here, but I don't want to break it
-					if(on_stairs):
+					if(on_stairs && !just_stair_transitioned):
 						# Do the whip that was queued earlier
 						if(queued_whip):
 							if(player_direction == current_stair.direction):
@@ -133,10 +146,10 @@ func handle_input(delta:float) -> void:
 			# Getting on stairs
 			if(Input.is_action_pressed("up")):
 				if(in_stair_bottom && !is_whipping && !is_jumping):
-					if((position.x-current_stair.position.x)*(position.x-current_stair.position.x-get_position_delta().x) <= 0):
+					if((global_position.x-current_stair.global_position.x)*(global_position.x-current_stair.global_position.x-get_position_delta().x) <= 0):
 						current_step = 0
-						position.x = current_stair.position.x
-						next_step = current_stair.position.x + Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
+						global_position.x = current_stair.global_position.x
+						next_step = current_stair.global_position.x + Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
 						on_stairs = true
 						going_up_stairs = true
 						player_direction = current_stair.direction
@@ -146,14 +159,15 @@ func handle_input(delta:float) -> void:
 						jump_timer.stop()
 					# Move towards stair
 					else:
-						horizontal_movement(sign(current_stair.position.x - position.x), 1, delta)
+						horizontal_movement(sign(current_stair.global_position.x - global_position.x), 1, delta)
 						did_horizontal_movement = true
 			elif(Input.is_action_pressed("down")):
 				if(in_stair_top && !is_whipping && !is_jumping):
-					var top_stair_position:float = current_stair.position.x + current_stair.height * Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
-					if((position.x-top_stair_position)*(position.x-top_stair_position-get_position_delta().x) <= 0):
+					var top_stair_position:float = current_stair.global_position.x + current_stair.height * Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
+					print("Top stair position: ", top_stair_position)
+					if((global_position.x-top_stair_position)*(global_position.x-top_stair_position-get_position_delta().x) <= 0):
 						current_step = current_stair.height
-						position.x = top_stair_position
+						global_position.x = top_stair_position
 						next_step = top_stair_position - Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction
 						on_stairs = true
 						going_up_stairs = true
@@ -164,7 +178,7 @@ func handle_input(delta:float) -> void:
 						jump_timer.stop()
 					# Move towards stair
 					else:
-						horizontal_movement(sign((current_stair.position.x + current_stair.height * Stairs.SINGLE_STAIR_HEIGHT) - position.x), 1, delta)
+						horizontal_movement(sign(top_stair_position - global_position.x), 1, delta)
 						did_horizontal_movement = true
 			
 			# Crouching
@@ -237,8 +251,14 @@ func handle_animation() -> void:
 
 func _ready():
 	animation_player.play("idle")
+	if(debug_mode):
+		debug_window.show()
+		debug_window.get_viewport().world_2d = get_viewport().world_2d
 
 func _physics_process(delta:float) -> void:
+	print(global_position)
+	if(debug_mode):
+		debug_window.get_node("Camera2D").global_position = global_position
 	handle_input(delta)
 	if(on_stairs):
 		collision.disabled = true
@@ -272,3 +292,7 @@ func _on_hitbox_area_exited(area):
 			in_stair_bottom = false
 		elif(area.is_in_group("stairs_top")):
 			in_stair_top = false
+
+
+func _on_debug_window_close_requested():
+	debug_window.hide()

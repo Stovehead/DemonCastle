@@ -15,4 +15,3 @@ func update_stairs() -> void:
 
 func _ready() -> void:
 	update_stairs()
-	pass

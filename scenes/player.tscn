@@ -802,10 +802,6 @@ collision_mask = 8
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_wkhb2")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-limit_top = 0
-limit_bottom = 0
-
 [node name="StunTimer" type="Timer" parent="."]
 wait_time = 0.3
 
@@ -819,7 +815,19 @@ position = Vector2(8, 0)
 target_position = Vector2(0, -17)
 collision_mask = 2
 
+[node name="DebugWindow" type="Window" parent="."]
+process_mode = 3
+transparent_bg = true
+mode = 1
+initial_position = 1
+size = Vector2i(768, 432)
+visible = false
+transient = true
+
+[node name="Camera2D" type="Camera2D" parent="DebugWindow"]
+
 [connection signal="timeout" from="JumpTimer" to="." method="_on_jump_timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]
+[connection signal="close_requested" from="DebugWindow" to="." method="_on_debug_window_close_requested"]

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://e12jw22rlaos"]
+[gd_scene load_steps=7 format=3 uid="uid://e12jw22rlaos"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_e0aqt"]
 [ext_resource type="AudioStream" uid="uid://ci2qwkqmt4pqx" path="res://media/music/vampirekiller.wav" id="2_7abjw"]
 [ext_resource type="TileSet" uid="uid://bpyv70mj7h5m5" path="res://tilesets/cv_level_1.tres" id="2_aa8q8"]
 [ext_resource type="PackedScene" uid="uid://bjgdyfygxemn4" path="res://scenes/stairs.tscn" id="3_v3dd7"]
 [ext_resource type="PackedScene" uid="uid://dkglrvtudtp53" path="res://scenes/player_spawner.tscn" id="4_t3fmr"]
+[ext_resource type="PackedScene" uid="uid://bkbmw24gpp54p" path="res://scenes/transitional_stairs.tscn" id="6_e88g1"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("tile_map", "objects", "player_spawner")]
 script = ExtResource("1_e0aqt")
@@ -13,6 +14,7 @@ objects = NodePath("Objects")
 player_spawner = NodePath("PlayerSpawner")
 right_limit = 512
 music = ExtResource("2_7abjw")
+has_checkpoint = true
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("2_aa8q8")
@@ -29,6 +31,13 @@ direction = -1
 [node name="Stairs2" parent="Objects" instance=ExtResource("3_v3dd7")]
 position = Vector2(464, 208)
 height = 8
+direction = -1
+
+[node name="Transitional Stairs" parent="Objects" instance=ExtResource("6_e88g1")]
+position = Vector2(64, 224)
+next_stage_path = "res://scenes/castlevania_stage_3_underground.tscn"
+load_position = Vector2(40, 200)
+height = 2
 direction = -1
 
 [node name="PlayerSpawner" parent="." instance=ExtResource("4_t3fmr")]

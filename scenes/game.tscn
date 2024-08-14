@@ -15,7 +15,6 @@ color = Color(1, 1, 1, 0)
 [node name="Blackout" type="ColorRect" parent="CanvasLayer"]
 process_mode = 3
 visible = false
-offset_top = 24.0
 offset_right = 384.0
 offset_bottom = 216.0
 color = Color(0, 0, 0, 1)

@@ -9,3 +9,4 @@ extends Node2D
 @export var top_limit:int = 8
 @export var bottom_limit:int = 224
 @export var music:AudioStream
+@export var has_checkpoint:bool
