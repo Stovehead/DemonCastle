@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccqk6slfigxii"]
+
+[ext_resource type="PackedScene" uid="uid://bfhttmevb2lkw" path="res://scenes/door.tscn" id="1_g6fko"]
+
+[node name="Decorative Door" instance=ExtResource("1_g6fko")]
+script = null
+
+[node name="RayCast" parent="." index="2"]
+enabled = false

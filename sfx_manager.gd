@@ -2,11 +2,25 @@ extends Node
 
 var sfx_paths:Array = [
 	"res://media/sfx/whip.wav",
-	"res://media/sfx/door.wav"]
+	"res://media/sfx/door.wav",
+	"res://media/sfx/fall.wav",
+	"res://media/sfx/death.wav",
+	"res://media/sfx/game_over.wav",
+	"res://media/sfx/invincible.wav",
+	"res://media/sfx/pause.wav",
+	"res://media/sfx/stopwatch.wav",
+	"res://media/sfx/warp.wav"]
 var audio_streams:Array
 enum {
 	WHIP,
 	DOOR,
+	FALL,
+	DEATH,
+	GAME_OVER,
+	INVINCIBLE,
+	PAUSE,
+	STOPWATCH,
+	WARP,
 }
 
 func play_sound_effect(effect_id:int):

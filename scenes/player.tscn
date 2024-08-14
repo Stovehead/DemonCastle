@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://2ybe1vhgddg4" path="res://scenes/whip.tscn" id="4_1bhh3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ijwls"]
-size = Vector2(16, 29.99)
+size = Vector2(15, 29.99)
 
 [sub_resource type="Animation" id="Animation_t3t0v"]
 length = 0.001
@@ -68,7 +68,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 29.99)]
+"values": [Vector2(15, 29.99)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -134,7 +134,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0.0167),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(16, 21.99)]
+"values": [Vector2(15, 21.99)]
 }
 
 [sub_resource type="Animation" id="Animation_1mgdj"]
@@ -199,7 +199,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 21.99)]
+"values": [Vector2(15, 29.99)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -211,7 +211,7 @@ tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 4)]
+"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_cu50g"]
@@ -265,7 +265,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(16, 29.99)]
+"values": [Vector2(15, 29.99)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -330,7 +330,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.0666667, 0.533333),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [Vector2(16, 29.99), Vector2(16, 22.99), Vector2(16, 29.99)]
+"values": [Vector2(15, 29.99), Vector2(15, 22.99), Vector2(15, 29.99)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -371,7 +371,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 30)]
+"values": [Vector2(15, 29.99)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -412,7 +412,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 30)]
+"values": [Vector2(15, 29.99)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -453,7 +453,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(2, 0)]
+"values": [Vector2(0, -1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -465,7 +465,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 29.99)]
+"values": [Vector2(15, 29.99)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -506,7 +506,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 30)]
+"values": [Vector2(15, 29.99)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -547,7 +547,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 30)]
+"values": [Vector2(15, 29.99)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -588,7 +588,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(2, 2)]
+"values": [Vector2(2, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -600,7 +600,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 29.99)]
+"values": [Vector2(15, 29.99)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -666,7 +666,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 29.99)]
+"values": [Vector2(15, 29.99)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -740,10 +740,10 @@ tracks/4/path = NodePath("Collision:shape:size")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(-0.0167),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(16, 29.99)]
+"values": [Vector2(15, 29.99)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -805,10 +805,10 @@ libraries = {
 }
 
 [node name="Whip" parent="." instance=ExtResource("4_1bhh3")]
+z_index = -1
 position = Vector2(2, 2)
 
 [node name="Hitbox" type="Area2D" parent="."]
-collision_layer = 0
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
@@ -817,14 +817,15 @@ shape = SubResource("RectangleShape2D_wkhb2")
 
 [node name="StunTimer" type="Timer" parent="."]
 wait_time = 0.3
+one_shot = true
 
 [node name="JumpBlockerL" type="RayCast2D" parent="."]
-position = Vector2(-8, 0)
+position = Vector2(-7.5, 0)
 target_position = Vector2(0, -17)
 collision_mask = 2
 
 [node name="JumpBlockerR" type="RayCast2D" parent="."]
-position = Vector2(8, 0)
+position = Vector2(7.5, 0)
 target_position = Vector2(0, -17)
 collision_mask = 2
 
@@ -843,4 +844,5 @@ transient = true
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]
+[connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]
 [connection signal="close_requested" from="DebugWindow" to="." method="_on_debug_window_close_requested"]

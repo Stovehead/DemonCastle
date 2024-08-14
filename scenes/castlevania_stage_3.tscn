@@ -1,52 +1,54 @@
-[gd_scene load_steps=7 format=3 uid="uid://e12jw22rlaos"]
+[gd_scene load_steps=8 format=3 uid="uid://chsawtbhhcw53"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_e0aqt"]
 [ext_resource type="AudioStream" uid="uid://ci2qwkqmt4pqx" path="res://media/music/vampirekiller.wav" id="2_7abjw"]
 [ext_resource type="TileSet" uid="uid://bpyv70mj7h5m5" path="res://tilesets/cv_level_1.tres" id="2_aa8q8"]
+[ext_resource type="Script" path="res://scripts/player_spawner.gd" id="3_g3eg3"]
 [ext_resource type="PackedScene" uid="uid://bjgdyfygxemn4" path="res://scenes/stairs.tscn" id="3_v3dd7"]
-[ext_resource type="PackedScene" uid="uid://dkglrvtudtp53" path="res://scenes/player_spawner.tscn" id="4_t3fmr"]
-[ext_resource type="PackedScene" uid="uid://bkbmw24gpp54p" path="res://scenes/transitional_stairs.tscn" id="6_e88g1"]
+[ext_resource type="PackedScene" uid="uid://ccqk6slfigxii" path="res://scenes/decorative_door.tscn" id="6_c2dj3"]
+[ext_resource type="PackedScene" uid="uid://bunw8e1a1u3i8" path="res://scenes/screen_lock.tscn" id="6_nyygk"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("tile_map", "objects", "player_spawner")]
 script = ExtResource("1_e0aqt")
 tile_map = NodePath("TileMap")
 objects = NodePath("Objects")
 player_spawner = NodePath("PlayerSpawner")
-right_limit = 512
+right_limit = 768
 music = ExtResource("2_7abjw")
 has_checkpoint = true
+stage_number = 3
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("2_aa8q8")
 format = 2
-layer_0/tile_data = PackedInt32Array(65536, 327680, 2, 131072, 327680, 3, 196608, 327680, 4, 262144, 327680, 2, 327680, 327680, 2, 393216, 327680, 5, 65537, 262144, 2, 131073, 327680, 6, 196609, 393216, 1, 262145, 327680, 7, 327681, 262144, 2, 393217, 393216, 0, 65538, 262144, 2, 131074, 262144, 2, 196610, 393216, 1, 262146, 327680, 7, 327682, 262144, 2, 393218, 393216, 1, 65539, 65536, 1, 131075, 327680, 1, 196611, 65536, 3, 262147, 327680, 1, 327683, 327680, 1, 393219, 65536, 3, 65540, 262144, 2, 131076, 262144, 2, 196612, 262144, 2, 262148, 393216, 1, 327684, 327680, 7, 393220, 393216, 1, 65541, 262144, 2, 131077, 393216, 2, 196613, 262144, 2, 262149, 393216, 0, 327685, 327680, 1, 393221, 65536, 3, 65542, 262144, 2, 131078, 393216, 2, 196614, 327680, 7, 262150, 393216, 3, 327686, 393216, 4, 393222, 393216, 5, 65543, 262144, 2, 131079, 393216, 2, 196615, 327680, 7, 262151, 327680, 7, 327687, 393216, 3, 393223, 393216, 6, 65544, 327680, 1, 131080, 327680, 1, 196616, 65536, 1, 262152, 393216, 7, 327688, 655360, 7, 393224, 589824, 7, 65545, 262144, 2, 131081, 327680, 6, 196617, 327680, 7, 262153, 393216, 7, 327689, 393216, 7, 393225, 393216, 7, 65546, 327680, 1, 131082, 65536, 1, 196618, 65536, 1, 262154, 262144, 3, 327690, 327680, 1, 393226, 65536, 3, 65547, 262144, 2, 131083, 262144, 2, 196619, 262144, 2, 262155, 393216, 1, 327691, 327680, 7, 393227, 393216, 0, 65548, 262144, 2, 131084, 262144, 2, 196620, 327680, 6, 262156, 393216, 0, 327692, 65536, 1, 393228, 65536, 3, 65549, 262144, 2, 131085, 393216, 2, 196621, 393216, 1, 262157, 393216, 3, 327693, 393216, 4, 393229, 393216, 5, 65550, 262144, 2, 131086, 393216, 2, 196622, 393216, 1, 262158, 327680, 6, 327694, 393216, 3, 393230, 393216, 6, 65551, 393216, 5, 131087, 131072, 5, 196623, 131072, 6, 262159, 262144, 5, 327695, 262144, 5, 393231, 458752, 0)
+layer_0/tile_data = PackedInt32Array(65536, 0, 0, 131072, 0, 0, 196608, 65536, 2, 262144, 0, 4, 327680, 0, 6, 65559, 131072, 4, 131095, 131072, 4, 196631, 131072, 5, 262167, 131072, 6, 327703, 131072, 4, 327702, 196608, 0, 327701, 196608, 1, 327700, 65536, 1, 327699, 0, 0, 327698, 65536, 1, 327697, 0, 0, 327696, 65536, 1, 327695, 0, 0, 327694, 65536, 1, 327693, 0, 0, 327692, 65536, 1, 327691, 131072, 3, 327690, 65536, 7, 327689, 131072, 1, 327688, 0, 1, 327687, 65536, 1, 327686, 0, 1, 327685, 65536, 1, 327684, 0, 2, 327683, 0, 0, 327682, 65536, 1, 327681, 0, 0, 65537, 0, 0, 65538, 65536, 0, 65539, 0, 1, 65540, 0, 0, 65541, 65536, 0, 65542, 0, 2, 65543, 0, 0, 65544, 65536, 0, 65545, 0, 4, 65546, 131072, 1, 65547, 196608, 3, 65548, 0, 0, 65549, 196608, 4, 65550, 65536, 0, 65551, 196608, 3, 65552, 0, 0, 65553, 196608, 4, 65554, 65536, 0, 65555, 196608, 3, 65556, 0, 0, 65557, 65536, 4, 65558, 0, 2, 131073, 0, 1, 131074, 65536, 1, 131075, 0, 0, 131076, 0, 0, 131077, 65536, 1, 131078, 0, 3, 131079, 0, 0, 131080, 65536, 1, 131081, 0, 5, 131082, 0, 1, 131083, 0, 0, 131084, 65536, 1, 131085, 196608, 4, 131086, 65536, 1, 131087, 196608, 3, 131088, 65536, 1, 131089, 196608, 4, 131090, 65536, 1, 131093, 0, 4, 131094, 0, 3, 131092, 65536, 1, 131091, 196608, 3, 196630, 0, 3, 196629, 0, 6, 196628, 65536, 1, 196627, 0, 2, 196626, 65536, 1, 196625, 0, 0, 196624, 65536, 1, 196623, 0, 0, 196622, 65536, 1, 196621, 0, 0, 196620, 65536, 1, 196619, 0, 0, 196618, 0, 0, 196617, 0, 6, 196616, 65536, 1, 196615, 0, 0, 196614, 0, 3, 196613, 65536, 1, 196612, 131072, 3, 196611, 196608, 2, 196610, 0, 7, 196609, 0, 7, 262145, 0, 0, 262146, 65536, 1, 262147, 131072, 1, 262148, 131072, 2, 262149, 0, 7, 262150, 65536, 2, 262151, 0, 7, 262152, 0, 7, 262153, 196608, 2, 262154, 131072, 3, 262155, 0, 0, 262156, 65536, 1, 262157, 0, 0, 262158, 65536, 1, 262159, 0, 0, 262160, 65536, 1, 262161, 0, 0, 262162, 65536, 1, 262163, 0, 1, 262164, 65536, 1, 262165, 65536, 5, 262166, 131072, 0, 393216, 65536, 2, 393217, 65536, 2, 393218, 65536, 3, 393219, 65536, 2, 393220, 65536, 2, 393221, 65536, 3, 393222, 65536, 2, 393223, 65536, 3, 393224, 65536, 2, 393225, 65536, 2, 393226, 65536, 2, 393227, 131072, 2, 393228, 65536, 3, 393229, 65536, 2, 393230, 65536, 3, 393231, 65536, 2, 393232, 65536, 3, 393233, 65536, 2, 393234, 65536, 3, 393235, 65536, 2, 393236, 65536, 3, 393237, 65536, 2, 393238, 65536, 2, 393239, 131072, 7)
 
 [node name="Objects" type="Node2D" parent="."]
 
 [node name="Stairs" parent="Objects" instance=ExtResource("3_v3dd7")]
-position = Vector2(240, 208)
-height = 8
+position = Vector2(144, 144)
+height = 4
 direction = -1
 
 [node name="Stairs2" parent="Objects" instance=ExtResource("3_v3dd7")]
-position = Vector2(464, 208)
+position = Vector2(368, 208)
 height = 8
 direction = -1
 
-[node name="Transitional Stairs" parent="Objects" instance=ExtResource("6_e88g1")]
-position = Vector2(64, 224)
-next_stage_path = "res://scenes/castlevania_stage_3_underground.tscn"
-load_position = Vector2(40, 200)
-height = 2
-direction = -1
+[node name="Stairs3" parent="Objects" instance=ExtResource("3_v3dd7")]
+position = Vector2(688, 176)
+height = 4
 
-[node name="Transitional Stairs2" parent="Objects" instance=ExtResource("6_e88g1")]
-position = Vector2(384, 224)
-next_stage_path = "res://scenes/castlevania_stage_3_underground.tscn"
-load_position = Vector2(40, 200)
-id = 1
-height = 2
-direction = -1
+[node name="Decorative Door" parent="Objects" instance=ExtResource("6_c2dj3")]
+position = Vector2(-4, 88)
 
-[node name="PlayerSpawner" parent="." instance=ExtResource("4_t3fmr")]
-position = Vector2(48, 96)
+[node name="Decorative Door2" parent="Objects" instance=ExtResource("6_c2dj3")]
+position = Vector2(764, 120)
+
+[node name="ScreenLock" parent="Objects" instance=ExtResource("6_nyygk")]
+position = Vector2(768, 32)
+rect = Rect2(0, 0, 1, 1)
+
+[node name="PlayerSpawner" type="Node2D" parent="."]
+position = Vector2(40, 88)
+script = ExtResource("3_g3eg3")

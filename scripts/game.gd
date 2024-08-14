@@ -1,18 +1,30 @@
 class_name Game
 extends Node2D
 
+var debug_mode:bool = false
+
 var current_stage:Stage
 var next_stage:Stage
 var camera_on_player:bool = true
 var camera_tween_position:float
 var camera_tween_speed:float
+var last_checkpoint:PackedScene
+var last_loaded_stage:PackedScene
 
 signal finished_camera_tween
+signal stage_changed(stage:Stage)
 
+@onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = preload("res://scenes/castlevania_stage_3.tscn")
-@onready var blackout:ColorRect = $CanvasLayer/Blackout
+@onready var test_stage:PackedScene = preload("res://scenes/castlevania_stage_1.tscn")
+@onready var blackout:ColorRect = $GUI/Blackout
+
+func update_stage_variables(stage:Stage, scene:PackedScene):
+	if(stage is Stage):
+		if(stage.has_checkpoint):
+			last_checkpoint = scene
+	stage_changed.emit(stage)
 
 func load_stage(stage:PackedScene, load_music:bool) -> void:
 	if(is_instance_valid(next_stage)):
@@ -21,6 +33,7 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 	add_child(current_stage)
 	var player_spawner:PlayerSpawner
 	if(current_stage is Stage):
+		update_stage_variables(current_stage, stage)
 		current_stage.objects.process_mode = Node.PROCESS_MODE_INHERIT
 		current_stage.objects.visible = true
 		player_spawner = current_stage.player_spawner
@@ -49,8 +62,11 @@ func load_next_stage(stage:PackedScene, load_position:Vector2):
 	current_stage.objects.visible = false
 	current_stage.objects.process_mode = Node.PROCESS_MODE_DISABLED
 	next_stage = stage.instantiate()
+	last_loaded_stage = stage
 	if(next_stage is Stage):
 		next_stage.global_position = current_stage.global_position + load_position
+		next_stage.objects.visible = false
+		current_stage.objects.process_mode = Node.PROCESS_MODE_DISABLED
 		add_child(next_stage)
 
 func switch_stage():
@@ -59,6 +75,7 @@ func switch_stage():
 	current_stage = next_stage
 	temp_stage.queue_free()
 	if(current_stage is Stage):
+		update_stage_variables(current_stage, last_loaded_stage)
 		current_stage.objects.process_mode = Node.PROCESS_MODE_INHERIT
 		current_stage.objects.visible = true
 		camera.limit_right = current_stage.right_limit + current_stage.global_position.x
@@ -84,13 +101,23 @@ func tween_camera_x(position:float, speed:float, delta:float):
 		camera.global_position.x = position
 		emit_signal("finished_camera_tween")
 
-func _ready() -> void:
+func _enter_tree():
 	Globals.game_instance = self
-	load_stage(test_stage, true)
 
-func _process(delta) -> void:
+func _ready() -> void:
+	load_stage(test_stage, true)
+	if(debug_mode):
+		debug_window.show()
+		debug_window.get_viewport().world_2d = get_viewport().world_2d
+
+func _physics_process(delta) -> void:
 	if(camera_on_player):
 		move_camera_to_player()
 	else:
 		if(camera.global_position.x != camera_tween_position):
 			tween_camera_x(camera_tween_position, camera_tween_speed, delta)
+	if(debug_mode && is_instance_valid(Globals.current_player)):
+		debug_window.get_node("Camera2D").global_position = Globals.current_player.global_position
+
+func _on_debug_window_close_requested():
+	debug_window.hide()

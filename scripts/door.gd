@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 @export_range(-1, 1, 2) var direction:int = 1
-@export var next_stage:PackedScene
+@export var next_stage_path:String
 @export var next_stage_position:Vector2
 
 @onready var raycast:RayCast2D = $RayCast
@@ -10,6 +10,7 @@ extends StaticBody2D
 @onready var start_walk_timer:Timer = $StartWalkTimer
 @onready var start_scroll_timer:Timer = $StartScrollTimer
 
+var next_stage:PackedScene
 var player_moving:bool = false
 var edge_of_next_screen:float
 
@@ -29,17 +30,18 @@ func _process(delta):
 			await start_scroll_timer.timeout
 			Globals.game_instance.camera_tween_position = edge_of_next_screen
 			await Globals.game_instance.finished_camera_tween
-			collision.disabled = false
+			Globals.current_player.set_collision_mask_value(5, true)
 			Globals.current_player.player_has_control = true
 			Globals.game_instance.switch_stage()
 			Globals.game_instance.camera_on_player = true
 			process_mode = Node.PROCESS_MODE_INHERIT
-			set_script(null)
+			queue_free()
 	else:
 		if(is_instance_valid(Globals.current_player) && raycast.is_colliding()):
 			if(Globals.current_player is Player && Globals.current_player.is_on_floor()):
+				next_stage = load(next_stage_path)
+				assert(next_stage != null, "Failed to load stage")
 				process_mode = Node.PROCESS_MODE_ALWAYS
-				collision.disabled = true
 				raycast.enabled = false
 				Globals.current_player.player_has_control = false
 				Globals.current_player.cutscene_control = false
@@ -47,7 +49,7 @@ func _process(delta):
 				Globals.game_instance.camera.limit_right = 10000000
 				Globals.game_instance.camera.limit_left = -10000000
 				Globals.game_instance.load_next_stage(next_stage, next_stage_position)
-				reparent(Globals.game_instance.next_stage.objects)
+				reparent(Globals.game_instance.next_stage)
 				Globals.game_instance.camera_on_player = false
 				Globals.game_instance.camera_tween_position = global_position.x
 				Globals.game_instance.camera_tween_speed = direction
@@ -59,6 +61,7 @@ func _process(delta):
 				Globals.current_player.cutscene_control = true
 				Globals.current_player.cutscene_move_direction = direction
 				Globals.current_player.cutscene_move_speed_factor = 1
+				Globals.current_player.set_collision_mask_value(5, false)
 				player_moving = true
 				edge_of_next_screen = Globals.game_instance.next_stage.global_position.x + get_viewport_rect().size.x/2
 				if(direction == 1):

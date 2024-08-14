@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bunw8e1a1u3i8"]
+
+[ext_resource type="Script" path="res://scripts/screen_lock.gd" id="1_18ptp"]
+
+[node name="ScreenLock" type="VisibleOnScreenNotifier2D"]
+rect = Rect2(-1, 0, 1, 1)
+script = ExtResource("1_18ptp")
+
+[connection signal="screen_entered" from="." to="." method="_on_screen_entered"]

@@ -1,12 +1,12 @@
 class_name Player
 extends CharacterBody2D
 
-var debug_mode:bool = false
-
 const ACCELERATION:float = 1200
 const MAX_SPEED:float = 60
 const JUMP_SPEED:float = -185
 const FAST_FALL_SPEED:float = 280
+const MIN_STUN_HEIGHT:float = 63
+const MIN_BORDER_DISTANCE:float = 8
 
 var player_direction:int = 1
 var player_has_control:bool = true
@@ -20,6 +20,7 @@ var is_falling:bool = false
 var is_whipping:bool = false
 var is_damaged:bool = false
 var is_crouching:bool = false
+var last_grounded_y:float = 0
 
 var on_stairs:bool = false
 var in_stair_bottom:bool = false
@@ -29,8 +30,6 @@ var going_up_stairs:bool = false
 var next_step:float
 var current_step:int
 var just_warped:bool = false
-
-@onready var debug_window:Window = $DebugWindow
 
 @onready var collision:CollisionShape2D = $Collision
 @onready var jump_timer:Timer = $JumpTimer
@@ -43,10 +42,10 @@ var just_warped:bool = false
 @onready var jump_blocker_r:RayCast2D = $JumpBlockerR
 
 func can_jump():
-	return !jump_blocker_l.is_colliding() && !jump_blocker_r.is_colliding()
+	return !jump_blocker_l.is_colliding() && !jump_blocker_r.is_colliding() && !is_crouching
 
 func horizontal_movement(input_direction:float, speed_factor:float, delta:float):
-	# Set velocity to position so that it's easier to work with
+	# Set velocity to positive so that it's easier to work with
 	velocity.x = abs(velocity.x)
 	# If moving
 	if(input_direction != 0 && !is_whipping && !is_crouching):
@@ -80,6 +79,7 @@ func handle_input(delta:float) -> void:
 
 		# Movement on stairs
 		if(on_stairs):
+			last_grounded_y = global_position.y
 			if(!is_whipping):
 				# Moving
 				if(going_up_stairs):
@@ -117,6 +117,7 @@ func handle_input(delta:float) -> void:
 							else:
 								animation_player.play("stair_down_whip")
 							whip_animation_player.play("level2")
+							SfxManager.play_sound_effect(SfxManager.WHIP)
 							is_whipping = true
 							queued_whip = false
 							velocity = Vector2.ZERO
@@ -183,7 +184,7 @@ func handle_input(delta:float) -> void:
 			# Crouching
 			if(Input.is_action_just_pressed("down") && !in_stair_top):
 				is_crouching = true
-			if(Input.is_action_just_released("down")):
+			if(Input.is_action_just_released("down") && stun_timer.is_stopped()):
 				is_crouching = false
 
 			# Jump timer
@@ -194,6 +195,12 @@ func handle_input(delta:float) -> void:
 			if(is_on_floor()):
 				is_jumping = false
 				is_falling = false
+				# Stunning
+				if(global_position.y - last_grounded_y >= MIN_STUN_HEIGHT && !is_whipping):
+					stun_timer.start()
+					is_crouching = true
+					SfxManager.play_sound_effect(SfxManager.FALL)
+				last_grounded_y = global_position.y
 				# Horizontal movement
 				if(!did_horizontal_movement):
 					var input_direction:int = Input.get_axis("left", "right")
@@ -248,16 +255,16 @@ func handle_animation() -> void:
 		sprite.flip_h = true
 	whip.scale.x = -player_direction
 
+func move_in_bounds():
+	var limit_left:int = Globals.game_instance.camera.limit_left
+	var limit_right:int = Globals.game_instance.camera.limit_right
+	global_position.x = clamp(global_position.x, limit_left + MIN_BORDER_DISTANCE, limit_right - MIN_BORDER_DISTANCE)
+
 func _ready():
 	animation_player.play("idle")
-	if(debug_mode):
-		debug_window.show()
-		debug_window.get_viewport().world_2d = get_viewport().world_2d
+	last_grounded_y = global_position.y
 
 func _physics_process(delta:float) -> void:
-	print(global_position)
-	if(debug_mode):
-		debug_window.get_node("Camera2D").global_position = global_position
 	handle_input(delta)
 	if(on_stairs):
 		collision.disabled = true
@@ -268,6 +275,7 @@ func _physics_process(delta:float) -> void:
 	move_and_slide()
 	velocity.x = old_velocity
 	handle_animation()
+	move_in_bounds()
 
 func _on_jump_timer_timeout():
 	queued_jump = false
@@ -292,6 +300,6 @@ func _on_hitbox_area_exited(area):
 		elif(area.is_in_group("stairs_top")):
 			in_stair_top = false
 
-
-func _on_debug_window_close_requested():
-	debug_window.hide()
+func _on_stun_timer_timeout():
+	if(!Input.is_action_pressed("down")):
+		is_crouching = false
