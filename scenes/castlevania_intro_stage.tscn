@@ -94,7 +94,7 @@ texture = ExtResource("6_4a03i")
 script = ExtResource("6_bid8w")
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
-position = Vector2(320, 176)
+position = Vector2(320, 184)
 script = ExtResource("4_l5qq1")
 facing_direction = -1
 
