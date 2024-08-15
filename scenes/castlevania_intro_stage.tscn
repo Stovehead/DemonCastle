@@ -1,0 +1,106 @@
+[gd_scene load_steps=11 format=4 uid="uid://dirc0k7k0pk0o"]
+
+[ext_resource type="Script" path="res://scripts/stage.gd" id="1_allxy"]
+[ext_resource type="AudioStream" uid="uid://c7o1ni808743k" path="res://media/music/intro.wav" id="2_5d4e2"]
+[ext_resource type="Texture2D" uid="uid://bfp87cdk8pt31" path="res://media/graphics/cvintrotileset.png" id="2_v3ayo"]
+[ext_resource type="Script" path="res://scripts/intro_player_spawner.gd" id="4_l5qq1"]
+[ext_resource type="Texture2D" uid="uid://dv40rk2lvvt62" path="res://media/graphics/small_bat.png" id="4_mne8y"]
+[ext_resource type="Script" path="res://scripts/small_bat.gd" id="5_yw25l"]
+[ext_resource type="Texture2D" uid="uid://bkgwdifq8y3pp" path="res://media/graphics/cloud.png" id="6_4a03i"]
+[ext_resource type="Script" path="res://scripts/cloud.gd" id="6_bid8w"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_luwqf"]
+texture = ExtResource("2_v3ayo")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -15, 16, -15, 16, 16, -16, 16)
+6:0/0 = 0
+7:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:0/0 = 0
+8:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_o3b3m"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 2
+physics_layer_0/collision_mask = 0
+sources/1 = SubResource("TileSetAtlasSource_luwqf")
+
+[node name="Stage" type="Node2D" node_paths=PackedStringArray("tile_map", "objects", "player_spawner")]
+script = ExtResource("1_allxy")
+tile_map = NodePath("TileMap")
+objects = NodePath("Objects")
+player_spawner = NodePath("PlayerSpawner")
+right_limit = 384
+music = ExtResource("2_5d4e2")
+stage_number = 1
+starting_time = 300
+start_timer = false
+
+[node name="TileMap" type="Node2D" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="TileMap"]
+tile_map_data = PackedByteArray("AAACAAEAAQABAAMAAAACAAIAAQAAAAMAAAACAAMAAQAAAAIAAAACAAQAAQAFAAEAAAACAAUAAQAAAAAAAAACAAYAAQAFAAAAAAADAAEAAQAHAAEAAAADAAIAAQABAAMAAAADAAMAAQABAAIAAAADAAQAAQAAAAEAAAADAAUAAQAAAAAAAAADAAYAAQAFAAAAAAAEAAEAAQAHAAEAAAAEAAIAAQACAAMAAAAEAAMAAQACAAIAAAAEAAQAAQABAAEAAAAEAAUAAQABAAAAAAAEAAYAAQAFAAAAAAAFAAEAAQAHAAEAAAAFAAIAAQADAAMAAAAFAAMAAQADAAIAAAAFAAQAAQACAAEAAAAFAAUAAQACAAAAAAAFAAYAAQAFAAAAAAAGAAEAAQAGAAEAAAAGAAIAAQAEAAMAAAAGAAMAAQAEAAIAAAAGAAQAAQADAAEAAAAGAAUAAQADAAAAAAAGAAYAAQAFAAAAAAAHAAEAAQAHAAEAAAAHAAIAAQAFAAMAAAAHAAMAAQAFAAIAAAAHAAQAAQAEAAEAAAAHAAUAAQAEAAAAAAAHAAYAAQAFAAAAAAAIAAEAAQAGAAAAAAAIAAIAAQAGAAMAAAAIAAMAAQAGAAIAAAAIAAQAAQAFAAEAAAAIAAUAAQAIAAAAAAAIAAYAAQAFAAAAAAAJAAEAAQAHAAAAAAAJAAIAAQAHAAMAAAAJAAMAAQAHAAIAAAAJAAQAAQAFAAEAAAAJAAUAAQAIAAAAAAAJAAYAAQAFAAAAAAAKAAYAAQAFAAAAAAALAAYAAQAFAAAAAAAKAAQAAQAFAAEAAAALAAQAAQAFAAEAAAAKAAUAAQAIAAAAAAALAAUAAQAIAAAAAAABAAUAAQAAAAAAAAAAAAUAAQAAAAAAAAABAAQAAQAFAAEAAAAAAAQAAQAFAAEAAAABAAYAAQAFAAAAAAAAAAYAAQAFAAAAAAABAAEAAQAAAAMAAAAKAAEAAQAHAAMAAAALAAEAAQAIAAEAAAALAAIAAQAIAAEAAAALAAMAAQAIAAEAAAAKAAMAAQAIAAEAAAABAAMAAQAIAAEAAAAAAAMAAQAIAAEAAAAAAAIAAQAIAAEAAAAAAAEAAQAIAAEAAAA=")
+tile_set = SubResource("TileSet_o3b3m")
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Bat" type="Sprite2D" parent="Objects"]
+z_index = 3
+texture = ExtResource("4_mne8y")
+hframes = 2
+script = ExtResource("5_yw25l")
+
+[node name="Bat2" type="Sprite2D" parent="Objects"]
+z_index = 3
+texture = ExtResource("4_mne8y")
+offset = Vector2(8, 0)
+hframes = 2
+script = ExtResource("5_yw25l")
+x_positions = [144, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 143, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 141, 141, 141, 141, 141, 141, 141, 141, 141, 141, 141, 141, 141, 141, 141, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 139, 139, 139, 139, 139, 139, 139, 139, 139, 139, 139, 139, 138, 138, 138, 138, 138, 138, 138, 138, 138, 138, 138, 137, 137, 137, 137, 137, 137, 137, 137, 137, 137, 136, 136, 136, 136, 136, 136, 136, 136, 136, 136, 135, 135, 135, 135, 135, 135, 135, 135, 135, 134, 134, 134, 134, 134, 134, 134, 134, 134, 133, 133, 133, 133, 133, 133, 133, 133, 133, 132, 132, 132, 132, 132, 132, 132, 132, 131, 131, 131, 131, 131, 131, 131, 131, 131, 130, 130, 130, 130, 130, 130, 130, 130, 129, 129, 129, 129, 129, 129, 129, 129, 129, 128, 128, 128, 128, 128, 128, 128, 128, 127, 127, 127, 127, 127, 127, 127, 127, 126, 126, 126, 126, 126, 126, 126, 126, 126, 125, 125, 125, 125, 125, 125, 125, 125, 124, 124, 124, 124, 124, 124, 124, 124, 124, 123, 123, 123, 123, 123, 123, 123, 123, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 121, 121, 121, 121, 121, 121, 121, 121, 121, 120, 120, 120, 120, 120, 120, 120, 120, 120, 119, 119, 119, 119, 119, 119, 119, 119, 119, 119, 119, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 117, 117, 117, 117, 117, 117, 117, 117, 117, 117, 117, 117, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113]
+y_positions = [63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59]
+
+[node name="Cloud" type="Sprite2D" parent="Objects"]
+position = Vector2(304, 64)
+texture = ExtResource("6_4a03i")
+script = ExtResource("6_bid8w")
+
+[node name="PlayerSpawner" type="Node2D" parent="."]
+position = Vector2(320, 176)
+script = ExtResource("4_l5qq1")
+facing_direction = -1
+
+[node name="GameStartTimer" type="Timer" parent="PlayerSpawner"]
+process_callback = 0
+wait_time = 3.167
+one_shot = true
+
+[connection signal="timeout" from="PlayerSpawner/GameStartTimer" to="PlayerSpawner" method="_on_game_start_timer_timeout"]
