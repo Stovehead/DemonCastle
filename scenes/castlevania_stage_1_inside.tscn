@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bjmityuwnbvo7"]
+[gd_scene load_steps=8 format=3 uid="uid://bjmityuwnbvo7"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_5j7wo"]
 [ext_resource type="AudioStream" uid="uid://ci2qwkqmt4pqx" path="res://media/music/vampirekiller.wav" id="2_pu3ct"]
 [ext_resource type="TileSet" uid="uid://bpyv70mj7h5m5" path="res://tilesets/cv_level_1.tres" id="3_3mdsu"]
 [ext_resource type="PackedScene" uid="uid://bjgdyfygxemn4" path="res://scenes/stairs.tscn" id="4_ogw4i"]
 [ext_resource type="PackedScene" uid="uid://bfhttmevb2lkw" path="res://scenes/door.tscn" id="5_0hedl"]
+[ext_resource type="PackedScene" uid="uid://dj5bseb3ao4wb" path="res://scenes/hurtbox.tscn" id="6_6ros3"]
 [ext_resource type="Script" path="res://scripts/player_spawner.gd" id="7_nuam7"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("tile_map", "objects", "player_spawner")]
@@ -16,6 +17,7 @@ right_limit = 1536
 music = ExtResource("2_pu3ct")
 has_checkpoint = true
 stage_number = 1
+starting_time = 300
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("3_3mdsu")
@@ -47,6 +49,10 @@ height = 12
 position = Vector2(1532, 88)
 next_stage_path = "res://scenes/castlevania_stage_2.tscn"
 next_stage_position = Vector2(1536, 0)
+
+[node name="Hurtbox" parent="Objects" instance=ExtResource("6_6ros3")]
+position = Vector2(176, 208)
+damage = 16
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(48, 192)

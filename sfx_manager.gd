@@ -9,7 +9,10 @@ var sfx_paths:Array = [
 	"res://media/sfx/invincible.wav",
 	"res://media/sfx/pause.wav",
 	"res://media/sfx/stopwatch.wav",
-	"res://media/sfx/warp.wav"]
+	"res://media/sfx/warp.wav",
+	"res://media/sfx/time_running_out.wav",
+	"res://media/sfx/hurt.wav",
+	"res://media/sfx/select.wav"]
 var audio_streams:Array
 enum {
 	WHIP,
@@ -21,6 +24,9 @@ enum {
 	PAUSE,
 	STOPWATCH,
 	WARP,
+	TIME_RUNNING_OUT,
+	HURT,
+	SELECT,
 }
 
 func play_sound_effect(effect_id:int):

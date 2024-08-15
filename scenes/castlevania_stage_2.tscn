@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://e12jw22rlaos"]
+[gd_scene load_steps=10 format=3 uid="uid://e12jw22rlaos"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_p7uw0"]
 [ext_resource type="AudioStream" uid="uid://ci2qwkqmt4pqx" path="res://media/music/vampirekiller.wav" id="2_g1l0b"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bfhttmevb2lkw" path="res://scenes/door.tscn" id="6_b5kn6"]
 [ext_resource type="PackedScene" uid="uid://dkglrvtudtp53" path="res://scenes/player_spawner.tscn" id="6_q35hf"]
 [ext_resource type="PackedScene" uid="uid://ccqk6slfigxii" path="res://scenes/decorative_door.tscn" id="7_d5nnh"]
+[ext_resource type="PackedScene" uid="uid://dj5bseb3ao4wb" path="res://scenes/hurtbox.tscn" id="8_7djdj"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("tile_map", "objects", "player_spawner")]
 script = ExtResource("1_p7uw0")
@@ -18,6 +19,7 @@ right_limit = 512
 music = ExtResource("2_g1l0b")
 has_checkpoint = true
 stage_number = 2
+starting_time = 200
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("3_s7372")
@@ -58,6 +60,10 @@ next_stage_position = Vector2(512, 0)
 
 [node name="Decorative Door" parent="Objects" instance=ExtResource("7_d5nnh")]
 position = Vector2(-4, 88)
+
+[node name="Hurtbox" parent="Objects" instance=ExtResource("8_7djdj")]
+position = Vector2(112, 112)
+damage = 16
 
 [node name="PlayerSpawner" parent="." instance=ExtResource("6_q35hf")]
 position = Vector2(48, 96)

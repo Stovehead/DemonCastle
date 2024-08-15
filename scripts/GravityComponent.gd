@@ -1,3 +1,4 @@
+class_name GravityComponent
 extends Node
 
 const GRAVITY:float = 500;
