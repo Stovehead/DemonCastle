@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://dol1wbcclb8ko"]
+
+[ext_resource type="PackedScene" uid="uid://dmgd6je3y8wn2" path="res://scenes/falling_object.tscn" id="1_0k01i"]
+[ext_resource type="PackedScene" uid="uid://dhmoijm264vtl" path="res://scenes/upgrade.tscn" id="2_abba3"]
+[ext_resource type="Script" path="res://scripts/big_heart.gd" id="3_2vt83"]
+[ext_resource type="Texture2D" uid="uid://b4iap3o2kllik" path="res://media/graphics/big_heart.png" id="4_btpt7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6y6x7"]
+size = Vector2(12, 10)
+
+[node name="BigHeart" instance=ExtResource("1_0k01i")]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+shape = SubResource("RectangleShape2D_6y6x7")
+
+[node name="Upgrade" parent="." index="2" instance=ExtResource("2_abba3")]
+script = ExtResource("3_2vt83")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgrade" index="0"]
+shape = SubResource("RectangleShape2D_6y6x7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="3"]
+texture = ExtResource("4_btpt7")

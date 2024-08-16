@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpqaif2q7u7ye"]
+
+[ext_resource type="Script" path="res://scripts/despawn_timer.gd" id="1_fbg4y"]
+
+[node name="DespawnTimer" type="Timer"]
+process_callback = 0
+one_shot = true
+script = ExtResource("1_fbg4y")
+
+[connection signal="timeout" from="." to="." method="_on_timeout"]

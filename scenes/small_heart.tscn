@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://btyx12g58l3ub"]
+
+[ext_resource type="Script" path="res://scripts/small_heart.gd" id="1_aktnu"]
+[ext_resource type="Texture2D" uid="uid://dnijm0t68hw08" path="res://media/graphics/small_heart.png" id="1_ce2gu"]
+[ext_resource type="PackedScene" uid="uid://dpqaif2q7u7ye" path="res://scenes/despawn_timer.tscn" id="3_urwm7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_enamf"]
+size = Vector2(8, 8)
+
+[node name="SmallHeart" type="Area2D" groups=["heart", "small", "upgrade"]]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("1_aktnu")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ce2gu")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 4)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_enamf")
+
+[node name="DespawnTimer" parent="." instance=ExtResource("3_urwm7")]
+wait_time = 3.0

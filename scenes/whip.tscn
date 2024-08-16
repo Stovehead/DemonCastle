@@ -1,7 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://2ybe1vhgddg4"]
+[gd_scene load_steps=11 format=4 uid="uid://2ybe1vhgddg4"]
 
 [ext_resource type="Texture2D" uid="uid://j7tsdxg7r5xs" path="res://media/graphics/whip.png" id="1_k068c"]
+[ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="1_ktmi7"]
 [ext_resource type="Script" path="res://scripts/whip.gd" id="1_u3jdm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_612qu"]
+shader = ExtResource("1_ktmi7")
+shader_parameter/original_palette = PackedVector4Array(0.777, 0.463, 1, 1, 0.984, 0.761, 1, 1, 0, 0, 0, 1)
+shader_parameter/new_palettes = PackedVector4Array(0.777, 0.463, 1, 1, 0.984, 0.761, 1, 1, 0, 0, 0, 1, 0.969, 0.847, 0.647, 1, 0.082, 0.373, 0.851, 1, 0, 0, 0, 1, 0.71, 0.192, 0.126, 1, 0.996, 0.431, 0.8, 1, 0, 0, 0, 1, 0.918, 0.62, 0.133, 1, 0.969, 0.847, 0.647, 1, 0.337, 0.114, 0, 1)
+shader_parameter/num_new_palettes = 4
+shader_parameter/FPS = 60.0
 
 [sub_resource type="Animation" id="Animation_w3ixn"]
 length = 0.001
@@ -51,7 +59,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -72,6 +80,30 @@ tracks/5/path = NodePath(".:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:played_sound")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".:monitoring")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -154,6 +186,44 @@ tracks/5/keys = {
 "update": 1,
 "values": [true, false]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:played_sound")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.166667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_sound"
+}]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".:monitoring")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="Animation" id="Animation_osxsa"]
 resource_name = "level2"
@@ -230,6 +300,44 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:played_sound")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.166667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_sound"
+}]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".:monitoring")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_pkw1g"]
@@ -308,6 +416,44 @@ tracks/5/keys = {
 "update": 1,
 "values": [true, false]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:played_sound")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.166667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_sound"
+}]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".:monitoring")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_l2f8t"]
 _data = {
@@ -322,10 +468,12 @@ size = Vector2(24, 8)
 
 [node name="Whip" type="Area2D"]
 visible = false
-collision_layer = 0
-collision_mask = 0
+material = SubResource("ShaderMaterial_612qu")
+collision_layer = 32
+collision_mask = 4
 monitoring = false
 script = ExtResource("1_u3jdm")
+damage = 1
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_k068c")
@@ -341,3 +489,6 @@ libraries = {
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(-24, -5)
 shape = SubResource("RectangleShape2D_pgn47")
+disabled = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
