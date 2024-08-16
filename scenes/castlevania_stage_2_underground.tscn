@@ -10,9 +10,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0rxd1"]
 size = Vector2(512, 8)
 
-[node name="castlevania_stage_3_underground" type="Node2D" node_paths=PackedStringArray("tile_map", "objects", "player_spawner")]
+[node name="castlevania_stage_3_underground" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_04sph")
-tile_map = NodePath("")
 objects = NodePath("Objects")
 player_spawner = NodePath("PlayerSpawner")
 right_limit = 512

@@ -9,9 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://bunw8e1a1u3i8" path="res://scenes/screen_lock.tscn" id="6_nyygk"]
 [ext_resource type="PackedScene" uid="uid://dj5bseb3ao4wb" path="res://scenes/hurtbox.tscn" id="8_aka3g"]
 
-[node name="Stage" type="Node2D" node_paths=PackedStringArray("tile_map", "objects", "player_spawner")]
+[node name="Stage" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_e0aqt")
-tile_map = NodePath("")
 objects = NodePath("Objects")
 player_spawner = NodePath("PlayerSpawner")
 right_limit = 768

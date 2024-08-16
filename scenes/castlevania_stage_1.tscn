@@ -5,7 +5,7 @@
 [ext_resource type="TileSet" uid="uid://bpyv70mj7h5m5" path="res://tilesets/cv_level_1.tres" id="2_sdhd6"]
 [ext_resource type="Script" path="res://scripts/player_spawner.gd" id="2_x8rwt"]
 [ext_resource type="PackedScene" uid="uid://b10rseo558yr8" path="res://scenes/castle_warp.tscn" id="4_6qexp"]
-[ext_resource type="PackedScene" uid="uid://dj5bseb3ao4wb" path="res://scenes/hurtbox.tscn" id="6_v7ahm"]
+[ext_resource type="PackedScene" uid="uid://dxe8hkoq88i8g" path="res://scenes/torch.tscn" id="5_xbpa3"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_qw58i")
@@ -33,9 +33,24 @@ next_stage_path = "res://scenes/castlevania_stage_1_inside.tscn"
 target = 34.0
 load_position = Vector2(768, 0)
 
-[node name="Hurtbox" parent="Objects" instance=ExtResource("6_v7ahm")]
-position = Vector2(176, 192)
-damage = 8
+[node name="Torch" parent="Objects" instance=ExtResource("5_xbpa3")]
+position = Vector2(96, 176)
+item_to_drop = 2
+
+[node name="Torch2" parent="Objects" instance=ExtResource("5_xbpa3")]
+position = Vector2(224, 176)
+item_to_drop = 3
+
+[node name="Torch3" parent="Objects" instance=ExtResource("5_xbpa3")]
+position = Vector2(352, 176)
+item_to_drop = 3
+
+[node name="Torch4" parent="Objects" instance=ExtResource("5_xbpa3")]
+position = Vector2(480, 176)
+item_to_drop = 2
+
+[node name="Torch5" parent="Objects" instance=ExtResource("5_xbpa3")]
+position = Vector2(608, 176)
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(48, 176)
