@@ -2,6 +2,7 @@ class_name Game
 extends Node2D
 
 const STARTING_LIVES:int = 3
+const POINTS_1_UP_THRESHOLD = 20000
 
 var debug_mode:bool = false
 
@@ -14,7 +15,13 @@ var last_checkpoint:PackedScene
 var last_permanent_checkpoint:PackedScene
 var last_loaded_stage:PackedScene
 var num_lives:int = STARTING_LIVES
-var score:int = 0
+var next_score_threshold = POINTS_1_UP_THRESHOLD
+var score:int = 0:
+	set(new_score):
+		if(new_score > next_score_threshold):
+			give_1up()
+			next_score_threshold += POINTS_1_UP_THRESHOLD
+		score = new_score
 var time_left:int = 300
 var num_whip_upgrades:int = 0
 
@@ -146,6 +153,12 @@ func tween_camera_x(position:float, speed:float, delta:float):
 	if((camera.global_position.x - position) * (camera.global_position.x - position - camera_movement_delta) <= 0):
 		camera.global_position.x = position
 		emit_signal("finished_camera_tween")
+
+func give_1up() -> void:
+	num_lives += 1
+	# TODO: Add actual 1-up sound
+	SfxManager.play_sound_effect(SfxManager.HEART)
+	lives_changed.emit(num_lives)
 
 func _enter_tree():
 	Globals.game_instance = self

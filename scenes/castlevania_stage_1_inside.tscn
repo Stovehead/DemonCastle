@@ -20,7 +20,6 @@ stage_number = 1
 starting_time = 300
 
 [node name="TileMap" type="Node2D" parent="."]
-visible = false
 
 [node name="Tiles" type="TileMapLayer" parent="TileMap"]
 use_parent_material = true

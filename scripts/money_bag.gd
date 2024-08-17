@@ -29,6 +29,6 @@ func do_upgrade(player:Player):
 			new_points_graphic.frame = 2
 		700:
 			new_points_graphic.frame = 3
-	new_points_graphic.global_position = player.global_position
 	player.add_sibling(new_points_graphic)
+	new_points_graphic.global_position = player.global_position
 	get_parent().queue_free()
