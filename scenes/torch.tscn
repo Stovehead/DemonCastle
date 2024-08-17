@@ -5,8 +5,5 @@
 
 [node name="Torch" instance=ExtResource("1_fsmu6")]
 
-[node name="CollisionShape2D" parent="Area2D" index="0"]
-position = Vector2(-0.5, 0)
-
 [node name="Sprite2D" parent="." index="1"]
 texture = ExtResource("2_k1ein")

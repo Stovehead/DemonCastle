@@ -57,7 +57,7 @@ damage = 2
 
 [node name="Candle" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(176, 184)
-item_to_drop = 3
+item_to_drop = 1
 
 [node name="Candle2" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(328, 184)
@@ -69,7 +69,19 @@ item_to_drop = 3
 
 [node name="Candle4" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(224, 184)
-item_to_drop = 3
+item_to_drop = 2
+
+[node name="Candle5" parent="Objects" instance=ExtResource("7_jj53p")]
+position = Vector2(408, 184)
+item_to_drop = 5
+
+[node name="Candle7" parent="Objects" instance=ExtResource("7_jj53p")]
+position = Vector2(440, 184)
+item_to_drop = 6
+
+[node name="Candle6" parent="Objects" instance=ExtResource("7_jj53p")]
+position = Vector2(368, 184)
+item_to_drop = 4
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(80, 192)

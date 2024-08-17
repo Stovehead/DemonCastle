@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://3cfk5jnvu4sy"]
+
+[ext_resource type="Texture2D" uid="uid://dat5v1rwg4vd5" path="res://media/graphics/points.png" id="1_qq2eh"]
+[ext_resource type="PackedScene" uid="uid://dpqaif2q7u7ye" path="res://scenes/despawn_timer.tscn" id="2_5iq8j"]
+
+[node name="Points" type="Sprite2D"]
+z_index = 4
+texture = ExtResource("1_qq2eh")
+offset = Vector2(16, 0)
+hframes = 4
+
+[node name="DespawnTimer" parent="." instance=ExtResource("2_5iq8j")]
+wait_time = 0.55
+autostart = true

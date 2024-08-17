@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cosnlv6i6gqp7"]
+
+[ext_resource type="PackedScene" uid="uid://cilpt43lgenbl" path="res://scenes/money_bag_100.tscn" id="1_bbcu4"]
+
+[node name="MoneyBag700" instance=ExtResource("1_bbcu4")]
+
+[node name="Upgrade" parent="." index="2"]
+num_points = 700

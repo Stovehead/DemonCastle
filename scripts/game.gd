@@ -16,6 +16,7 @@ var last_loaded_stage:PackedScene
 var num_lives:int = STARTING_LIVES
 var score:int = 0
 var time_left:int = 300
+var num_whip_upgrades:int = 0
 
 signal finished_camera_tween
 signal stage_changed(stage:Stage)
@@ -29,7 +30,7 @@ signal lives_changed(new_lives:int)
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = preload("res://scenes/castlevania_stage_1.tscn")
+@onready var test_stage:PackedScene = preload("res://scenes/castlevania_stage_1_inside.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.wav")
 @onready var blackout:ColorRect = $GUI/Blackout
 @onready var full_blackout:ColorRect = $GUI/FullBlackout
@@ -74,6 +75,7 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 		if(is_instance_valid(Globals.current_player) && Globals.current_player is Player):
 			Globals.current_player.reparent(current_stage)
 			Globals.current_player.global_position = player_spawner.global_position
+			Globals.current_player.player_direction = current_stage.player_spawner.facing_direction
 			Globals.current_player.process_mode = Node.PROCESS_MODE_INHERIT
 		else:
 			Globals.current_player = player_spawner.spawn_player()
@@ -81,10 +83,12 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 	camera.global_position = Globals.current_player.global_position
 	camera.force_update_scroll()
 	time_left = current_stage.starting_time
-	time_timer.start()
+	if(current_stage.start_timer):
+		time_timer.start()
 	time_left_changed.emit(time_left)
 	player_hp_changed.emit(16, true)
 	enemy_hp_changed.emit(16, true)
+	hearts_changed.emit(0)
 	lives_changed.emit(num_lives)
 
 func unload_current_stage(retain_player:bool) -> void:
@@ -126,6 +130,11 @@ func move_camera_to_player() -> void:
 	if(is_instance_valid(Globals.current_player)):
 		camera.global_position = Globals.current_player.global_position
 
+func check_death_barrier() -> void:
+	if(is_instance_valid(Globals.current_player) && !Globals.current_player.is_dead):
+		if(Globals.current_player.global_position.y > current_stage.global_position.y + current_stage.death_barrier):
+			Globals.current_player.death_barrier()
+
 func stop_music() -> void:
 	music_player.stop()
 
@@ -142,12 +151,13 @@ func _enter_tree():
 	Globals.game_instance = self
 
 func _ready() -> void:
-	load_stage(test_stage, true)
 	if(debug_mode):
 		debug_window.show()
 		debug_window.get_viewport().world_2d = get_viewport().world_2d
 
 func _physics_process(delta) -> void:
+	if(Input.is_action_just_pressed("debug")):
+		load_stage(test_stage, true)
 	if(Input.is_action_just_pressed("fullscreen")):
 		if(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
@@ -158,6 +168,7 @@ func _physics_process(delta) -> void:
 	else:
 		if(camera.global_position.x != camera_tween_position):
 			tween_camera_x(camera_tween_position, camera_tween_speed, delta)
+	check_death_barrier()
 	if(debug_mode && is_instance_valid(Globals.current_player)):
 		debug_window.get_node("Camera2D").global_position = Globals.current_player.global_position
 
@@ -167,7 +178,10 @@ func _on_debug_window_close_requested():
 func _on_time_timer_timeout():
 	time_left -= 1
 	time_left_changed.emit(time_left)
-	if(time_left < 30):
+	if(time_left == 0):
+		time_timer.stop()
+		Globals.current_player.time_up = true
+	elif(time_left < 30):
 		SfxManager.play_sound_effect(SfxManager.TIME_RUNNING_OUT)
 
 func _on_player_hp_changed(new_hp:int):
@@ -195,6 +209,8 @@ func _on_death_timer_timeout():
 
 func _on_black_screen_timer_timeout():
 	lives_changed.emit(num_lives)
+	if(last_checkpoint == null):
+		last_checkpoint = load("res://scenes/castlevania_stage_1.tscn")
 	load_stage(last_checkpoint, true)
 	full_blackout.visible = false
 
@@ -210,7 +226,6 @@ func _on_continue_game():
 
 func _on_end_game():
 	get_tree().quit()
-
 
 func _on_short_black_screen_timer_timeout():
 	full_blackout.visible = false

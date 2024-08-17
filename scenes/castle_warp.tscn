@@ -16,6 +16,7 @@ position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_0p3lb")
 
 [node name="Sprites" type="Node2D" parent="."]
+visible = false
 z_index = 2
 position = Vector2(24, -48)
 

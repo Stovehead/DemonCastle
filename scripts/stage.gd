@@ -1,7 +1,7 @@
 class_name Stage
 extends Node2D
 
-@export var tile_map:TileMap
+@export var tile_map:Node2D
 @export var objects:Node2D
 @export var player_spawner:PlayerSpawner
 @export var left_limit:int = 0
@@ -13,3 +13,5 @@ extends Node2D
 @export var has_permanent_checkpoint:bool
 @export var stage_number:int
 @export var starting_time:int
+@export var death_barrier:float = 240
+@export var start_timer:bool = true

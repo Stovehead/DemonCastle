@@ -20,7 +20,7 @@ func _ready():
 
 func _process(delta):
 	if(player_moving):
-		if((Globals.current_player.global_position.x-Globals.game_instance.next_stage.player_spawner.global_position.x)*(Globals.current_player.global_position.x-Globals.game_instance.next_stage.player_spawner.global_position.x-Globals.current_player.get_position_delta().x) <= 0):
+		if(Globals.crossed_point(Globals.current_player.global_position.x, Globals.game_instance.next_stage.player_spawner.global_position.x, Globals.current_player.get_position_delta().x)):
 			player_moving = false
 			Globals.current_player.global_position.x = Globals.game_instance.next_stage.player_spawner.global_position.x
 			Globals.current_player.cutscene_control = false

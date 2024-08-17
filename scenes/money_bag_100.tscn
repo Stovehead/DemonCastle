@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cilpt43lgenbl"]
+
+[ext_resource type="PackedScene" uid="uid://dmgd6je3y8wn2" path="res://scenes/falling_object.tscn" id="1_gbevf"]
+[ext_resource type="Script" path="res://scripts/money_bag.gd" id="2_1g14d"]
+[ext_resource type="Texture2D" uid="uid://cfygg0a5e4qy3" path="res://media/graphics/money_bag.png" id="3_p27k5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rtmdf"]
+size = Vector2(16, 16)
+
+[node name="MoneyBag100" instance=ExtResource("1_gbevf")]
+
+[node name="Upgrade" type="Area2D" parent="." index="2" node_paths=PackedStringArray("sprite")]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("2_1g14d")
+sprite = NodePath("../Sprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgrade" index="0"]
+shape = SubResource("RectangleShape2D_rtmdf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="3"]
+texture = ExtResource("3_p27k5")
+hframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="4"]
+shape = SubResource("RectangleShape2D_rtmdf")

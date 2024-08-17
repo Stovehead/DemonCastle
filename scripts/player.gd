@@ -1,8 +1,18 @@
 class_name Player
 extends CharacterBody2D
 
+enum Subweapons{
+	NONE,
+	KNIFE,
+	AXE,
+	CROSS,
+	HOLY_WATER,
+	STOPWATCH
+}
+
 signal hp_changed(new_hp:int)
 signal hearts_changed(new_hearts:int)
+signal whip_level_changed(new_level:int)
 signal died
 
 const ACCELERATION:float = 1200
@@ -12,6 +22,8 @@ const FAST_FALL_SPEED:float = 280
 const MIN_STUN_HEIGHT:float = 63
 const MIN_BORDER_DISTANCE:float = 8
 const KNOCKBACK_VELOCITY:Vector2 = Vector2(60, -130)
+const DEFAULT_COLLISION_SIZE = Vector2(15, 30)
+const SMALL_COLLISION_SIZE = Vector2(15, 23)
 
 var player_direction:int = 1
 var player_has_control:bool = true
@@ -26,6 +38,8 @@ var is_whipping:bool = false
 var is_damaged:bool = false
 var is_crouching:bool = false
 var last_grounded_y:float = 0
+var whip_level = 1
+var num_hearts = 0
 
 var on_stairs:bool = false
 var in_stair_bottom:bool = false
@@ -38,6 +52,7 @@ var just_warped:bool = false
 
 var is_hurt:bool = false
 var is_dead:bool = false
+var time_up:bool = false
 
 @onready var collision:CollisionShape2D = $Collision
 @onready var jump_timer:Timer = $JumpTimer
@@ -50,9 +65,12 @@ var is_dead:bool = false
 @onready var jump_blocker_r:RayCast2D = $JumpBlockerR
 @onready var invulnerability_timer:Timer = $InvulnerabilityTimer
 @onready var hitbox:Area2D = $Hitbox
+@onready var stair_stun_timer:Timer = $StairStunTimer
+@onready var whip_upgrade_pauser:Node = $WhipUpgradePauser
 
 @onready var gravity_component:GravityComponent = $GravityComponent
 @onready var health_component:HealthComponent = $HealthComponent
+@onready var game:Game = Globals.game_instance
 
 func can_jump():
 	return !jump_blocker_l.is_colliding() && !jump_blocker_r.is_colliding() && !is_crouching
@@ -77,7 +95,7 @@ func handle_input(delta:float) -> void:
 	# Attacking
 	if(player_has_control && !is_dead):
 		if(Input.is_action_just_pressed("attack")):
-			if(!is_whipping):
+			if(!is_whipping && !is_hurt):
 				# Can't whip immediately on stairs
 				if(on_stairs):
 					queued_whip = true
@@ -86,12 +104,13 @@ func handle_input(delta:float) -> void:
 						animation_player.play("crouch_whip")
 					else:
 						animation_player.play("whip")
-					whip_animation_player.play("level2")
+						if(collision.shape.get_rect().size.y < DEFAULT_COLLISION_SIZE.y):
+							global_position.y -= (DEFAULT_COLLISION_SIZE.y - collision.shape.get_rect().size.y)/2
+					whip.play_animation()
 					is_whipping = true
-					SfxManager.play_sound_effect(SfxManager.WHIP)
 
 		# Movement on stairs
-		if(on_stairs):
+		if(on_stairs && stair_stun_timer.is_stopped()):
 			last_grounded_y = global_position.y
 			if(!is_whipping):
 				# Moving
@@ -129,8 +148,7 @@ func handle_input(delta:float) -> void:
 								animation_player.play("stair_up_whip")
 							else:
 								animation_player.play("stair_down_whip")
-							whip_animation_player.play("level2")
-							SfxManager.play_sound_effect(SfxManager.WHIP)
+							whip.play_animation()
 							is_whipping = true
 							queued_whip = false
 							velocity = Vector2.ZERO
@@ -213,7 +231,10 @@ func handle_input(delta:float) -> void:
 					stun_timer.start()
 					is_crouching = true
 					SfxManager.play_sound_effect(SfxManager.FALL)
-				if(is_hurt && velocity.y >= 0 && !is_dead):
+				if(time_up):
+					player_direction *= -1
+					die()
+				elif(is_hurt && velocity.y >= 0 && !is_dead):
 					if(health_component.remaining_hp > 0):
 						player_direction = -player_direction
 						is_hurt = false
@@ -221,13 +242,9 @@ func handle_input(delta:float) -> void:
 						is_crouching = true
 						invulnerability_timer.start()
 					else:
-						died.emit()
-						animation_player.play("death")
-						is_dead = true
-						hitbox.monitoring = false
-						set_collision_layer_value(1, false)
+						die()
 				# Horizontal movement
-				if(!did_horizontal_movement && !is_hurt):
+				if(!did_horizontal_movement && !is_hurt && !is_dead):
 					var input_direction:int = Input.get_axis("left", "right")
 					if(is_crouching):
 						horizontal_movement(0, 1, delta)
@@ -251,9 +268,34 @@ func handle_input(delta:float) -> void:
 					velocity.x = 0
 	elif(cutscene_control && !is_dead):
 		horizontal_movement(cutscene_move_direction, cutscene_move_speed_factor, delta)
+		is_crouching = false
+		stun_timer.stop()
+		if(is_hurt):
+			is_hurt = false
 	else:
 		if(is_on_floor()):
-			horizontal_movement(0, 1, delta)
+			horizontal_movement(0, 1, delta) 
+			is_crouching = false
+			stun_timer.stop()
+
+func die_with_animation(animation:String) -> void:
+	died.emit()
+	if(animation_player.current_animation == "idle"):
+		player_direction *= -1
+	animation_player.play(animation)
+	is_dead = true
+	hitbox.monitoring = false
+	set_collision_layer_value(1, false)
+
+func die() -> void:
+	die_with_animation("death")
+
+func death_barrier() -> void:
+	died.emit()
+	is_dead = true
+	hitbox.monitoring = false
+	set_collision_layer_value(1, false)
+	visible = false
 
 func handle_animation() -> void:
 	if(animation_player.assigned_animation == "whip" || animation_player.assigned_animation == "crouch_whip"):
@@ -262,6 +304,8 @@ func handle_animation() -> void:
 	if(animation_player.assigned_animation == "jump"):
 		if(is_on_floor()):
 			animation_player.play("idle")
+			if(collision.shape.get_rect().size.y < DEFAULT_COLLISION_SIZE.y):
+				global_position.y -= (DEFAULT_COLLISION_SIZE.y - collision.shape.get_rect().size.y)/2
 	if(animation_player.assigned_animation == "crouch"):
 		if(!is_crouching):
 			animation_player.play("idle")
@@ -300,6 +344,8 @@ func _ready():
 	last_grounded_y = global_position.y
 
 func _physics_process(delta:float) -> void:
+	if(Input.is_action_just_pressed("debug")):
+		whip_upgrade_pauser.do_whip_upgrade_animation()
 	handle_input(delta)
 	if(on_stairs):
 		collision.disabled = true
@@ -310,6 +356,7 @@ func _physics_process(delta:float) -> void:
 	move_and_slide()
 	velocity.x = old_velocity
 	handle_animation()
+	do_flashing()
 	move_in_bounds()
 
 func _on_jump_timer_timeout():
@@ -320,7 +367,9 @@ func _on_animation_player_animation_finished(anim_name):
 		is_whipping = false
 
 func _on_hitbox_area_entered(area):
-	if(area.is_in_group("stairs")):
+	if(area is Upgrade):
+		area.do_upgrade(self)
+	elif(area.is_in_group("stairs")):
 		if(area.is_in_group("stairs_bottom")):
 			in_stair_bottom = true
 			current_stair = area.get_parent()
@@ -340,16 +389,46 @@ func _on_stun_timer_timeout():
 		is_crouching = false
 
 func _on_hitbox_got_hit(attacker):
-	if(global_position.x > attacker.global_position.x):
-		player_direction = 1
-	else:
-		player_direction = -1
-	velocity.x = KNOCKBACK_VELOCITY.x * player_direction
-	velocity.y = KNOCKBACK_VELOCITY.y
-	is_hurt = true
-	hitbox.set_collision_layer_value(3, false)
-	animation_player.play("hurt")
 	SfxManager.play_sound_effect(SfxManager.HURT)
+	hitbox.set_collision_mask_value(3, false)
+	if(on_stairs):
+		stair_stun_timer.start()
+		animation_player.speed_scale = 0
+		whip_animation_player.speed_scale = 0
+		whip.monitorable = false
+		velocity = Vector2.ZERO
+	else:
+		if(global_position.x > attacker.global_position.x):
+			player_direction = 1
+		else:
+			player_direction = -1
+		velocity.x = KNOCKBACK_VELOCITY.x * player_direction
+		velocity.y = KNOCKBACK_VELOCITY.y
+		is_hurt = true
+		is_whipping = false
+		whip_animation_player.play("RESET")
+		animation_player.play("hurt")
 
-func _on_hp_changed(new_hp, change_amount):
+func _on_hp_changed(new_hp):
 	hp_changed.emit(new_hp)
+
+func _on_invulnerability_timer_timeout():
+	modulate.a = 1
+	hitbox.set_collision_mask_value(3, true)
+	# Force update collisions
+	hitbox.monitoring = false
+	hitbox.monitoring = true
+
+func _on_stair_stun_timer_timeout() -> void:
+	animation_player.speed_scale = 1
+	whip_animation_player.speed_scale = 1
+	if(health_component.remaining_hp > 0):
+		invulnerability_timer.start()
+		is_whipping = false
+		whip.monitorable = true
+	else:
+		on_stairs = false
+		velocity = Vector2(0, FAST_FALL_SPEED)
+		whip_animation_player.play("RESET")
+		animation_player.play("idle")
+		is_hurt = true
