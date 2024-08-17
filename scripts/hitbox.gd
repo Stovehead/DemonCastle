@@ -13,4 +13,5 @@ func _on_area_entered(area):
 
 func _notification(what: int) -> void:
 	if(what == NOTIFICATION_PREDELETE):
-		Globals.game_instance
+		Globals.game_instance.score += awarded_points
+		Globals.game_instance.score_changed.emit(Globals.game_instance.score)

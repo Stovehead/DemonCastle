@@ -53,7 +53,6 @@ script = ExtResource("1_v5hoq")
 collision_layer = 4
 collision_mask = 32
 script = ExtResource("1_3au44")
-awarded_points = 100
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_l3ofd")
