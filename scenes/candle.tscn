@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cdots7dcx5gaa"]
+[gd_scene load_steps=9 format=3 uid="uid://cdots7dcx5gaa"]
 
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="1_3au44"]
 [ext_resource type="Script" path="res://scripts/candle.gd" id="1_v5hoq"]
 [ext_resource type="Texture2D" uid="uid://d1ggrne0jlvpw" path="res://media/graphics/candle.png" id="2_rglme"]
+[ext_resource type="Script" path="res://scripts/flame_spawner.gd" id="4_xcwfp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l3ofd"]
 size = Vector2(8, 16)
@@ -66,6 +67,9 @@ libraries = {
 "": SubResource("AnimationLibrary_aplhx")
 }
 autoplay = "default"
+
+[node name="FlameSpawner" type="Node2D" parent="."]
+script = ExtResource("4_xcwfp")
 
 [connection signal="area_entered" from="Area2D" to="Area2D" method="_on_area_entered"]
 [connection signal="got_hit" from="Area2D" to="." method="_on_got_hit"]

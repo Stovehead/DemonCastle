@@ -388,7 +388,7 @@ func _on_stun_timer_timeout():
 	if(!Input.is_action_pressed("down")):
 		is_crouching = false
 
-func _on_hitbox_got_hit(attacker):
+func _on_hitbox_got_hit(attacker:Hurtbox):
 	SfxManager.play_sound_effect(SfxManager.HURT)
 	hitbox.set_collision_mask_value(3, false)
 	if(on_stairs):
@@ -406,7 +406,7 @@ func _on_hitbox_got_hit(attacker):
 		velocity.y = KNOCKBACK_VELOCITY.y
 		is_hurt = true
 		is_whipping = false
-		whip_animation_player.play("RESET")
+		whip.reset()
 		animation_player.play("hurt")
 
 func _on_hp_changed(new_hp):

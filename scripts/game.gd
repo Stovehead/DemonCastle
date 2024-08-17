@@ -30,7 +30,7 @@ signal lives_changed(new_lives:int)
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_1_inside.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_intro_stage.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.wav")
 @onready var blackout:ColorRect = $GUI/Blackout
 @onready var full_blackout:ColorRect = $GUI/FullBlackout

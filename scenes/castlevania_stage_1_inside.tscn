@@ -5,9 +5,9 @@
 [ext_resource type="TileSet" uid="uid://bpyv70mj7h5m5" path="res://tilesets/cv_level_1.tres" id="3_3mdsu"]
 [ext_resource type="PackedScene" uid="uid://bjgdyfygxemn4" path="res://scenes/stairs.tscn" id="4_ogw4i"]
 [ext_resource type="PackedScene" uid="uid://bfhttmevb2lkw" path="res://scenes/door.tscn" id="5_0hedl"]
-[ext_resource type="PackedScene" uid="uid://dj5bseb3ao4wb" path="res://scenes/hurtbox.tscn" id="6_6ros3"]
 [ext_resource type="PackedScene" uid="uid://cdots7dcx5gaa" path="res://scenes/candle.tscn" id="7_jj53p"]
 [ext_resource type="Script" path="res://scripts/player_spawner.gd" id="7_nuam7"]
+[ext_resource type="PackedScene" uid="uid://dnosuppfmnvpg" path="res://scenes/zombie_spawner.tscn" id="8_155sf"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_5j7wo")
@@ -20,6 +20,7 @@ stage_number = 1
 starting_time = 300
 
 [node name="TileMap" type="Node2D" parent="."]
+visible = false
 
 [node name="Tiles" type="TileMapLayer" parent="TileMap"]
 use_parent_material = true
@@ -51,10 +52,6 @@ position = Vector2(1532, 88)
 next_stage_path = "res://scenes/castlevania_stage_2.tscn"
 next_stage_position = Vector2(1536, 0)
 
-[node name="Hurtbox" parent="Objects" instance=ExtResource("6_6ros3")]
-position = Vector2(648, 176)
-damage = 2
-
 [node name="Candle" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(176, 184)
 item_to_drop = 1
@@ -82,6 +79,15 @@ item_to_drop = 6
 [node name="Candle6" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(368, 184)
 item_to_drop = 4
+
+[node name="ZombieSpawner" parent="Objects" instance=ExtResource("8_155sf")]
+position = Vector2(720, 192)
+
+[node name="ZombieSpawner2" parent="Objects" instance=ExtResource("8_155sf")]
+position = Vector2(808, 96)
+
+[node name="ZombieSpawner3" parent="Objects" instance=ExtResource("8_155sf")]
+position = Vector2(896, 192)
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(80, 192)

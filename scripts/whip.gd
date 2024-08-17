@@ -3,6 +3,7 @@ extends PlayerAttack
 
 @onready var sprite:Sprite2D = $Sprite
 @onready var animation_player:AnimationPlayer = $AnimationPlayer
+@onready var collision:CollisionShape2D = $Collision
 
 @export var played_sound:bool = false
 var current_sfx:AudioStreamPlayer
@@ -35,9 +36,14 @@ func play_animation():
 		animation_player.play("level3")
 
 func play_sound():
-	if(!played_sound):
+	if(!played_sound && visible):
 		current_sfx = SfxManager.play_sound_effect(SfxManager.WHIP)
 		played_sound = true
+
+func reset():
+	animation_player.play.call_deferred("RESET")
+	if(is_instance_valid(current_sfx)):
+		SfxManager.stop_sound_effect(current_sfx)
 
 func _on_area_entered(area: Area2D) -> void:
 	super._on_area_entered(area)
