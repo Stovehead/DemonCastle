@@ -2,7 +2,7 @@ extends Node
 
 @onready var pause_sound = $AudioStreamPlayer
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if(Input.is_action_just_pressed("start") && Globals.current_player.player_has_control && !Globals.current_player.is_dead):
 		if(get_tree().paused):
 			get_tree().paused = false

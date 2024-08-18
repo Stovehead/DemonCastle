@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://btyx12g58l3ub"]
+[gd_scene load_steps=6 format=3 uid="uid://btyx12g58l3ub"]
 
 [ext_resource type="Script" path="res://scripts/small_heart.gd" id="1_aktnu"]
 [ext_resource type="Texture2D" uid="uid://dnijm0t68hw08" path="res://media/graphics/small_heart.png" id="1_ce2gu"]
 [ext_resource type="PackedScene" uid="uid://dpqaif2q7u7ye" path="res://scenes/despawn_timer.tscn" id="3_urwm7"]
+[ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="4_fwphe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enamf"]
 size = Vector2(8, 8)
@@ -25,3 +26,5 @@ shape = SubResource("RectangleShape2D_enamf")
 
 [node name="DespawnTimer" parent="." instance=ExtResource("3_urwm7")]
 wait_time = 3.0
+
+[node name="Despawner" parent="." instance=ExtResource("4_fwphe")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cu4x0ckbd41jr"]
+[gd_scene load_steps=14 format=3 uid="uid://cu4x0ckbd41jr"]
 
 [ext_resource type="Script" path="res://scripts/zombie.gd" id="1_ajsk6"]
 [ext_resource type="Texture2D" uid="uid://dkhfxswrya6ls" path="res://media/graphics/zombie.png" id="1_x3bjq"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="5_v4pd2"]
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="6_pgfnd"]
 [ext_resource type="Script" path="res://scripts/flame_spawner.gd" id="7_d32xh"]
+[ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="8_fueho"]
 
 [sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_dngno"]
 length = 16.0
@@ -99,6 +100,8 @@ libraries = {
 "": SubResource("AnimationLibrary_fhq8d")
 }
 autoplay = "default"
+
+[node name="Despawner" parent="." instance=ExtResource("8_fueho")]
 
 [connection signal="hp_changed" from="HealthComponent" to="." method="_on_hp_changed"]
 [connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]

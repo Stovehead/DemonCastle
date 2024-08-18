@@ -9,7 +9,7 @@ var current_selection:int = 0
 
 func _physics_process(delta) -> void:
 	if(Input.is_action_just_pressed("up") || Input.is_action_just_pressed("down")):
-		SfxManager.play_sound_effect(SfxManager.SELECT)
+		SfxManager.play_sound_effect_no_overlap(SfxManager.SELECT)
 		current_selection += 1
 		if(current_selection > 1):
 			current_selection = 0
@@ -22,3 +22,6 @@ func _physics_process(delta) -> void:
 			continue_game.emit()
 		else:
 			end_game.emit()
+
+func reset():
+	current_selection = 0

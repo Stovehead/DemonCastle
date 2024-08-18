@@ -1,0 +1,130 @@
+[gd_scene load_steps=8 format=3 uid="uid://i7cpmtm5t7sl"]
+
+[ext_resource type="Texture2D" uid="uid://b7r4gne58qbgf" path="res://media/graphics/title_screen_dotted_line.png" id="1_8e1kj"]
+[ext_resource type="Script" path="res://scripts/title_screen.gd" id="1_70ivp"]
+[ext_resource type="Texture2D" uid="uid://dgtodxdkvvk4j" path="res://media/graphics/logo.png" id="1_717ov"]
+[ext_resource type="FontFile" uid="uid://bu0a23vdmliiy" path="res://media/fonts/CastlevaniaNES.otf" id="2_cdjlk"]
+[ext_resource type="Texture2D" uid="uid://btxfk2mt2s2xo" path="res://media/graphics/castle.png" id="3_d8082"]
+[ext_resource type="Texture2D" uid="uid://hfqx1mlweo18" path="res://media/graphics/heart_icon.png" id="6_fbvl3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_am75w"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="TitleScreen" type="Control" node_paths=PackedStringArray("start_text", "start_option", "copyright_text", "menu", "heart_container")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_70ivp")
+start_text = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/PressStart")
+start_option = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/VBoxContainer/Start")
+copyright_text = NodePath("PanelContainer/CenterContainer/VBoxContainer/Copyright")
+menu = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer")
+heart_container = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/HeartContainer")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_am75w")
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="Dotted Line" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_8e1kj")
+stretch_mode = 1
+
+[node name="Logo" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 134)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("1_717ov")
+stretch_mode = 2
+
+[node name="PressStart" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Logo"]
+layout_mode = 2
+offset_top = 111.0
+offset_right = 239.0
+offset_bottom = 119.0
+theme_override_fonts/font = ExtResource("2_cdjlk")
+text = " PUSH START KEY  "
+horizontal_alignment = 1
+
+[node name="Castle" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer/Logo"]
+layout_mode = 0
+offset_left = 171.0
+offset_top = 81.0
+offset_right = 243.0
+offset_bottom = 134.0
+texture = ExtResource("3_d8082")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/CenterContainer/VBoxContainer/Logo"]
+visible = false
+layout_mode = 0
+offset_left = 87.0
+offset_top = 103.0
+offset_right = 155.0
+offset_bottom = 143.0
+metadata/_edit_group_ = true
+
+[node name="HeartContainer" type="MarginContainer" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 0
+
+[node name="Heart" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/HeartContainer"]
+layout_mode = 2
+texture = ExtResource("6_fbvl3")
+stretch_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Start" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_cdjlk")
+text = "START"
+
+[node name="Options" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_cdjlk")
+text = "OPTIONS"
+
+[node name="Quit" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_cdjlk")
+text = "QUIT
+"
+
+[node name="Copyright" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("2_cdjlk")
+text = "TM AND © KONAMI DE CO., LTD.
+FAN PROJECT, NOT AFFILIATED WITH KONAMI"
+horizontal_alignment = 1
+
+[node name="Dotted Line2" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_8e1kj")
+stretch_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(384, 8)
+layout_mode = 2
+color = Color(0.678431, 0.678431, 0.678431, 1)
+
+[node name="FlashTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.133
+
+[node name="StartTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 1.333
+one_shot = true
+
+[connection signal="timeout" from="FlashTimer" to="." method="_on_flash_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]

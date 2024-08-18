@@ -345,7 +345,7 @@ func _ready():
 
 func _physics_process(delta:float) -> void:
 	if(Input.is_action_just_pressed("debug")):
-		whip_upgrade_pauser.do_whip_upgrade_animation()
+		die()
 	handle_input(delta)
 	if(on_stairs):
 		collision.disabled = true

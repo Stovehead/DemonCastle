@@ -37,7 +37,7 @@ signal lives_changed(new_lives:int)
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_intro_stage.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_1_inside.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.wav")
 @onready var blackout:ColorRect = $GUI/Blackout
 @onready var full_blackout:ColorRect = $GUI/FullBlackout
@@ -46,6 +46,8 @@ signal lives_changed(new_lives:int)
 @onready var black_screen_timer:Timer = $BlackScreenTimer
 @onready var short_black_screen_timer:Timer = $ShortBlackScreenTimer
 @onready var game_over_screen:Control = $"GUI/Game Over"
+@onready var hud:Control = $GUI/HUD
+@onready var title_screen:TitleScreen = $GUI/TitleScreen
 
 func _connect_player_signals(player:Player):
 	player.hp_changed.connect(_on_player_hp_changed)
@@ -65,6 +67,7 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 		next_stage.queue_free()
 	current_stage = stage.instantiate()
 	add_child(current_stage)
+	hud.visible = true
 	var player_spawner:PlayerSpawner
 	if(current_stage is Stage):
 		update_stage_variables(current_stage, stage)
@@ -102,7 +105,8 @@ func unload_current_stage(retain_player:bool) -> void:
 	if(retain_player && Globals.current_player is Player):
 		Globals.current_player.reparent(self)
 		Globals.current_player.process_mode = Node.PROCESS_MODE_DISABLED
-	current_stage.queue_free()
+	if(is_instance_valid(current_stage)):
+		current_stage.queue_free()
 
 func load_next_stage(stage:PackedScene, load_position:Vector2):
 	time_timer.stop()
@@ -145,14 +149,14 @@ func check_death_barrier() -> void:
 func stop_music() -> void:
 	music_player.stop()
 
-func tween_camera_x(position:float, speed:float, delta:float):
+func tween_camera_x(new_position:float, speed:float, delta:float):
 	var old_position:float = camera.global_position.x
 	camera.global_position.x = camera.global_position.x + speed * delta * 60
 	var camera_movement_delta:float = camera.global_position.x - old_position
 	camera.global_position = camera.global_position
-	if((camera.global_position.x - position) * (camera.global_position.x - position - camera_movement_delta) <= 0):
-		camera.global_position.x = position
-		emit_signal("finished_camera_tween")
+	if((camera.global_position.x - new_position) * (camera.global_position.x - new_position - camera_movement_delta) <= 0):
+		camera.global_position.x = new_position
+		finished_camera_tween.emit()
 
 func give_1up() -> void:
 	num_lives += 1
@@ -170,7 +174,9 @@ func _ready() -> void:
 
 func _physics_process(delta) -> void:
 	if(Input.is_action_just_pressed("debug")):
-		load_stage(test_stage, true)
+		pass
+	if(debug_mode):
+		debug_window.get_node("CameraOutline").global_position = camera.get_screen_center_position() - Vector2(192, 108)
 	if(Input.is_action_just_pressed("fullscreen")):
 		if(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
@@ -223,7 +229,7 @@ func _on_death_timer_timeout():
 func _on_black_screen_timer_timeout():
 	lives_changed.emit(num_lives)
 	if(last_checkpoint == null):
-		last_checkpoint = load("res://scenes/castlevania_stage_1.tscn")
+		last_checkpoint = load("res://scenes/castlevania_intro_stage.tscn")
 	load_stage(last_checkpoint, true)
 	full_blackout.visible = false
 
@@ -234,11 +240,21 @@ func _on_continue_game():
 	score = 0
 	score_changed.emit(score)
 	num_lives = STARTING_LIVES
+	next_score_threshold = POINTS_1_UP_THRESHOLD
 	last_checkpoint = last_permanent_checkpoint
 	black_screen_timer.start()
 
 func _on_end_game():
-	get_tree().quit()
+	music_player.stop()
+	game_over_screen.process_mode = Node.PROCESS_MODE_DISABLED
+	game_over_screen.visible = false
+	last_checkpoint = null
+	title_screen.reset()
+	full_blackout.visible = true
+	await get_tree().create_timer(0.233, true, true).timeout
+	title_screen.visible = true
+	title_screen.process_mode = Node.PROCESS_MODE_INHERIT
+	full_blackout.visible = false
 
 func _on_short_black_screen_timer_timeout():
 	full_blackout.visible = false
@@ -246,3 +262,16 @@ func _on_short_black_screen_timer_timeout():
 	music_player.play()
 	game_over_screen.visible = true
 	game_over_screen.process_mode = Node.PROCESS_MODE_INHERIT
+
+func _on_title_screen_select_start() -> void:
+	title_screen.visible = false
+	title_screen.process_mode = Node.PROCESS_MODE_DISABLED
+	full_blackout.visible = true
+	num_lives = STARTING_LIVES
+	black_screen_timer.start()
+
+func _on_title_screen_select_quit() -> void:
+	get_tree().quit()
+
+func _on_title_screen_select_options() -> void:
+	pass # Replace with function body.

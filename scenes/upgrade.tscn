@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://dhmoijm264vtl"]
+[gd_scene load_steps=3 format=3 uid="uid://dhmoijm264vtl"]
 
 [ext_resource type="Script" path="res://scripts/upgrade.gd" id="1_ijcop"]
+[ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="2_jaejl"]
 
 [node name="Upgrade" type="Area2D"]
 collision_layer = 64
 collision_mask = 0
 monitoring = false
 script = ExtResource("1_ijcop")
+
+[node name="Despawner" parent="." instance=ExtResource("2_jaejl")]
