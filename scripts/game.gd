@@ -2,7 +2,7 @@ class_name Game
 extends Node2D
 
 const STARTING_LIVES:int = 3
-const POINTS_1_UP_THRESHOLD = 20000
+const POINTS_1_UP_THRESHOLD = 30000
 const FADE_TIME:float = 0.25
 
 var debug_mode:bool = false
