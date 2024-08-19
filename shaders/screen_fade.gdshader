@@ -1,6 +1,6 @@
 shader_type canvas_item;
 
-const int NUM_COLORS = 52;
+const int NUM_COLORS = 53;
 const float EPSILON = 0.001;
 
 global uniform float SCALABLE_TIME;
