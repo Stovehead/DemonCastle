@@ -8,6 +8,7 @@ const FADE_TIME:float = 0.25
 var debug_mode:bool = false
 
 var showing_logos:bool = true
+var load_test_stage:bool = true
 
 var current_stage:Stage
 var next_stage:Stage
@@ -195,9 +196,17 @@ func _ready() -> void:
 	if(debug_mode):
 		debug_window.show()
 		debug_window.get_viewport().world_2d = get_viewport().world_2d
-	fade_from_black(FADE_TIME)
-	await finished_fade
-	logos_timer.start()
+	if(load_test_stage):
+		showing_logos = false
+		logos_timer.stop()
+		title_screen.visible = false
+		logos.visible = false
+		num_lives = STARTING_LIVES
+		load_stage(test_stage, true)
+	else:
+		fade_from_black(FADE_TIME)
+		await finished_fade
+		logos_timer.start()
 
 func _physics_process(delta) -> void:
 	if(showing_logos):

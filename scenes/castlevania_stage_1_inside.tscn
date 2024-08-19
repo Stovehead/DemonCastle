@@ -80,7 +80,7 @@ position = Vector2(368, 184)
 item_to_drop = 4
 
 [node name="Spawner" parent="Objects" instance=ExtResource("7_ag1mm")]
-position = Vector2(752, 192)
+position = Vector2(776, 96)
 metadata/_edit_group_ = true
 
 [node name="Zombie" parent="Objects/Spawner" instance_placeholder="res://scenes/zombie.tscn"]

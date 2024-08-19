@@ -13,6 +13,6 @@ func _on_area_entered(area):
 		got_hit.emit(area)
 
 func _notification(what: int) -> void:
-	if(what == NOTIFICATION_PREDELETE):
+	if(what == NOTIFICATION_PREDELETE && is_instance_valid(health_component) && is_instance_valid(Globals.game_instance) && health_component.remaining_hp <= 0):
 		Globals.game_instance.score += awarded_points
 		Globals.game_instance.score_changed.emit(Globals.game_instance.score)

@@ -9,8 +9,8 @@
 [ext_resource type="Script" path="res://scripts/flame_spawner.gd" id="7_d32xh"]
 [ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="8_fueho"]
 
-[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_dngno"]
-length = 16.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mnnlj"]
+size = Vector2(2, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j7usc"]
 size = Vector2(16, 32)
@@ -64,7 +64,8 @@ texture = ExtResource("1_x3bjq")
 hframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("SeparationRayShape2D_dngno")
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_mnnlj")
 
 [node name="GravityComponent" type="Node" parent="."]
 script = ExtResource("3_djplh")
