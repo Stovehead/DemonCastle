@@ -3,8 +3,11 @@ extends Node2D
 
 const STARTING_LIVES:int = 3
 const POINTS_1_UP_THRESHOLD = 20000
+const FADE_TIME:float = 0.25
 
 var debug_mode:bool = false
+
+var showing_logos:bool = true
 
 var current_stage:Stage
 var next_stage:Stage
@@ -25,6 +28,7 @@ var score:int = 0:
 var time_left:int = 300
 var num_whip_upgrades:int = 0
 
+signal finished_fade
 signal finished_camera_tween
 signal stage_changed(stage:Stage)
 signal player_hp_changed(new_hp:int, instant:bool)
@@ -48,6 +52,9 @@ signal lives_changed(new_lives:int)
 @onready var game_over_screen:Control = $"GUI/Game Over"
 @onready var hud:Control = $GUI/HUD
 @onready var title_screen:TitleScreen = $GUI/TitleScreen
+@onready var fade_rect:ColorRect = $Fade/ColorRect
+@onready var logos:Logos = $GUI/Logos
+@onready var logos_timer:Timer = $LogosTimer
 
 func _connect_player_signals(player:Player):
 	player.hp_changed.connect(_on_player_hp_changed)
@@ -149,6 +156,23 @@ func check_death_barrier() -> void:
 func stop_music() -> void:
 	music_player.stop()
 
+func fade_to_black(length:float):
+	fade_rect.material.set_shader_parameter("start_time", ShaderTime.time)
+	fade_rect.material.set_shader_parameter("fade_length", length)
+	fade_rect.material.set_shader_parameter("backwards", false)
+	fade_rect.visible = true
+	await get_tree().create_timer(length, true, true).timeout
+	finished_fade.emit()
+
+func fade_from_black(length:float):
+	fade_rect.material.set_shader_parameter("start_time", ShaderTime.time)
+	fade_rect.material.set_shader_parameter("fade_length", length)
+	fade_rect.material.set_shader_parameter("backwards", true)
+	fade_rect.visible = true
+	await get_tree().create_timer(length, true, true).timeout
+	fade_rect.visible = false
+	finished_fade.emit()
+
 func tween_camera_x(new_position:float, speed:float, delta:float):
 	var old_position:float = camera.global_position.x
 	camera.global_position.x = camera.global_position.x + speed * delta * 60
@@ -171,10 +195,34 @@ func _ready() -> void:
 	if(debug_mode):
 		debug_window.show()
 		debug_window.get_viewport().world_2d = get_viewport().world_2d
+	fade_from_black(FADE_TIME)
+	await finished_fade
+	logos_timer.start()
 
 func _physics_process(delta) -> void:
-	if(Input.is_action_just_pressed("debug")):
-		pass
+	if(showing_logos):
+		if(!fade_rect.visible):
+			if(Input.is_action_just_pressed("start")):
+				logos_timer.stop()
+			if(logos_timer.is_stopped()):
+				if(logos.konami_logo.visible):
+					fade_to_black(FADE_TIME)
+					await finished_fade
+					logos.konami_logo.visible = false
+					logos.disclaimer.visible = true
+					fade_from_black(FADE_TIME)
+					await finished_fade
+					logos_timer.start()
+				else:
+					fade_to_black(FADE_TIME)
+					await finished_fade
+					logos.disclaimer.visible = false
+					logos.visible = false
+					title_screen.visible = true
+					fade_from_black(FADE_TIME)
+					await finished_fade
+					title_screen.process_mode = Node.PROCESS_MODE_INHERIT
+					showing_logos = false
 	if(debug_mode):
 		debug_window.get_node("CameraOutline").global_position = camera.get_screen_center_position() - Vector2(192, 108)
 	if(Input.is_action_just_pressed("fullscreen")):

@@ -3,6 +3,7 @@ extends Control
 
 const NUM_OPTIONS:int = 3
 const SPACE_BETWEEN_OPTIONS:int = 16
+const FADE_LENGTH:float = 0.166
 
 signal select_start
 signal select_options
@@ -15,16 +16,39 @@ signal select_quit
 @export var heart_container:MarginContainer
 @onready var flash_timer:Timer = $FlashTimer
 @onready var start_timer:Timer = $StartTimer
+@onready var fades:CanvasLayer = $Fades
+@onready var fade_1:ColorRect = $Fades/ColorRect
+@onready var fade_2:ColorRect = $Fades/ColorRect2
+@onready var fade_3:ColorRect = $Fades/ColorRect3
+@onready 
 var started:bool = false
 var current_option:int = 0
 
 func _process(delta: float) -> void:
-	if(Input.is_action_just_pressed("start")):
+	if(Input.is_action_just_pressed("start") && !fades.visible && start_timer.is_stopped()):
 		if(!started):
+			fades.visible = true
+			fade_1.visible = true
+			fade_1.material.set_shader_parameter("start_time", ShaderTime.time)
+			fade_1.material.set_shader_parameter("fade_length", FADE_LENGTH)
+			fade_1.material.set_shader_parameter("backwards", false)
+			fade_2.visible = true
+			fade_2.material.set_shader_parameter("start_time", ShaderTime.time)
+			fade_2.material.set_shader_parameter("fade_length", FADE_LENGTH)
+			fade_2.material.set_shader_parameter("backwards", false)
+			await get_tree().create_timer(FADE_LENGTH, true, true).timeout
 			start_text.visible = false
 			copyright_text.modulate.a = 0
+			fade_1.visible = false
+			fade_2.visible = false
+			fade_3.visible = true
+			fade_3.material.set_shader_parameter("start_time", ShaderTime.time)
+			fade_3.material.set_shader_parameter("fade_length", FADE_LENGTH)
+			fade_3.material.set_shader_parameter("backwards", true)
 			menu.visible = true
+			await get_tree().create_timer(FADE_LENGTH, true, true).timeout
 			started = true
+			fades.visible = false
 		else:
 			match(current_option):
 				0:

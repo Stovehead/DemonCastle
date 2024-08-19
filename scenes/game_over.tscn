@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b8a8fl14ivr47"]
 
-[ext_resource type="FontFile" uid="uid://bu0a23vdmliiy" path="res://media/fonts/CastlevaniaNES.otf" id="1_fm33j"]
+[ext_resource type="Theme" uid="uid://01naekklebon" path="res://scenes/theme.tres" id="1_726jx"]
 [ext_resource type="Script" path="res://scripts/game_over.gd" id="1_leye2"]
 [ext_resource type="Texture2D" uid="uid://hfqx1mlweo18" path="res://media/graphics/heart_icon.png" id="2_twqpw"]
 
@@ -10,6 +10,7 @@ bg_color = Color(0, 0, 0, 1)
 [node name="Game Over" type="Control" node_paths=PackedStringArray("heart")]
 layout_mode = 3
 anchors_preset = 0
+theme = ExtResource("1_726jx")
 script = ExtResource("1_leye2")
 heart = NodePath("PanelContainer/CenterContainer/VBoxContainer/MarginContainer/HBoxContainer/Heart")
 
@@ -27,7 +28,6 @@ layout_mode = 2
 
 [node name="Game Over" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_fm33j")
 theme_override_font_sizes/font_size = 16
 text = "GAME OVER"
 
@@ -52,12 +52,8 @@ theme_override_constants/separation = 16
 
 [node name="Continue" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_fm33j")
-theme_override_font_sizes/font_size = 16
 text = "CONTINUE"
 
 [node name="End" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_fm33j")
-theme_override_font_sizes/font_size = 16
 text = "END"

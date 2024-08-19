@@ -14,8 +14,9 @@ void fragment() {
 	int current_palette = int(SCALABLE_TIME*FPS)%num_new_palettes;
 	for(int i = 0; i < NUM_COLORS; i++){
 		vec4 difference = abs(original_palette[i] - pixelColor);
-		if (all(lessThan(difference, vec4(EPSILON)))){
+		if(all(lessThan(difference, vec4(EPSILON)))){
 			COLOR = new_palettes[current_palette*NUM_COLORS + i];
+			break;
 		}
 	}
 }

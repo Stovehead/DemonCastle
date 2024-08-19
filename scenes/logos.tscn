@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://ccyrkr374lqo4"]
+
+[ext_resource type="Script" path="res://scripts/logos.gd" id="1_85ae2"]
+[ext_resource type="Theme" uid="uid://01naekklebon" path="res://scenes/theme.tres" id="1_qrhlh"]
+[ext_resource type="Texture2D" uid="uid://c85oemvv6ffh" path="res://media/graphics/konami_logo.png" id="2_w2iud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_65cdt"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Logos" type="Control" node_paths=PackedStringArray("konami_logo", "disclaimer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_qrhlh")
+script = ExtResource("1_85ae2")
+konami_logo = NodePath("PanelContainer/CenterContainer/KonamiLogo")
+disclaimer = NodePath("PanelContainer/CenterContainer/Disclaimer")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_65cdt")
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="KonamiLogo" type="TextureRect" parent="PanelContainer/CenterContainer"]
+layout_mode = 2
+texture = ExtResource("2_w2iud")
+
+[node name="Disclaimer" type="Label" parent="PanelContainer/CenterContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+text = "THIS GAME IS A FAN-MADE PROJECT.
+IT IS NOT LICENSED BY, ENDORSED
+BY, OR AFFILIATED WITH KONAMI.
+
+
+
+CASTLEVANIA IS OWNED BY KONAMI.
+
+
+
+THIS GAME WAS MADE WITH GODOT."
+horizontal_alignment = 1

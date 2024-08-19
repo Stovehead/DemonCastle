@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://dm2gjidl1pws5"]
+[gd_scene load_steps=23 format=3 uid="uid://dm2gjidl1pws5"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ml3fd"]
 [ext_resource type="FontFile" uid="uid://bu0a23vdmliiy" path="res://media/fonts/CastlevaniaNES.otf" id="2_3e0pq"]
+[ext_resource type="Theme" uid="uid://01naekklebon" path="res://scenes/theme.tres" id="2_kytct"]
 [ext_resource type="Script" path="res://scripts/score_counter.gd" id="3_4f751"]
 [ext_resource type="Texture2D" uid="uid://cv105gtfxn6u3" path="res://media/graphics/player_healthbar.png" id="3_a2qj5"]
 [ext_resource type="Script" path="res://scripts/stage_label.gd" id="3_wcg8v"]
@@ -16,10 +17,20 @@
 [ext_resource type="Script" path="res://scripts/lives_label.gd" id="14_5i80s"]
 [ext_resource type="PackedScene" uid="uid://b8a8fl14ivr47" path="res://scenes/game_over.tscn" id="15_jld33"]
 [ext_resource type="PackedScene" uid="uid://i7cpmtm5t7sl" path="res://scenes/title_screen.tscn" id="16_en5xr"]
+[ext_resource type="PackedScene" uid="uid://ccyrkr374lqo4" path="res://scenes/logos.tscn" id="18_j6eax"]
+[ext_resource type="Shader" path="res://shaders/screen_fade.gdshader" id="19_8fly0"]
+[ext_resource type="Texture2D" uid="uid://dcn7xtjdgjb06" path="res://media/graphics/black_fade_palette.png" id="19_oekig"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2ieu"]
 content_margin_top = 3.0
 bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2xm82"]
+shader = ExtResource("19_8fly0")
+shader_parameter/start_time = 0.0
+shader_parameter/fade_length = 1.0
+shader_parameter/backwards = false
+shader_parameter/palette = ExtResource("19_oekig")
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ml3fd")
@@ -42,6 +53,7 @@ color = Color(0, 0, 0, 1)
 visible = false
 offset_right = 384.0
 offset_bottom = 35.0
+theme = ExtResource("2_kytct")
 theme_override_styles/panel = SubResource("StyleBoxFlat_n2ieu")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/HUD"]
@@ -55,8 +67,6 @@ alignment = 1
 
 [node name="Score" type="Label" parent="GUI/HUD/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_3e0pq")
-theme_override_font_sizes/font_size = 16
 text = "SCORE-000000"
 max_lines_visible = 1
 script = ExtResource("3_4f751")
@@ -67,8 +77,6 @@ size_flags_horizontal = 3
 
 [node name="Time" type="Label" parent="GUI/HUD/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_3e0pq")
-theme_override_font_sizes/font_size = 16
 text = "TIME 0300"
 max_lines_visible = 1
 script = ExtResource("4_olqpy")
@@ -79,8 +87,6 @@ size_flags_horizontal = 3
 
 [node name="Stage" type="Label" parent="GUI/HUD/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_3e0pq")
-theme_override_font_sizes/font_size = 16
 text = "STAGE 01"
 max_lines_visible = 1
 script = ExtResource("3_wcg8v")
@@ -100,8 +106,6 @@ theme_override_constants/separation = 8
 
 [node name="Player" type="Label" parent="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_3e0pq")
-theme_override_font_sizes/font_size = 16
 text = "PLAYER"
 max_lines_visible = 1
 
@@ -228,15 +232,11 @@ stretch_mode = 2
 
 [node name="Hearts" type="Label" parent="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_3e0pq")
-theme_override_font_sizes/font_size = 16
 text = "-00"
 script = ExtResource("13_plm4k")
 
 [node name="Lives" type="Label" parent="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer2"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_3e0pq")
-theme_override_font_sizes/font_size = 16
 text = "P-00"
 script = ExtResource("14_5i80s")
 
@@ -249,6 +249,10 @@ process_mode = 4
 visible = false
 
 [node name="TitleScreen" parent="GUI" instance=ExtResource("16_en5xr")]
+process_mode = 4
+visible = false
+
+[node name="Logos" parent="GUI" instance=ExtResource("18_j6eax")]
 
 [node name="FullBlackout" type="ColorRect" parent="GUI"]
 process_mode = 3
@@ -302,6 +306,23 @@ one_shot = true
 process_callback = 0
 wait_time = 0.13
 one_shot = true
+
+[node name="LogosTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 2.3
+one_shot = true
+
+[node name="Fade" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Fade"]
+visible = false
+material = SubResource("ShaderMaterial_2xm82")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [connection signal="hearts_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Hearts" method="_hearts_changed"]
 [connection signal="lives_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer2/Lives" method="_lives_changed"]
