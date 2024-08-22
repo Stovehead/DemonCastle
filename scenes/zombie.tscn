@@ -103,6 +103,7 @@ libraries = {
 autoplay = "default"
 
 [node name="Despawner" parent="." instance=ExtResource("8_fueho")]
+despawn_range = Vector2(210, 156)
 
 [connection signal="hp_changed" from="HealthComponent" to="." method="_on_hp_changed"]
 [connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]

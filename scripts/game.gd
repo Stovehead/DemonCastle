@@ -38,6 +38,7 @@ signal score_changed(new_score:int)
 signal time_left_changed(new_time:int)
 signal hearts_changed(new_hearts:int)
 signal lives_changed(new_lives:int)
+signal subweapon_changed(new_subweapon:int)
 
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
@@ -60,6 +61,7 @@ signal lives_changed(new_lives:int)
 func _connect_player_signals(player:Player):
 	player.hp_changed.connect(_on_player_hp_changed)
 	player.hearts_changed.connect(_on_player_hearts_changed)
+	player.subweapon_changed.connect(_on_player_subweapon_changed)
 	player.died.connect(_on_player_died)
 
 func update_stage_variables(stage:Stage, scene:PackedScene):
@@ -108,6 +110,7 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 	enemy_hp_changed.emit(16, true)
 	hearts_changed.emit(0)
 	lives_changed.emit(num_lives)
+	subweapon_changed.emit(0)
 
 func unload_current_stage(retain_player:bool) -> void:
 	if(retain_player && Globals.current_player is Player):
@@ -266,6 +269,9 @@ func _on_player_hp_changed(new_hp:int):
 func _on_player_hearts_changed(new_hearts:int):
 	hearts_changed.emit(new_hearts)
 
+func _on_player_subweapon_changed(new_subweapon:int) -> void:
+	subweapon_changed.emit(new_subweapon)
+
 func _on_player_died():
 	music_player.stop()
 	time_timer.stop()
@@ -307,6 +313,7 @@ func _on_end_game():
 	game_over_screen.visible = false
 	last_checkpoint = null
 	title_screen.reset()
+	game_over_screen.reset()
 	full_blackout.visible = true
 	await get_tree().create_timer(0.233, true, true).timeout
 	title_screen.visible = true

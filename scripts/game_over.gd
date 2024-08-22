@@ -25,3 +25,4 @@ func _physics_process(delta) -> void:
 
 func reset():
 	current_selection = 0
+	heart.size_flags_vertical = Control.SIZE_SHRINK_BEGIN

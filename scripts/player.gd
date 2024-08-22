@@ -10,9 +10,19 @@ enum Subweapons{
 	STOPWATCH
 }
 
+var subweapon_scenes:Array = [
+	null,
+	preload("res://scenes/knife.tscn"),
+	null,
+	null,
+	null,
+	null,
+]
+
 signal hp_changed(new_hp:int)
 signal hearts_changed(new_hearts:int)
 signal whip_level_changed(new_level:int)
+signal subweapon_changed(new_subweapon:int)
 signal died
 
 const ACCELERATION:float = 1200
@@ -38,8 +48,12 @@ var is_whipping:bool = false
 var is_damaged:bool = false
 var is_crouching:bool = false
 var last_grounded_y:float = 0
-var whip_level = 1
-var num_hearts = 0
+var whip_level:int = 1
+var num_hearts:int = 0
+var current_subweapon:int = 0
+var max_num_subweapons:int = 1
+var num_existing_subweapons:int = 0
+var new_subweapon:Subweapon = null
 
 var on_stairs:bool = false
 var in_stair_bottom:bool = false
@@ -72,10 +86,53 @@ var time_up:bool = false
 @onready var health_component:HealthComponent = $HealthComponent
 @onready var game:Game = Globals.game_instance
 
-func can_jump():
+func get_weapon_to_attack() -> int:
+	if(current_subweapon == Subweapons.NONE || num_existing_subweapons >= max_num_subweapons):
+		return Subweapons.NONE
+	return current_subweapon
+
+func do_attack() -> void:
+	if(on_stairs):
+		if(player_direction == current_stair.direction):
+			animation_player.play("stair_up_whip")
+		else:
+			animation_player.play("stair_down_whip")
+		velocity = Vector2.ZERO
+	else:
+		if(is_crouching && is_on_floor()):
+			animation_player.play("crouch_whip")
+		else:
+			animation_player.play("whip")
+			if(collision.shape.get_rect().size.y < DEFAULT_COLLISION_SIZE.y):
+				global_position.y -= (DEFAULT_COLLISION_SIZE.y - collision.shape.get_rect().size.y)/2
+	var attack:int = get_weapon_to_attack()
+	if(attack == Subweapons.NONE || attack == Subweapons.STOPWATCH || !Input.is_action_pressed("up") || num_hearts <= 0):
+		whip.play_animation()
+	else:
+		num_hearts -= 1
+		hearts_changed.emit(num_hearts)
+		var subweapon_to_load:PackedScene = subweapon_scenes[attack]
+		if(subweapon_to_load != null):
+			new_subweapon = subweapon_to_load.instantiate()
+			match(attack):
+				Subweapons.KNIFE:
+					if(new_subweapon is Knife):
+						new_subweapon.direction = player_direction
+		new_subweapon.subweapon_despawned.connect(_on_subweapon_despawned)
+	is_whipping = true
+	queued_whip = false
+
+func activate_subweapon() -> void:
+	if(new_subweapon != null):
+		add_sibling(new_subweapon)
+		new_subweapon.global_position = global_position
+		num_existing_subweapons += 1
+	new_subweapon = null
+
+func can_jump() -> bool:
 	return !jump_blocker_l.is_colliding() && !jump_blocker_r.is_colliding() && !is_crouching
 
-func horizontal_movement(input_direction:float, speed_factor:float, delta:float):
+func horizontal_movement(input_direction:float, speed_factor:float, delta:float) -> void:
 	# Set velocity to positive so that it's easier to work with
 	velocity.x = abs(velocity.x)
 	# If moving
@@ -100,14 +157,7 @@ func handle_input(delta:float) -> void:
 				if(on_stairs):
 					queued_whip = true
 				else:
-					if(is_crouching && is_on_floor()):
-						animation_player.play("crouch_whip")
-					else:
-						animation_player.play("whip")
-						if(collision.shape.get_rect().size.y < DEFAULT_COLLISION_SIZE.y):
-							global_position.y -= (DEFAULT_COLLISION_SIZE.y - collision.shape.get_rect().size.y)/2
-					whip.play_animation()
-					is_whipping = true
+					do_attack()
 
 		# Movement on stairs
 		if(on_stairs && stair_stun_timer.is_stopped()):
@@ -144,14 +194,7 @@ func handle_input(delta:float) -> void:
 					if(on_stairs && !just_stair_transitioned):
 						# Do the whip that was queued earlier
 						if(queued_whip):
-							if(player_direction == current_stair.direction):
-								animation_player.play("stair_up_whip")
-							else:
-								animation_player.play("stair_down_whip")
-							whip.play_animation()
-							is_whipping = true
-							queued_whip = false
-							velocity = Vector2.ZERO
+							do_attack()
 						else:
 							var vertical_input_direction:int = Input.get_axis("down", "up")
 							var horizontal_input_direction:int = Input.get_axis("left", "right") * current_stair.direction
@@ -345,7 +388,9 @@ func _ready():
 
 func _physics_process(delta:float) -> void:
 	if(Input.is_action_just_pressed("debug")):
-		die()
+		current_subweapon += 1
+		current_subweapon %= 6
+		subweapon_changed.emit(current_subweapon)
 	handle_input(delta)
 	if(on_stairs):
 		collision.disabled = true
@@ -395,7 +440,7 @@ func _on_hitbox_got_hit(attacker:Hurtbox):
 		stair_stun_timer.start()
 		animation_player.speed_scale = 0
 		whip_animation_player.speed_scale = 0
-		whip.monitorable = false
+		whip.set_deferred("monitorable", false)
 		velocity = Vector2.ZERO
 	else:
 		if(global_position.x > attacker.global_position.x):
@@ -432,3 +477,6 @@ func _on_stair_stun_timer_timeout() -> void:
 		whip_animation_player.play("RESET")
 		animation_player.play("idle")
 		is_hurt = true
+
+func _on_subweapon_despawned() -> void:
+	num_existing_subweapons -= 1

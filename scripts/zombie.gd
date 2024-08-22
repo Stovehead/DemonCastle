@@ -1,3 +1,4 @@
+class_name Zombie
 extends CharacterBody2D
 
 const SPEED:int = 52
@@ -14,11 +15,15 @@ var facing_direction = -1:
 		sprite.flip_h = new_facing_direction == 1
 		facing_direction = new_facing_direction
 
-func _ready() -> void:
+func orient_towards_player() -> void:
 	if(is_instance_valid(Globals.current_player)):
 		facing_direction = sign(Globals.current_player.global_position.x - global_position.x)
 		if(facing_direction == 0):
 			facing_direction = -1
+
+func _ready() -> void:
+	Globals.num_zombies += 1
+	orient_towards_player()
 
 func _physics_process(delta: float) -> void:
 	velocity = gravity_component.apply_gravity(velocity, delta)
@@ -35,3 +40,7 @@ func _on_hp_changed(new_hp:int) -> void:
 		flame_spawner.spawn_flame()
 		emit_signal("died")
 		queue_free()
+
+func _notification(what: int) -> void:
+	if(what == NOTIFICATION_PREDELETE):
+		Globals.num_zombies -= 1

@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bg1cam8shkxe1" path="res://media/graphics/enemy_healthbar.png" id="5_ip3yo"]
 [ext_resource type="Texture2D" uid="uid://be4ayy6v0com6" path="res://media/graphics/subweapon_container.png" id="6_qm5vt"]
 [ext_resource type="Texture2D" uid="uid://hfqx1mlweo18" path="res://media/graphics/heart_icon.png" id="7_5hip0"]
-[ext_resource type="Texture2D" uid="uid://bvblnkatwynwr" path="res://media/graphics/holy_water_icon.png" id="7_l4l51"]
+[ext_resource type="Script" path="res://scripts/subweapon_container.gd" id="12_40b1c"]
 [ext_resource type="Script" path="res://scripts/hearts_counter.gd" id="13_plm4k"]
 [ext_resource type="Script" path="res://scripts/lives_label.gd" id="14_5i80s"]
 [ext_resource type="PackedScene" uid="uid://b8a8fl14ivr47" path="res://scenes/game_over.tscn" id="15_jld33"]
@@ -201,15 +201,14 @@ theme_override_constants/margin_top = 0
 [node name="SubweaponContainer" type="TextureRect" parent="GUI/HUD/VBoxContainer/HBoxContainer2/MarginContainer"]
 layout_mode = 2
 texture = ExtResource("6_qm5vt")
+script = ExtResource("12_40b1c")
 
 [node name="TextureRect" type="TextureRect" parent="GUI/HUD/VBoxContainer/HBoxContainer2/MarginContainer/SubweaponContainer"]
-visible = false
 layout_mode = 0
 offset_left = 8.0
 offset_top = 3.0
 offset_right = 24.0
 offset_bottom = 19.0
-texture = ExtResource("7_l4l51")
 stretch_mode = 2
 
 [node name="Spacer2" type="Control" parent="GUI/HUD/VBoxContainer/HBoxContainer2"]
@@ -329,6 +328,7 @@ color = Color(0, 0, 0, 1)
 [connection signal="player_hp_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/PlayerHealthBar" method="_hp_changed"]
 [connection signal="score_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer/Score" method="_score_changed"]
 [connection signal="stage_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer/Stage" method="update_label"]
+[connection signal="subweapon_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/MarginContainer/SubweaponContainer" method="_on_subweapon_changed"]
 [connection signal="time_left_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer/Time" method="_time_changed"]
 [connection signal="timeout" from="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/PlayerHealthBar/Timer" to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/PlayerHealthBar" method="_update_hp_display"]
 [connection signal="timeout" from="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/EnemyHealthBar/Timer" to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/EnemyHealthBar" method="_update_hp_display"]

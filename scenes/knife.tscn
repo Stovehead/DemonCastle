@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://da4u5j3drdupy"]
+
+[ext_resource type="Script" path="res://scripts/knife.gd" id="1_8ya5x"]
+[ext_resource type="Texture2D" uid="uid://de60vpljletil" path="res://media/graphics/knife_icon.png" id="2_pfyhk"]
+[ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="3_x31mm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8qtyo"]
+size = Vector2(16, 8.75)
+
+[node name="Knife" type="Area2D"]
+collision_layer = 32
+collision_mask = 4
+script = ExtResource("1_8ya5x")
+damage = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_pfyhk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.375)
+shape = SubResource("RectangleShape2D_8qtyo")
+
+[node name="Despawner" parent="." instance=ExtResource("3_x31mm")]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
