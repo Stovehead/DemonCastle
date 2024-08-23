@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=4 uid="uid://e12jw22rlaos"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_p7uw0"]
-[ext_resource type="AudioStream" uid="uid://ci2qwkqmt4pqx" path="res://media/music/vampirekiller.wav" id="2_g1l0b"]
+[ext_resource type="AudioStream" uid="uid://bssm6y8l0d0mq" path="res://media/music/vampirekiller.ogg" id="2_aypc3"]
 [ext_resource type="PackedScene" uid="uid://bjgdyfygxemn4" path="res://scenes/stairs.tscn" id="2_u7n3i"]
 [ext_resource type="TileSet" uid="uid://bpyv70mj7h5m5" path="res://tilesets/cv_level_1.tres" id="3_s7372"]
 [ext_resource type="PackedScene" uid="uid://cu4x0ckbd41jr" path="res://scenes/zombie.tscn" id="4_xwakw"]
@@ -16,7 +16,7 @@ script = ExtResource("1_p7uw0")
 objects = NodePath("Objects")
 player_spawner = NodePath("PlayerSpawner")
 right_limit = 512
-music = ExtResource("2_g1l0b")
+music = ExtResource("2_aypc3")
 has_checkpoint = true
 stage_number = 2
 starting_time = 200

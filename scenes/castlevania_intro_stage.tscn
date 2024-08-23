@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=4 uid="uid://dirc0k7k0pk0o"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_allxy"]
-[ext_resource type="AudioStream" uid="uid://c7o1ni808743k" path="res://media/music/intro.wav" id="2_5d4e2"]
+[ext_resource type="AudioStream" uid="uid://ck1rmmm6sxbm6" path="res://media/music/intro.ogg" id="2_uf5gu"]
 [ext_resource type="Texture2D" uid="uid://bfp87cdk8pt31" path="res://media/graphics/cvintrotileset.png" id="2_v3ayo"]
 [ext_resource type="Script" path="res://scripts/intro_player_spawner.gd" id="4_l5qq1"]
 [ext_resource type="Texture2D" uid="uid://dv40rk2lvvt62" path="res://media/graphics/small_bat.png" id="4_mne8y"]
@@ -60,7 +60,7 @@ tile_map = NodePath("TileMap")
 objects = NodePath("Objects")
 player_spawner = NodePath("PlayerSpawner")
 right_limit = 384
-music = ExtResource("2_5d4e2")
+music = ExtResource("2_uf5gu")
 stage_number = 1
 starting_time = 300
 start_timer = false
