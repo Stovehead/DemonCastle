@@ -1,0 +1,90 @@
+[gd_scene load_steps=11 format=3 uid="uid://bqwtpt1ni6fle"]
+
+[ext_resource type="Script" path="res://scripts/holy_water.gd" id="1_w2vv4"]
+[ext_resource type="Texture2D" uid="uid://dgmlraa4rm6td" path="res://media/graphics/flame.png" id="2_5b5ce"]
+[ext_resource type="Script" path="res://scripts/holy_water_bottle.gd" id="3_x2u3k"]
+[ext_resource type="Script" path="res://scripts/GravityComponent.gd" id="4_8e7wv"]
+[ext_resource type="Texture2D" uid="uid://wbfrdooqn8pa" path="res://media/graphics/holy_water_bottle.png" id="5_qe4h2"]
+[ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="6_i7xil"]
+
+[sub_resource type="Animation" id="Animation_2ikmp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_obqy5"]
+resource_name = "default"
+length = 0.750002
+loop_mode = 1
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2gmt3"]
+_data = {
+"RESET": SubResource("Animation_2ikmp"),
+"default": SubResource("Animation_obqy5")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oni4j"]
+size = Vector2(8, 8)
+
+[node name="HolyWater" type="Area2D"]
+collision_layer = 32
+collision_mask = 4
+script = ExtResource("1_w2vv4")
+damage = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_5b5ce")
+hframes = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2gmt3")
+}
+
+[node name="Bottle" type="CharacterBody2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_x2u3k")
+
+[node name="GravityComponent" type="Node" parent="Bottle"]
+script = ExtResource("4_8e7wv")
+
+[node name="Sprite2D" type="Sprite2D" parent="Bottle"]
+position = Vector2(0, 4)
+texture = ExtResource("5_qe4h2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottle"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_oni4j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+
+[node name="Despawner" parent="." instance=ExtResource("6_i7xil")]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="hit_ground" from="Bottle" to="." method="_on_bottle_hit_ground"]

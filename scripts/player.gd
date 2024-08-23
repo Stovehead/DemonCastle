@@ -15,7 +15,7 @@ var subweapon_scenes:Array = [
 	preload("res://scenes/knife.tscn"),
 	null,
 	null,
-	null,
+	preload("res://scenes/holy_water.tscn"),
 	null,
 ]
 
@@ -51,7 +51,7 @@ var last_grounded_y:float = 0
 var whip_level:int = 1
 var num_hearts:int = 0
 var current_subweapon:int = 0
-var max_num_subweapons:int = 1
+var max_num_subweapons:int = 3
 var num_existing_subweapons:int = 0
 var new_subweapon:Subweapon = null
 
@@ -117,6 +117,9 @@ func do_attack() -> void:
 			match(attack):
 				Subweapons.KNIFE:
 					if(new_subweapon is Knife):
+						new_subweapon.direction = player_direction
+				Subweapons.HOLY_WATER:
+					if(new_subweapon is HolyWater):
 						new_subweapon.direction = player_direction
 		new_subweapon.subweapon_despawned.connect(_on_subweapon_despawned)
 	is_whipping = true
