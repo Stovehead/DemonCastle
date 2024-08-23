@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dexfjel2m1k4a"]
+
+[ext_resource type="Script" path="res://scripts/persistent_object.gd" id="1_alevu"]
+[ext_resource type="Script" path="res://scripts/wall_meat.gd" id="1_pk5yq"]
+
+[node name="WallMeat" type="Node2D"]
+script = ExtResource("1_pk5yq")
+
+[node name="PersistentObject" type="Node" parent="."]
+script = ExtResource("1_alevu")
+
+[connection signal="new_instance" from="PersistentObject" to="." method="_on_persistent_object_new_instance"]
+[connection signal="retreived_data" from="PersistentObject" to="." method="_on_persistent_object_retreived_data"]

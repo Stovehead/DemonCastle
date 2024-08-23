@@ -9,8 +9,6 @@ const BOTTLE_VELOCITY:Vector2 = Vector2(100, -100)
 @onready var bottle:Bottle = $Bottle
 @onready var collision:CollisionShape2D = $CollisionShape2D
 
-var direction:int = 1
-
 func _ready() -> void:
 	bottle.velocity.x = BOTTLE_VELOCITY.x * direction
 	bottle.velocity.y = BOTTLE_VELOCITY.y

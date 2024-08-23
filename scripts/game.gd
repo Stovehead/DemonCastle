@@ -43,7 +43,7 @@ signal subweapon_changed(new_subweapon:int)
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_1_inside.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_2.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.wav")
 @onready var blackout:ColorRect = $GUI/Blackout
 @onready var full_blackout:ColorRect = $GUI/FullBlackout
@@ -57,6 +57,9 @@ signal subweapon_changed(new_subweapon:int)
 @onready var fade_rect:ColorRect = $Fade/ColorRect
 @onready var logos:Logos = $GUI/Logos
 @onready var logos_timer:Timer = $LogosTimer
+
+func clear_persistent() -> void:
+	Globals.persistent_objects.clear()
 
 func _connect_player_signals(player:Player):
 	player.hp_changed.connect(_on_player_hp_changed)
@@ -73,6 +76,7 @@ func update_stage_variables(stage:Stage, scene:PackedScene):
 	stage_changed.emit(stage)
 
 func load_stage(stage:PackedScene, load_music:bool) -> void:
+	clear_persistent()
 	if(is_instance_valid(next_stage)):
 		next_stage.queue_free()
 	current_stage = stage.instantiate()
@@ -196,6 +200,7 @@ func _enter_tree():
 	Globals.game_instance = self
 
 func _ready() -> void:
+	randomize()
 	if(debug_mode):
 		debug_window.show()
 		debug_window.get_viewport().world_2d = get_viewport().world_2d

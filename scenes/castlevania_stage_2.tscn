@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://e12jw22rlaos"]
+[gd_scene load_steps=10 format=4 uid="uid://e12jw22rlaos"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_p7uw0"]
 [ext_resource type="AudioStream" uid="uid://ci2qwkqmt4pqx" path="res://media/music/vampirekiller.wav" id="2_g1l0b"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bfhttmevb2lkw" path="res://scenes/door.tscn" id="6_b5kn6"]
 [ext_resource type="PackedScene" uid="uid://dkglrvtudtp53" path="res://scenes/player_spawner.tscn" id="6_q35hf"]
 [ext_resource type="PackedScene" uid="uid://ccqk6slfigxii" path="res://scenes/decorative_door.tscn" id="7_d5nnh"]
+[ext_resource type="PackedScene" uid="uid://dexfjel2m1k4a" path="res://scenes/wall_meat.tscn" id="8_2uoam"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_p7uw0")
@@ -61,5 +62,12 @@ next_stage_position = Vector2(512, 0)
 [node name="Decorative Door" parent="Objects" instance=ExtResource("7_d5nnh")]
 position = Vector2(-4, 88)
 
+[node name="WallMeat" parent="Objects" instance=ExtResource("8_2uoam")]
+
+[node name="PersistentObject" parent="Objects/WallMeat" index="0"]
+unique_name = "meat1"
+
 [node name="PlayerSpawner" parent="." instance=ExtResource("6_q35hf")]
 position = Vector2(48, 96)
+
+[editable path="Objects/WallMeat"]

@@ -58,6 +58,7 @@ damage = 1
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("2_5b5ce")
+offset = Vector2(0, 1)
 hframes = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

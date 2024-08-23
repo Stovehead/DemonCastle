@@ -114,13 +114,7 @@ func do_attack() -> void:
 		var subweapon_to_load:PackedScene = subweapon_scenes[attack]
 		if(subweapon_to_load != null):
 			new_subweapon = subweapon_to_load.instantiate()
-			match(attack):
-				Subweapons.KNIFE:
-					if(new_subweapon is Knife):
-						new_subweapon.direction = player_direction
-				Subweapons.HOLY_WATER:
-					if(new_subweapon is HolyWater):
-						new_subweapon.direction = player_direction
+			new_subweapon.direction = player_direction
 		new_subweapon.subweapon_despawned.connect(_on_subweapon_despawned)
 	is_whipping = true
 	queued_whip = false

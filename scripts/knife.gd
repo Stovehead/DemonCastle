@@ -5,8 +5,6 @@ extends Subweapon
 
 const SPEED:float = 4.5
 
-var direction:int = 1
-
 func _on_area_entered(area:Area2D):
 	super._on_area_entered(area)
 	queue_free()
