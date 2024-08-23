@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://bro1sgoogwq23"]
+
+[ext_resource type="Script" path="res://scripts/breakable_block.gd" id="1_kkbg5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5muq1"]
+size = Vector2(16, 16)
+
+[node name="BreakableBlock" type="Area2D"]
+collision_layer = 0
+collision_mask = 32
+monitorable = false
+script = ExtResource("1_kkbg5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5muq1")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 128
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_5muq1")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="got_hit" from="." to="." method="_on_got_hit"]

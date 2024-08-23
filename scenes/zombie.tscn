@@ -56,7 +56,7 @@ _data = {
 
 [node name="Zombie" type="CharacterBody2D"]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 130
 script = ExtResource("1_ajsk6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

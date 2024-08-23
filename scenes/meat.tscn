@@ -1,0 +1,27 @@
+[gd_scene load_steps=7 format=3 uid="uid://cskr1fha4rd5k"]
+
+[ext_resource type="PackedScene" uid="uid://dmgd6je3y8wn2" path="res://scenes/falling_object.tscn" id="1_wmtsf"]
+[ext_resource type="PackedScene" uid="uid://dhmoijm264vtl" path="res://scenes/upgrade.tscn" id="2_y4w8d"]
+[ext_resource type="Script" path="res://scripts/meat.gd" id="3_2fw7i"]
+[ext_resource type="Texture2D" uid="uid://devmtpgpfmnr8" path="res://media/graphics/meat.png" id="3_b46d4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_grylf"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yu1gf"]
+size = Vector2(16, 16)
+
+[node name="Meat" instance=ExtResource("1_wmtsf")]
+
+[node name="Upgrade" parent="." index="2" instance=ExtResource("2_y4w8d")]
+script = ExtResource("3_2fw7i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgrade" index="1"]
+shape = SubResource("RectangleShape2D_grylf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="3"]
+shape = SubResource("RectangleShape2D_yu1gf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="4"]
+texture = ExtResource("3_b46d4")
+offset = Vector2(0, 1)

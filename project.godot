@@ -109,6 +109,7 @@ debug={
 2d_physics/layer_5="doors"
 2d_physics/layer_6="player attacks"
 2d_physics/layer_7="upgrades"
+2d_physics/layer_8="breakable walls"
 
 [physics]
 
