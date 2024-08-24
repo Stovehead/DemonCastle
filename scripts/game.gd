@@ -8,7 +8,7 @@ const FADE_TIME:float = 0.25
 var debug_mode:bool = false
 
 var showing_logos:bool = true
-var load_test_stage:bool = true
+var load_test_stage:bool = false
 
 var current_stage:Stage
 var next_stage:Stage
