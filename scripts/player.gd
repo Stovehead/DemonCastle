@@ -292,7 +292,7 @@ func handle_input(delta:float) -> void:
 						horizontal_movement(input_direction, 1, delta)
 				last_grounded_y = global_position.y
 				# Jumping
-				if(queued_jump && !is_whipping && !on_stairs):
+				if(queued_jump && !is_whipping && !on_stairs && stun_timer.is_stopped()):
 					queued_jump = false
 					is_jumping = true
 					jump_timer.stop()
