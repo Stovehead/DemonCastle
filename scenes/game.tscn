@@ -298,12 +298,12 @@ one_shot = true
 
 [node name="BlackScreenTimer" type="Timer" parent="."]
 process_callback = 0
-wait_time = 0.001
+wait_time = 0.383
 one_shot = true
 
 [node name="ShortBlackScreenTimer" type="Timer" parent="."]
 process_callback = 0
-wait_time = 0.001
+wait_time = 0.13
 one_shot = true
 
 [node name="LogosTimer" type="Timer" parent="."]
