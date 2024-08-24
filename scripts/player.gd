@@ -28,7 +28,7 @@ signal died
 const ACCELERATION:float = 1200
 const MAX_SPEED:float = 60
 const JUMP_SPEED:float = -185
-const FAST_FALL_SPEED:float = 280
+const TERMINAL_VELOCITY:float = 360
 const MIN_STUN_HEIGHT:float = 63
 const MIN_BORDER_DISTANCE:float = 8
 const KNOCKBACK_VELOCITY:Vector2 = Vector2(60, -130)
@@ -63,6 +63,7 @@ var going_up_stairs:bool = false
 var next_step:float
 var current_step:int
 var just_warped:bool = false
+var floor_checker:ShapeCast2D
 
 var is_hurt:bool = false
 var is_dead:bool = false
@@ -159,7 +160,9 @@ func handle_input(delta:float) -> void:
 		# Movement on stairs
 		if(on_stairs && stair_stun_timer.is_stopped()):
 			last_grounded_y = global_position.y
-			if(!is_whipping):
+			if(time_up):
+				fall_off_stairs()
+			elif(!is_whipping):
 				# Moving
 				if(going_up_stairs):
 					# If reached a step
@@ -304,8 +307,12 @@ func handle_input(delta:float) -> void:
 						animation_player.play("idle")
 					if(!is_falling):
 						is_falling = true
-						velocity.y = FAST_FALL_SPEED
+						velocity.y = TERMINAL_VELOCITY
 					velocity.x = 0
+				if(is_hurt && is_instance_valid(floor_checker)):
+					if(!floor_checker.is_colliding()):
+						set_collision_mask_value(2, true)
+						floor_checker.queue_free()
 	elif(cutscene_control && !is_dead):
 		horizontal_movement(cutscene_move_direction, cutscene_move_speed_factor, delta)
 		is_crouching = false
@@ -329,6 +336,26 @@ func die_with_animation(animation:String) -> void:
 
 func die() -> void:
 	die_with_animation("death")
+
+func fall_off_stairs() -> void:
+	on_stairs = false
+	velocity = Vector2(0, TERMINAL_VELOCITY)
+	whip_animation_player.play("RESET")
+	animation_player.play("idle")
+	stair_stun_timer.stop()
+	is_hurt = true
+	floor_checker = ShapeCast2D.new()
+	floor_checker.position = Vector2.ZERO
+	floor_checker.enabled = true
+	floor_checker.target_position = Vector2.ZERO
+	floor_checker.set_collision_mask_value(1, false)
+	floor_checker.set_collision_mask_value(2, true)
+	floor_checker.shape = RectangleShape2D.new()
+	floor_checker.shape.size = DEFAULT_COLLISION_SIZE
+	add_child(floor_checker)
+	floor_checker.force_shapecast_update()
+	if(floor_checker.is_colliding()):
+		set_collision_mask_value(2, false)
 
 func death_barrier() -> void:
 	died.emit()
@@ -393,7 +420,7 @@ func _physics_process(delta:float) -> void:
 		collision.disabled = true
 	else:
 		collision.disabled = false
-		velocity = $GravityComponent.apply_gravity(velocity, delta)
+		velocity = $GravityComponent.apply_gravity_with_terminal_velocity(velocity, TERMINAL_VELOCITY, delta)
 	var old_velocity = velocity.x
 	move_and_slide()
 	velocity.x = old_velocity
@@ -469,11 +496,7 @@ func _on_stair_stun_timer_timeout() -> void:
 		is_whipping = false
 		whip.monitorable = true
 	else:
-		on_stairs = false
-		velocity = Vector2(0, FAST_FALL_SPEED)
-		whip_animation_player.play("RESET")
-		animation_player.play("idle")
-		is_hurt = true
+		fall_off_stairs()
 
 func _on_subweapon_despawned() -> void:
 	num_existing_subweapons -= 1
