@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/holy_water.gd" id="1_w2vv4"]
 [ext_resource type="Texture2D" uid="uid://dgmlraa4rm6td" path="res://media/graphics/flame.png" id="2_5b5ce"]
 [ext_resource type="Script" path="res://scripts/holy_water_bottle.gd" id="3_x2u3k"]
-[ext_resource type="Script" path="res://scripts/GravityComponent.gd" id="4_8e7wv"]
+[ext_resource type="Script" path="res://scripts/gravity_component.gd" id="4_8e7wv"]
 [ext_resource type="Texture2D" uid="uid://wbfrdooqn8pa" path="res://media/graphics/holy_water_bottle.png" id="5_qe4h2"]
 [ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="6_i7xil"]
 

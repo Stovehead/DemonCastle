@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/zombie.gd" id="1_ajsk6"]
 [ext_resource type="Texture2D" uid="uid://dkhfxswrya6ls" path="res://media/graphics/zombie.png" id="1_x3bjq"]
-[ext_resource type="Script" path="res://scripts/GravityComponent.gd" id="3_djplh"]
+[ext_resource type="Script" path="res://scripts/gravity_component.gd" id="3_djplh"]
 [ext_resource type="Script" path="res://scripts/health_component.gd" id="4_brjlu"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="5_v4pd2"]
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="6_pgfnd"]

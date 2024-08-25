@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c0untomc4ew3c" path="res://media/graphics/water_particle.png" id="1_mbhkj"]
 [ext_resource type="Script" path="res://scripts/particle.gd" id="1_tpac1"]
-[ext_resource type="Script" path="res://scripts/GravityComponent.gd" id="3_285xa"]
+[ext_resource type="Script" path="res://scripts/gravity_component.gd" id="3_285xa"]
 [ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="4_5kkq6"]
 
 [node name="Particle" type="CharacterBody2D"]

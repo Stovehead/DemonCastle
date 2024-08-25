@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dmgd6je3y8wn2"]
 
 [ext_resource type="Script" path="res://scripts/falling_object.gd" id="1_vvmvj"]
-[ext_resource type="Script" path="res://scripts/GravityComponent.gd" id="2_3ht0c"]
+[ext_resource type="Script" path="res://scripts/gravity_component.gd" id="2_3ht0c"]
 [ext_resource type="PackedScene" uid="uid://dpqaif2q7u7ye" path="res://scenes/despawn_timer.tscn" id="3_sowhi"]
 
 [node name="FallingObject" type="CharacterBody2D"]

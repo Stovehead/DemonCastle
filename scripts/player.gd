@@ -412,6 +412,7 @@ func _ready():
 
 func _physics_process(delta:float) -> void:
 	if(Input.is_action_just_pressed("debug")):
+		time_up = true
 		current_subweapon += 1
 		current_subweapon %= 6
 		subweapon_changed.emit(current_subweapon)
