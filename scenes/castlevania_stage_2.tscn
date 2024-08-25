@@ -29,6 +29,7 @@ tile_map_data = PackedByteArray("AAAAAAEAAAAFAAIAAAAAAAIAAAAFAAMAAAAAAAMAAAAFAAQ
 tile_set = ExtResource("3_s7372")
 
 [node name="Objects" type="Node2D" parent="."]
+process_mode = 4
 
 [node name="Stairs" parent="Objects" instance=ExtResource("2_u7n3i")]
 position = Vector2(240, 208)
