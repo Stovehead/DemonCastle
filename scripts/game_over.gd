@@ -23,6 +23,6 @@ func _physics_process(delta) -> void:
 		else:
 			end_game.emit()
 
-func reset():
+func reset() -> void:
 	current_selection = 0
 	heart.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
