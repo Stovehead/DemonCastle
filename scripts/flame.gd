@@ -26,6 +26,7 @@ var item_to_drop:int = 0
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if(item_to_drop == 0):
 		queue_free()
+		return
 	var item_instance:Node2D = droppable_items[item_to_drop].instantiate()
 	item_instance.position = position
 	add_sibling(item_instance)
