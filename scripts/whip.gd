@@ -27,7 +27,7 @@ var current_level:int = 1:
 		position.x = new_position.x * scale.x
 		position.y = new_position.y
 
-func play_animation():
+func play_animation() -> void:
 	if(current_level == 1):
 		animation_player.play("level1")
 	elif(current_level == 2):
@@ -35,12 +35,12 @@ func play_animation():
 	else:
 		animation_player.play("level3")
 
-func play_sound():
+func play_sound() -> void:
 	if(!played_sound && visible):
 		current_sfx = SfxManager.play_sound_effect(SfxManager.WHIP)
 		played_sound = true
 
-func reset():
+func reset() -> void:
 	animation_player.play.call_deferred("RESET")
 	if(is_instance_valid(current_sfx)):
 		SfxManager.stop_sound_effect(current_sfx)
