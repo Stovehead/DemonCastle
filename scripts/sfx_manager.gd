@@ -17,7 +17,9 @@ var sfx_paths:Array = [
 	"res://media/sfx/whip_upgrade.wav",
 	"res://media/sfx/heart.wav",
 	"res://media/sfx/hit.wav",
-	"res://media/sfx/money_bag.wav"]
+	"res://media/sfx/money_bag.wav",
+	"res://media/sfx/knife_throw.wav",
+	"res://media/sfx/holy_water.wav"]
 var audio_streams:Array
 var playing_sounds:Array
 enum {
@@ -38,6 +40,8 @@ enum {
 	HEART,
 	HIT,
 	MONEY_BAG,
+	KNIFE_THROW,
+	HOLY_WATER
 }
 
 func play_sound_effect(effect_id:int) -> AudioStreamPlayer:

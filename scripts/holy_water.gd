@@ -20,11 +20,11 @@ func _physics_process(delta: float) -> void:
 		collision.global_position = bottle.global_position + Vector2(0, 4)
 
 func _on_bottle_hit_ground(hit_position:Vector2) -> void:
+	SfxManager.play_sound_effect_no_overlap(SfxManager.HOLY_WATER)
 	global_position = hit_position
 	sprite.visible = true
 	animation_player.play("default")
 	collision.position = Vector2.ZERO
 	collision.shape.extents = Vector2(8, 8)
-	print(collision.shape.get_rect().size)
 	await get_tree().create_timer(DESPAWN_TIME, false, true).timeout
 	queue_free()
