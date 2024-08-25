@@ -5,7 +5,7 @@ extends Subweapon
 
 const SPEED:float = 4.5
 
-func _on_area_entered(area:Area2D):
+func _on_area_entered(area:Area2D) -> void:
 	super._on_area_entered(area)
 	queue_free()
 
