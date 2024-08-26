@@ -13,7 +13,7 @@ enum Subweapons{
 var subweapon_scenes:Array = [
 	null,
 	preload("res://scenes/knife.tscn"),
-	null,
+	preload("res://scenes/axe.tscn"),
 	null,
 	preload("res://scenes/holy_water.tscn"),
 	null,
@@ -51,7 +51,7 @@ var last_grounded_y:float = 0
 var whip_level:int = 1
 var num_hearts:int = 0
 var current_subweapon:int = 0
-var max_num_subweapons:int = 3
+var max_num_subweapons:int = 1
 var num_existing_subweapons:int = 0
 var new_subweapon:Subweapon = null
 
