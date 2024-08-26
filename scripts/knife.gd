@@ -3,7 +3,7 @@ extends Subweapon
 
 @onready var sprite:Sprite2D = $Sprite2D
 
-const SPEED:float = 4.5
+const SPEED:float = 270.0
 
 func _on_area_entered(area:Area2D) -> void:
 	super._on_area_entered(area)
@@ -14,4 +14,4 @@ func _ready() -> void:
 	SfxManager.play_sound_effect_no_overlap(SfxManager.KNIFE_THROW)
 
 func _physics_process(delta: float) -> void:
-	global_position.x += SPEED * direction
+	global_position.x += SPEED * direction * delta
