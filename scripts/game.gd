@@ -192,8 +192,7 @@ func tween_camera_x(new_position:float, speed:float, delta:float):
 
 func give_1up() -> void:
 	num_lives += 1
-	# TODO: Add actual 1-up sound
-	SfxManager.play_sound_effect(SfxManager.HEART)
+	SfxManager.play_sound_effect(SfxManager.ONE_UP)
 	lives_changed.emit(num_lives)
 
 func _enter_tree():
