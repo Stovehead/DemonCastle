@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=4 uid="uid://e12jw22rlaos"]
+[gd_scene load_steps=10 format=4 uid="uid://e12jw22rlaos"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_p7uw0"]
 [ext_resource type="AudioStream" uid="uid://bssm6y8l0d0mq" path="res://media/music/vampirekiller.ogg" id="2_aypc3"]
 [ext_resource type="PackedScene" uid="uid://bjgdyfygxemn4" path="res://scenes/stairs.tscn" id="2_u7n3i"]
 [ext_resource type="TileSet" uid="uid://bpyv70mj7h5m5" path="res://tilesets/cv_level_1.tres" id="3_s7372"]
-[ext_resource type="PackedScene" uid="uid://cu4x0ckbd41jr" path="res://scenes/zombie.tscn" id="4_xwakw"]
 [ext_resource type="PackedScene" uid="uid://bkbmw24gpp54p" path="res://scenes/transitional_stairs.tscn" id="5_ngb80"]
 [ext_resource type="PackedScene" uid="uid://bfhttmevb2lkw" path="res://scenes/door.tscn" id="6_b5kn6"]
 [ext_resource type="PackedScene" uid="uid://dkglrvtudtp53" path="res://scenes/player_spawner.tscn" id="6_q35hf"]
@@ -64,16 +63,13 @@ next_stage_position = Vector2(512, 0)
 [node name="Decorative Door" parent="Objects" instance=ExtResource("7_d5nnh")]
 position = Vector2(-4, 88)
 
-[node name="WallMeat" parent="Objects" instance=ExtResource("8_2uoam")]
-position = Vector2(264, 192)
-
-[node name="PersistentObject" parent="Objects/WallMeat" index="0"]
-unique_name = "wall1"
-
-[node name="Zombie" parent="Objects" instance=ExtResource("4_xwakw")]
-position = Vector2(160, 128)
-
 [node name="PlayerSpawner" parent="." instance=ExtResource("6_q35hf")]
 position = Vector2(48, 96)
 
-[editable path="Objects/WallMeat"]
+[node name="WallMeat" parent="." instance=ExtResource("8_2uoam")]
+position = Vector2(264, 192)
+
+[node name="PersistentObject" parent="WallMeat" index="0"]
+unique_name = "wall1"
+
+[editable path="WallMeat"]

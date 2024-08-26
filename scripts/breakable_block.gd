@@ -33,6 +33,7 @@ func spawn_item() -> void:
 	new_item.set_deferred("global_position", global_position)
 
 func _on_got_hit(attacker: Hurtbox) -> void:
+	SfxManager.play_sound_effect_no_overlap(SfxManager.BLOCK_BREAK)
 	var is_item_drop:bool = is_instance_valid(item_to_drop)
 	if(attacker is Whip):
 		spawn_block_particles()
