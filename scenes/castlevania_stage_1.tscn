@@ -51,6 +51,7 @@ item_to_drop = 2
 
 [node name="Torch5" parent="Objects" instance=ExtResource("5_xbpa3")]
 position = Vector2(608, 176)
+item_to_drop = 7
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(48, 176)

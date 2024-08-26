@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cupd11mvotw3g"]
+
+[ext_resource type="PackedScene" uid="uid://c7cf8d2exgm72" path="res://scenes/subweapon_item.tscn" id="1_xittc"]
+[ext_resource type="Texture2D" uid="uid://de60vpljletil" path="res://media/graphics/knife_icon.png" id="2_f3aqs"]
+
+[node name="KnifeItem" instance=ExtResource("1_xittc")]
+
+[node name="Upgrade" parent="." index="2"]
+subweapon_to_give = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="4"]
+texture = ExtResource("2_f3aqs")

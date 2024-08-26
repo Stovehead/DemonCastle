@@ -9,6 +9,7 @@ enum Items{
 	MONEY_BAG_100,
 	MONEY_BAG_400,
 	MONEY_BAG_700,
+	KNIFE,
 }
 
 @onready var droppable_items = [
@@ -18,7 +19,8 @@ enum Items{
 	preload("res://scenes/whip_upgrade.tscn"),
 	preload("res://scenes/money_bag_100.tscn"),
 	preload("res://scenes/money_bag_400.tscn"),
-	preload("res://scenes/money_bag_700.tscn")
+	preload("res://scenes/money_bag_700.tscn"),
+	preload("res://scenes/knife_item.tscn")
 ]
 
 var item_to_drop:int = 0

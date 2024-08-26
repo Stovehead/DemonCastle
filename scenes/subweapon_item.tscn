@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7cf8d2exgm72"]
+
+[ext_resource type="PackedScene" uid="uid://dmgd6je3y8wn2" path="res://scenes/falling_object.tscn" id="1_qqjmd"]
+[ext_resource type="Script" path="res://scripts/subweapon_item.gd" id="2_fv4jb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_huudr"]
+size = Vector2(16, 16)
+
+[node name="SubweaponItem" instance=ExtResource("1_qqjmd")]
+
+[node name="Upgrade" type="Area2D" parent="." index="2"]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("2_fv4jb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgrade" index="0"]
+shape = SubResource("RectangleShape2D_huudr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="3"]
+shape = SubResource("RectangleShape2D_huudr")
