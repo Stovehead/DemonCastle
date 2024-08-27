@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcnheduvqflj3"]
+
+[ext_resource type="PackedScene" uid="uid://c7cf8d2exgm72" path="res://scenes/subweapon_item.tscn" id="1_pm5rp"]
+[ext_resource type="Texture2D" uid="uid://d4cg523h5mlx1" path="res://media/graphics/cross_icon.png" id="2_1ql1f"]
+
+[node name="CrossItem" instance=ExtResource("1_pm5rp")]
+
+[node name="Upgrade" parent="." index="2"]
+subweapon_to_give = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="4"]
+texture = ExtResource("2_1ql1f")

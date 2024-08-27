@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtdlpy2ofyqnr"]
+
+[ext_resource type="PackedScene" uid="uid://c7cf8d2exgm72" path="res://scenes/subweapon_item.tscn" id="1_jvr7i"]
+[ext_resource type="Texture2D" uid="uid://bvblnkatwynwr" path="res://media/graphics/holy_water_icon.png" id="2_fp8mi"]
+
+[node name="HolyWaterItem" instance=ExtResource("1_jvr7i")]
+
+[node name="Upgrade" parent="." index="2"]
+subweapon_to_give = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="4"]
+texture = ExtResource("2_fp8mi")
