@@ -552,6 +552,9 @@ func _on_stun_timer_timeout() -> void:
 
 func _on_hitbox_got_hit(attacker:Hurtbox) -> void:
 	SfxManager.play_sound_effect(SfxManager.HURT)
+	if(new_subweapon != null):
+		new_subweapon.queue_free()
+		new_subweapon = null
 	hitbox.set_collision_mask_value(3, false)
 	if(on_stairs):
 		stair_stun_timer.start()

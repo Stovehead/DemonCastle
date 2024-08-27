@@ -176,5 +176,11 @@ shape = SubResource("RectangleShape2D_4delg")
 [node name="Despawner" parent="." instance=ExtResource("3_u2l87")]
 process_mode = 4
 
+[node name="SFXTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.2
+autostart = true
+
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_entered" from="PlayerDetector" to="." method="_on_player_detector_area_entered"]
+[connection signal="timeout" from="SFXTimer" to="." method="_on_sfx_timer_timeout"]

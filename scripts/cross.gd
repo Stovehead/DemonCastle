@@ -26,6 +26,8 @@ func _physics_process(delta: float) -> void:
 	check_if_reached_edge()
 
 func check_if_reached_edge() -> void:
+	if(turned_around):
+		return
 	if(is_instance_valid(Globals.game_instance.camera)):
 		var camera:Camera2D = Globals.game_instance.camera
 		var camera_center_position:Vector2 = camera.get_screen_center_position()
@@ -61,3 +63,6 @@ func finished_spin() -> void:
 
 func _on_player_detector_area_entered(area: Area2D) -> void:
 	queue_free()
+
+func _on_sfx_timer_timeout() -> void:
+	SfxManager.play_sound_effect_no_overlap(SfxManager.CROSS)
