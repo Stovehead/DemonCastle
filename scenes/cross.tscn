@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://rmblaa5814td"]
+[gd_scene load_steps=10 format=3 uid="uid://rmblaa5814td"]
 
 [ext_resource type="Script" path="res://scripts/cross.gd" id="1_ovh34"]
 [ext_resource type="Texture2D" uid="uid://dckv136m8bhy0" path="res://media/graphics/cross.png" id="2_swt3a"]
+[ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="3_u2l87"]
 
 [sub_resource type="Animation" id="Animation_smf4a"]
 length = 0.001
@@ -33,7 +34,6 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_ivmwa"]
 resource_name = "default"
 length = 0.200002
-loop_mode = 1
 step = 0.0166667
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -141,6 +141,9 @@ _data = {
 "turnaround": SubResource("Animation_3ow3j")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4delg"]
+size = Vector2(16, 16)
+
 [node name="Cross" type="Area2D"]
 collision_layer = 32
 collision_mask = 4
@@ -148,7 +151,6 @@ script = ExtResource("1_ovh34")
 damage = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(51, 43)
 texture = ExtResource("2_swt3a")
 hframes = 2
 frame = 1
@@ -159,4 +161,20 @@ callback_mode_method = 1
 libraries = {
 "": SubResource("AnimationLibrary_1qpr5")
 }
-autoplay = "default"
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+collision_layer = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+shape = SubResource("RectangleShape2D_4delg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4delg")
+
+[node name="Despawner" parent="." instance=ExtResource("3_u2l87")]
+process_mode = 4
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_entered" from="PlayerDetector" to="." method="_on_player_detector_area_entered"]
