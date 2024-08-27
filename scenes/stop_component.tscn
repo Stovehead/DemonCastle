@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://edlgvg0tw61b"]
+
+[ext_resource type="Script" path="res://scripts/stop_component.gd" id="1_ekuyj"]
+
+[node name="StopComponent" type="Node"]
+script = ExtResource("1_ekuyj")
+
+[node name="StunTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.367
+one_shot = true
+
+[connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]

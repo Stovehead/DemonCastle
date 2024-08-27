@@ -10,6 +10,8 @@ signal died
 @onready var gravity_component:GravityComponent = $GravityComponent
 @onready var sprite:Sprite2D = $Sprite2D
 @onready var flame_spawner:FlameSpawner = $FlameSpawner
+@onready var stop_component:StopComponent = $StopComponent
+
 var facing_direction = -1:
 	set(new_facing_direction):
 		sprite.flip_h = new_facing_direction == 1
@@ -26,6 +28,8 @@ func _ready() -> void:
 	orient_towards_player()
 
 func _physics_process(delta: float) -> void:
+	if(stop_component.is_stopped):
+		return
 	velocity = gravity_component.apply_gravity(velocity, delta)
 	if(is_on_wall()):
 		facing_direction *= -1
@@ -38,8 +42,10 @@ func _physics_process(delta: float) -> void:
 func _on_hp_changed(new_hp:int) -> void:
 	if(new_hp <= 0):
 		flame_spawner.spawn_flame()
-		emit_signal("died")
+		died.emit()
 		queue_free()
+		return
+	stop_component.stun()
 
 func _notification(what: int) -> void:
 	if(what == NOTIFICATION_PREDELETE):

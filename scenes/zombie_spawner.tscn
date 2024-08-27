@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://toy7h2j7tauc"]
+[gd_scene load_steps=3 format=3 uid="uid://toy7h2j7tauc"]
 
 [ext_resource type="Script" path="res://scripts/zombie_spawner.gd" id="1_etgod"]
+[ext_resource type="PackedScene" uid="uid://edlgvg0tw61b" path="res://scenes/stop_component.tscn" id="2_j14jq"]
 
 [node name="ZombieSpawner" type="Node2D"]
 script = ExtResource("1_etgod")
@@ -8,5 +9,8 @@ script = ExtResource("1_etgod")
 [node name="SpawnTimer" type="Timer" parent="."]
 process_callback = 0
 one_shot = true
+
+[node name="StopComponent" parent="." node_paths=PackedStringArray("timers") instance=ExtResource("2_j14jq")]
+timers = [NodePath("../SpawnTimer")]
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

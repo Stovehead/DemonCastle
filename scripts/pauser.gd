@@ -4,12 +4,12 @@ extends Node
 
 func unpause() -> void:
 	get_tree().paused = false
-	Globals.game_instance.music_player.stream_paused = false
+	Globals.game_instance.unpause_music()
 	ShaderTime.time_scale = 1
 
 func pause() -> void:
 	get_tree().paused = true
-	Globals.game_instance.music_player.stream_paused = true
+	Globals.game_instance.pause_music()
 	pause_sound.play()
 	ShaderTime.time_scale = 0
 

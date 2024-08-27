@@ -23,6 +23,7 @@ signal hp_changed(new_hp:int)
 signal hearts_changed(new_hearts:int)
 signal whip_level_changed(new_level:int)
 signal subweapon_changed(new_subweapon:int)
+signal time_stopped
 signal died
 
 const ACCELERATION:float = 1200
@@ -34,6 +35,7 @@ const MIN_BORDER_DISTANCE:float = 8
 const KNOCKBACK_VELOCITY:Vector2 = Vector2(60, -130)
 const DEFAULT_COLLISION_SIZE = Vector2(15, 30)
 const SMALL_COLLISION_SIZE = Vector2(15, 23)
+const STOPWATCH_COST:int = 5
 
 var player_direction:int = 1
 var player_has_control:bool = true
@@ -116,6 +118,11 @@ func create_subweapon(attack:int) -> void:
 		new_subweapon.direction = player_direction
 		new_subweapon.subweapon_despawned.connect(_on_subweapon_despawned)
 
+func do_stopwatch() -> void:
+	time_stopped.emit()
+	num_hearts -= STOPWATCH_COST
+	hearts_changed.emit(num_hearts)
+
 func do_attack() -> void:
 	if(on_stairs):
 		play_stair_attack_animation()
@@ -124,6 +131,8 @@ func do_attack() -> void:
 	var attack:int = get_weapon_to_attack()
 	if(attack == Subweapons.NONE || attack == Subweapons.STOPWATCH || !Input.is_action_pressed("up") || num_hearts <= 0):
 		whip.play_animation()
+		if(attack == Subweapons.STOPWATCH && num_hearts >= STOPWATCH_COST && Input.is_action_pressed("up")):
+			do_stopwatch()
 	else:
 		create_subweapon(attack)
 	is_whipping = true

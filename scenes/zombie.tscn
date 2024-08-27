@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cu4x0ckbd41jr"]
+[gd_scene load_steps=15 format=3 uid="uid://cu4x0ckbd41jr"]
 
 [ext_resource type="Script" path="res://scripts/zombie.gd" id="1_ajsk6"]
 [ext_resource type="Texture2D" uid="uid://dkhfxswrya6ls" path="res://media/graphics/zombie.png" id="1_x3bjq"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="6_pgfnd"]
 [ext_resource type="Script" path="res://scripts/flame_spawner.gd" id="7_d32xh"]
 [ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="8_fueho"]
+[ext_resource type="PackedScene" uid="uid://edlgvg0tw61b" path="res://scenes/stop_component.tscn" id="9_decc6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnnlj"]
 size = Vector2(2, 16)
@@ -104,6 +105,10 @@ autoplay = "default"
 
 [node name="Despawner" parent="." instance=ExtResource("8_fueho")]
 despawn_range = Vector2(210, 156)
+
+[node name="StopComponent" parent="." node_paths=PackedStringArray("animation_player", "hitbox") instance=ExtResource("9_decc6")]
+animation_player = NodePath("../AnimationPlayer")
+hitbox = NodePath("../Hitbox")
 
 [connection signal="hp_changed" from="HealthComponent" to="." method="_on_hp_changed"]
 [connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]

@@ -28,6 +28,7 @@ var score:int = 0:
 		score = new_score
 var time_left:int = 300
 var num_whip_upgrades:int = 0
+var music_pause_counter = 0
 
 signal finished_fade
 signal finished_camera_tween
@@ -39,6 +40,8 @@ signal time_left_changed(new_time:int)
 signal hearts_changed(new_hearts:int)
 signal lives_changed(new_lives:int)
 signal subweapon_changed(new_subweapon:int)
+signal time_stopped
+signal time_started
 
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
@@ -57,6 +60,7 @@ signal subweapon_changed(new_subweapon:int)
 @onready var fade_rect:ColorRect = $Fade/ColorRect
 @onready var logos:Logos = $GUI/Logos
 @onready var logos_timer:Timer = $LogosTimer
+@onready var time_stop_timer:Timer = $TimeStopTimer
 
 func clear_persistent() -> void:
 	Globals.persistent_objects.clear()
@@ -65,7 +69,24 @@ func _connect_player_signals(player:Player):
 	player.hp_changed.connect(_on_player_hp_changed)
 	player.hearts_changed.connect(_on_player_hearts_changed)
 	player.subweapon_changed.connect(_on_player_subweapon_changed)
+	player.time_stopped.connect(_on_time_stopped)
 	player.died.connect(_on_player_died)
+
+func pause_music():
+	music_pause_counter += 1
+	music_player.stream_paused = true
+
+func unpause_music():
+	music_pause_counter -= 1
+	if(music_pause_counter > 0):
+		return
+	music_player.stream_paused = false
+
+func _on_time_stopped():
+	SfxManager.play_sound_effect(SfxManager.STOPWATCH)
+	time_stop_timer.start()
+	pause_music()
+	time_stopped.emit()
 
 func update_stage_variables(stage:Stage, scene:PackedScene):
 	if(stage is Stage):
@@ -343,3 +364,8 @@ func _on_title_screen_select_quit() -> void:
 
 func _on_title_screen_select_options() -> void:
 	pass # Replace with function body.
+
+
+func _on_time_stop_timer_timeout() -> void:
+	unpause_music()
+	time_started.emit()

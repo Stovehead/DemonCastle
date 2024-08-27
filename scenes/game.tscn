@@ -311,6 +311,11 @@ process_callback = 0
 wait_time = 2.3
 one_shot = true
 
+[node name="TimeStopTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 2.73
+one_shot = true
+
 [node name="Fade" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="Fade"]
@@ -342,3 +347,4 @@ color = Color(0, 0, 0, 1)
 [connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
 [connection signal="timeout" from="BlackScreenTimer" to="." method="_on_black_screen_timer_timeout"]
 [connection signal="timeout" from="ShortBlackScreenTimer" to="." method="_on_short_black_screen_timer_timeout"]
+[connection signal="timeout" from="TimeStopTimer" to="." method="_on_time_stop_timer_timeout"]
