@@ -501,6 +501,9 @@ func _ready() -> void:
 	animation_player.play("idle")
 	last_grounded_y = global_position.y
 
+func _process(delta: float) -> void:
+	do_flashing()
+
 func _physics_process(delta:float) -> void:
 	if(Input.is_action_just_pressed("debug")):
 		current_subweapon += 1
@@ -516,7 +519,6 @@ func _physics_process(delta:float) -> void:
 	move_and_slide()
 	velocity.x = old_velocity
 	handle_animation()
-	do_flashing()
 	move_in_bounds()
 
 func _on_jump_timer_timeout() -> void:
