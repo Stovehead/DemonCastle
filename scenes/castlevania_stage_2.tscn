@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://e12jw22rlaos"]
+[gd_scene load_steps=12 format=4 uid="uid://e12jw22rlaos"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_p7uw0"]
 [ext_resource type="AudioStream" uid="uid://bssm6y8l0d0mq" path="res://media/music/vampirekiller.ogg" id="2_aypc3"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ccqk6slfigxii" path="res://scenes/decorative_door.tscn" id="7_d5nnh"]
 [ext_resource type="PackedScene" uid="uid://dexfjel2m1k4a" path="res://scenes/wall_meat.tscn" id="8_2uoam"]
 [ext_resource type="PackedScene" uid="uid://cdots7dcx5gaa" path="res://scenes/candle.tscn" id="8_g73mf"]
+[ext_resource type="PackedScene" uid="uid://wo487plbq2st" path="res://scenes/bat_spawner.tscn" id="9_ycfrr"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_p7uw0")
@@ -95,6 +96,8 @@ item_to_drop = 12
 [node name="Candle8" parent="Objects" instance=ExtResource("8_g73mf")]
 position = Vector2(480, 88)
 item_to_drop = 14
+
+[node name="BatSpawner" parent="Objects" instance=ExtResource("9_ycfrr")]
 
 [node name="PlayerSpawner" parent="." instance=ExtResource("6_q35hf")]
 position = Vector2(48, 96)

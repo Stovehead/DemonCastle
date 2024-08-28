@@ -8,7 +8,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6y6x7"]
 size = Vector2(12, 10)
 
-[node name="BigHeart" instance=ExtResource("1_0k01i")]
+[node name="BigHeart" node_paths=PackedStringArray("wall_detector") instance=ExtResource("1_0k01i")]
+wall_detector = NodePath("WallDetector")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
 shape = SubResource("RectangleShape2D_6y6x7")

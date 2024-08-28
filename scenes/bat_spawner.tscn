@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://wo487plbq2st"]
+
+[ext_resource type="Script" path="res://scripts/bat_spawner.gd" id="1_0qn3a"]
+[ext_resource type="PackedScene" uid="uid://edlgvg0tw61b" path="res://scenes/stop_component.tscn" id="2_537tp"]
+
+[node name="BatSpawner" type="Node"]
+script = ExtResource("1_0qn3a")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.1
+one_shot = true
+autostart = true
+
+[node name="StopComponent" parent="." node_paths=PackedStringArray("timers") instance=ExtResource("2_537tp")]
+timers = [NodePath("../SpawnTimer")]
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

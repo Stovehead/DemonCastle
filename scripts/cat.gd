@@ -13,6 +13,7 @@ const RANGE:float = 64.0
 @onready var gravity_component:GravityComponent = $GravityComponent
 @onready var flame_spawner:FlameSpawner = $FlameSpawner
 @onready var collision:CollisionShape2D = $CollisionShape2D
+@onready var stop_component:StopComponent = $StopComponent
 
 var activated:bool = false
 var in_air:bool = false
@@ -57,6 +58,8 @@ func _ready() -> void:
 	set_direction()
 
 func _physics_process(delta: float) -> void:
+	if(stop_component.is_stopped):
+		return
 	velocity = gravity_component.apply_gravity(velocity, delta)
 	if(!activated):
 		detect_player()
