@@ -100,7 +100,7 @@ func start_invincibility() -> void:
 	if(is_invincible):
 		return
 	is_invincible = true
-	hitbox.set_deferred("monitoring", false)
+	hitbox.set_collision_mask_value(3, false)
 	SfxManager.play_sound_effect(SfxManager.INVINCIBLE)
 	await get_tree().create_timer(INVINCIBLE_TIME_1, false, true).timeout
 	apply_invincible_palette()
@@ -110,8 +110,8 @@ func start_invincibility() -> void:
 	await get_tree().create_timer(INVINCIBLE_TIME_2, false, true).timeout
 	is_invincible = false
 	modulate.a = 1
-	if(!is_dead):
-		hitbox.set_deferred("monitoring", true)
+	if(!is_dead && !is_hurt):
+		hitbox.set_collision_mask_value(3, true)
 
 func apply_invincible_palette() -> void:
 	sprite.material.shader = palette_swap_shader
