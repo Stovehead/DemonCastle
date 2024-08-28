@@ -9,7 +9,7 @@ const NUM_FLASH_FRAMES:int = 2
 var debug_mode:bool = false
 
 var showing_logos:bool = true
-var load_test_stage:bool = false
+var load_test_stage:bool = true
 
 var current_stage:Stage
 var next_stage:Stage
