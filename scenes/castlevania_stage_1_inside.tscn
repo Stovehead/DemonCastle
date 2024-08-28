@@ -83,10 +83,22 @@ item_to_drop = 4
 [node name="ZombieSpawner" parent="Objects" instance=ExtResource("8_rwpix")]
 
 [node name="Spawner" parent="Objects" instance=ExtResource("8_2thcl")]
-position = Vector2(704, 136)
+position = Vector2(698, 136)
 metadata/_edit_group_ = true
 
 [node name="Cat" parent="Objects/Spawner" instance_placeholder="res://scenes/cat.tscn"]
+
+[node name="Spawner2" parent="Objects" instance=ExtResource("8_2thcl")]
+position = Vector2(885, 104)
+metadata/_edit_group_ = true
+
+[node name="Cat" parent="Objects/Spawner2" instance_placeholder="res://scenes/cat.tscn"]
+
+[node name="Spawner3" parent="Objects" instance=ExtResource("8_2thcl")]
+position = Vector2(949, 136)
+metadata/_edit_group_ = true
+
+[node name="Cat" parent="Objects/Spawner3" instance_placeholder="res://scenes/cat.tscn"]
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(112, 192)
