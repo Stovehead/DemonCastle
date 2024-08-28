@@ -81,6 +81,10 @@ position = Vector2(368, 184)
 item_to_drop = 4
 
 [node name="ZombieSpawner" parent="Objects" instance=ExtResource("8_rwpix")]
+valid_spawn_range = Vector2(0, 512)
+
+[node name="ZombieSpawner2" parent="Objects" instance=ExtResource("8_rwpix")]
+valid_spawn_range = Vector2(1152, 1520)
 
 [node name="Spawner" parent="Objects" instance=ExtResource("8_2thcl")]
 position = Vector2(698, 136)

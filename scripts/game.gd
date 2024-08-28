@@ -6,7 +6,7 @@ const POINTS_1_UP_THRESHOLD = 30000
 const FADE_TIME:float = 0.25
 const NUM_FLASH_FRAMES:int = 2
 
-var debug_mode:bool = false
+var debug_mode:bool = true
 
 var showing_logos:bool = true
 var load_test_stage:bool = true
