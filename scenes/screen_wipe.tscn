@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://0n6ff286irxj"]
+
+[ext_resource type="Script" path="res://scripts/screen_wipe.gd" id="1_kwfqd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cc54e"]
+size = Vector2(400, 400)
+
+[node name="ScreenWipe" type="Area2D"]
+collision_layer = 256
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_kwfqd")
+damage = 9999
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cc54e")

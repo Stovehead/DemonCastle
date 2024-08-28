@@ -4,11 +4,12 @@ extends Node2D
 const STARTING_LIVES:int = 3
 const POINTS_1_UP_THRESHOLD = 30000
 const FADE_TIME:float = 0.25
+const NUM_FLASH_FRAMES:int = 2
 
 var debug_mode:bool = false
 
 var showing_logos:bool = true
-var load_test_stage:bool = false
+var load_test_stage:bool = true
 
 var current_stage:Stage
 var next_stage:Stage
@@ -28,7 +29,9 @@ var score:int = 0:
 		score = new_score
 var time_left:int = 300
 var num_whip_upgrades:int = 0
-var music_pause_counter = 0
+var music_pause_counter:int = 0
+var flashing:bool = false
+var flash_accumulator:int = 0
 
 signal finished_fade
 signal finished_camera_tween
@@ -58,6 +61,7 @@ signal time_started
 @onready var hud:Control = $GUI/HUD
 @onready var title_screen:TitleScreen = $GUI/TitleScreen
 @onready var fade_rect:ColorRect = $Fade/ColorRect
+@onready var flash_rect:ColorRect = $Flash/ColorRect
 @onready var logos:Logos = $GUI/Logos
 @onready var logos_timer:Timer = $LogosTimer
 @onready var time_stop_timer:Timer = $TimeStopTimer
@@ -81,6 +85,13 @@ func unpause_music():
 	if(music_pause_counter > 0):
 		return
 	music_player.stream_paused = false
+
+func flash_screen(time:float):
+	flashing = true
+	flash_rect.visible = true
+	await get_tree().create_timer(time, false, false).timeout
+	flashing = false
+	flash_rect.visible = false
 
 func _on_time_stopped():
 	SfxManager.play_sound_effect(SfxManager.STOPWATCH)
@@ -235,6 +246,14 @@ func _ready() -> void:
 		fade_from_black(FADE_TIME)
 		await finished_fade
 		logos_timer.start()
+
+func _process(delta: float) -> void:
+	if(flashing):
+		if(flash_accumulator == NUM_FLASH_FRAMES):
+			flash_rect.visible = !flash_rect.visible
+			flash_accumulator = 0
+		else:
+			flash_accumulator += 1
 
 func _physics_process(delta) -> void:
 	if(showing_logos):

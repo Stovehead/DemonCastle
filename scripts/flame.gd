@@ -14,6 +14,8 @@ enum Items{
 	CROSS,
 	HOLY_WATER,
 	STOPWATCH,
+	ROSARY,
+	JAR
 }
 
 @onready var droppable_items = [
@@ -28,7 +30,9 @@ enum Items{
 	preload("res://scenes/axe_item.tscn"),
 	preload("res://scenes/cross_item.tscn"),
 	preload("res://scenes/holy_water_item.tscn"),
-	preload("res://scenes/stopwatch_item.tscn")
+	preload("res://scenes/stopwatch_item.tscn"),
+	preload("res://scenes/rosary.tscn"),
+	null
 ]
 
 var item_to_drop:int = 0

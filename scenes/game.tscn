@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dm2gjidl1pws5"]
+[gd_scene load_steps=22 format=4 uid="uid://dm2gjidl1pws5"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ml3fd"]
 [ext_resource type="FontFile" uid="uid://bu0a23vdmliiy" path="res://media/fonts/CastlevaniaNES.otf" id="2_3e0pq"]
@@ -18,19 +18,18 @@
 [ext_resource type="PackedScene" uid="uid://b8a8fl14ivr47" path="res://scenes/game_over.tscn" id="15_jld33"]
 [ext_resource type="PackedScene" uid="uid://i7cpmtm5t7sl" path="res://scenes/title_screen.tscn" id="16_en5xr"]
 [ext_resource type="PackedScene" uid="uid://ccyrkr374lqo4" path="res://scenes/logos.tscn" id="18_j6eax"]
-[ext_resource type="Shader" path="res://shaders/screen_fade.gdshader" id="19_8fly0"]
-[ext_resource type="Texture2D" uid="uid://dcn7xtjdgjb06" path="res://media/graphics/black_fade_palette.png" id="19_oekig"]
+[ext_resource type="Shader" path="res://shaders/screen_palette_swap.gdshader" id="19_t4gdl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2ieu"]
 content_margin_top = 3.0
 bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2xm82"]
-shader = ExtResource("19_8fly0")
-shader_parameter/start_time = 0.0
-shader_parameter/fade_length = 1.0
-shader_parameter/backwards = false
-shader_parameter/palette = ExtResource("19_oekig")
+shader = ExtResource("19_t4gdl")
+shader_parameter/original_palette = PackedVector4Array(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/new_palettes = PackedVector4Array(0.678, 0.678, 0.678, 1, 0.678, 0.678, 0.678, 1, 0.678, 0.678, 0.678, 1)
+shader_parameter/num_new_palettes = 1
+shader_parameter/FPS = 60.0
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ml3fd")
@@ -315,6 +314,18 @@ one_shot = true
 process_callback = 0
 wait_time = 2.73
 one_shot = true
+
+[node name="Flash" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Flash"]
+visible = false
+material = SubResource("ShaderMaterial_2xm82")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
 
 [node name="Fade" type="CanvasLayer" parent="."]
 
