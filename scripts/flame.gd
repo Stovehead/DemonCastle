@@ -15,7 +15,8 @@ enum Items{
 	HOLY_WATER,
 	STOPWATCH,
 	ROSARY,
-	JAR
+	JAR,
+	WHIP_UPGRADE_2,
 }
 
 @onready var droppable_items = [
@@ -32,7 +33,8 @@ enum Items{
 	preload("res://scenes/holy_water_item.tscn"),
 	preload("res://scenes/stopwatch_item.tscn"),
 	preload("res://scenes/rosary.tscn"),
-	preload("res://scenes/jar.tscn")
+	preload("res://scenes/jar.tscn"),
+	preload("res://scenes/whip_upgrade.tscn")
 ]
 
 var item_to_drop:int = 0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://e12jw22rlaos"]
+[gd_scene load_steps=11 format=4 uid="uid://e12jw22rlaos"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_p7uw0"]
 [ext_resource type="AudioStream" uid="uid://bssm6y8l0d0mq" path="res://media/music/vampirekiller.ogg" id="2_aypc3"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dkglrvtudtp53" path="res://scenes/player_spawner.tscn" id="6_q35hf"]
 [ext_resource type="PackedScene" uid="uid://ccqk6slfigxii" path="res://scenes/decorative_door.tscn" id="7_d5nnh"]
 [ext_resource type="PackedScene" uid="uid://dexfjel2m1k4a" path="res://scenes/wall_meat.tscn" id="8_2uoam"]
+[ext_resource type="PackedScene" uid="uid://cdots7dcx5gaa" path="res://scenes/candle.tscn" id="8_g73mf"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_p7uw0")
@@ -62,6 +63,38 @@ next_stage_position = Vector2(512, 0)
 
 [node name="Decorative Door" parent="Objects" instance=ExtResource("7_d5nnh")]
 position = Vector2(-4, 88)
+
+[node name="Candle" parent="Objects" instance=ExtResource("8_g73mf")]
+position = Vector2(96, 88)
+item_to_drop = 2
+
+[node name="Candle2" parent="Objects" instance=ExtResource("8_g73mf")]
+position = Vector2(160, 72)
+item_to_drop = 14
+
+[node name="Candle3" parent="Objects" instance=ExtResource("8_g73mf")]
+position = Vector2(224, 152)
+item_to_drop = 14
+
+[node name="Candle4" parent="Objects" instance=ExtResource("8_g73mf")]
+position = Vector2(32, 184)
+item_to_drop = 6
+
+[node name="Candle5" parent="Objects" instance=ExtResource("8_g73mf")]
+position = Vector2(352, 184)
+item_to_drop = 6
+
+[node name="Candle6" parent="Objects" instance=ExtResource("8_g73mf")]
+position = Vector2(304, 72)
+item_to_drop = 2
+
+[node name="Candle7" parent="Objects" instance=ExtResource("8_g73mf")]
+position = Vector2(416, 56)
+item_to_drop = 12
+
+[node name="Candle8" parent="Objects" instance=ExtResource("8_g73mf")]
+position = Vector2(480, 88)
+item_to_drop = 14
 
 [node name="PlayerSpawner" parent="." instance=ExtResource("6_q35hf")]
 position = Vector2(48, 96)
