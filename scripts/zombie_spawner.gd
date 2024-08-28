@@ -1,7 +1,7 @@
 extends Node2D
 
 const ZOMBIE_HALF_HEIGHT:float = 16
-const SPAWN_TIME_RANGE:Vector2 = Vector2(1, 2)
+const SPAWN_TIME_RANGE:Vector2 = Vector2(0.8, 1.2)
 const MAX_ZOMBIES:int = 5
 
 var ray_left:RayCast2D
@@ -10,7 +10,8 @@ var ray_right:RayCast2D
 @onready var zombie:PackedScene = preload("res://scenes/zombie.tscn")
 @onready var spawn_timer:Timer = $SpawnTimer
 
-@export var valid_spawn_range:Vector2
+@export var left_valid_spawn_range:Vector2
+@export var right_valid_spawn_range:Vector2
 @export var horizontal_range:float = 200
 @export var top:float = -32
 @export var bottom:float = 108
@@ -30,8 +31,8 @@ func init_rays() -> void:
 	ray_left = init_ray(-horizontal_range)
 	ray_right = init_ray(horizontal_range)
 
-func is_valid_spawn(ray:RayCast2D) -> bool:
-	return ray.is_colliding() && ray.get_collision_point().y > top - ZOMBIE_HALF_HEIGHT && ray.get_collision_point().x > Globals.game_instance.current_stage.position.x + valid_spawn_range.x && ray.get_collision_point().x < Globals.game_instance.current_stage.position.x + valid_spawn_range.y 
+func is_valid_spawn(ray:RayCast2D, range:Vector2) -> bool:
+	return ray.is_colliding() && ray.get_collision_point().y > top - ZOMBIE_HALF_HEIGHT && ray.get_collision_point().x > Globals.game_instance.current_stage.position.x + range.x && ray.get_collision_point().x < Globals.game_instance.current_stage.position.x + range.y 
 
 func spawn(spawn_position:Vector2) -> void:
 	var new_zombie:Zombie = zombie.instantiate()
@@ -49,8 +50,8 @@ func _physics_process(delta: float) -> void:
 
 func _on_spawn_timer_timeout() -> void:
 	if(Globals.num_zombies < MAX_ZOMBIES):
-		var right_ray_valid:bool = is_valid_spawn(ray_right)
-		var left_ray_valid:bool = is_valid_spawn(ray_left)
+		var right_ray_valid:bool = is_valid_spawn(ray_right, right_valid_spawn_range)
+		var left_ray_valid:bool = is_valid_spawn(ray_left, left_valid_spawn_range)
 		if(right_ray_valid && !left_ray_valid):
 			spawn(ray_right.get_collision_point())
 		elif(!right_ray_valid && left_ray_valid):

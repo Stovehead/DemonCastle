@@ -104,7 +104,7 @@ libraries = {
 autoplay = "default"
 
 [node name="Despawner" parent="." instance=ExtResource("8_fueho")]
-despawn_range = Vector2(210, 156)
+despawn_range = Vector2(205, 156)
 
 [node name="StopComponent" parent="." node_paths=PackedStringArray("animation_player", "hitbox") instance=ExtResource("9_decc6")]
 animation_player = NodePath("../AnimationPlayer")
