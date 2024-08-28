@@ -53,7 +53,7 @@ next_stage_position = Vector2(1536, 0)
 
 [node name="Candle" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(176, 184)
-item_to_drop = 12
+item_to_drop = 13
 
 [node name="Candle2" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(328, 184)
@@ -73,7 +73,7 @@ item_to_drop = 5
 
 [node name="Candle7" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(440, 184)
-item_to_drop = 6
+item_to_drop = 12
 
 [node name="Candle6" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(368, 184)

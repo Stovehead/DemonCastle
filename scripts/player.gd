@@ -36,6 +36,10 @@ const KNOCKBACK_VELOCITY:Vector2 = Vector2(60, -130)
 const DEFAULT_COLLISION_SIZE = Vector2(15, 30)
 const SMALL_COLLISION_SIZE = Vector2(15, 23)
 const STOPWATCH_COST:int = 5
+const DEFAULT_PALETTE:Array[Vector4] = [Vector4(0.337, 0.114, 0, 1), Vector4(0.918, 0.620, 0.133, 1), Vector4(0.969, 0.847, 0.647, 1)]
+const INVINCIBLE_PALETTE:Array[Vector4] = [Vector4(0.753, 0.875, 1, 1), Vector4(0.969, 0.847, 0.647, 1), Vector4(0.918, 0.620, 0.133, 1)]
+const INVINCIBLE_TIME_1:float = 1.73333
+const INVINCIBLE_TIME_2:float = 2.13333
 
 var player_direction:int = 1
 var player_has_control:bool = true
@@ -70,6 +74,7 @@ var floor_checker:ShapeCast2D
 var is_hurt:bool = false
 var is_dead:bool = false
 var time_up:bool = false
+var is_invincible:bool = false
 
 @onready var collision:CollisionShape2D = $Collision
 @onready var jump_timer:Timer = $JumpTimer
@@ -88,6 +93,31 @@ var time_up:bool = false
 @onready var gravity_component:GravityComponent = $GravityComponent
 @onready var health_component:HealthComponent = $HealthComponent
 @onready var game:Game = Globals.game_instance
+
+@onready var palette_swap_shader:Shader = preload("res://shaders/palette_swap.gdshader")
+
+func start_invincibility() -> void:
+	if(is_invincible):
+		return
+	is_invincible = true
+	hitbox.set_deferred("monitoring", false)
+	SfxManager.play_sound_effect(SfxManager.INVINCIBLE)
+	await get_tree().create_timer(INVINCIBLE_TIME_1, false, true).timeout
+	apply_invincible_palette()
+	await get_tree().create_timer(INVINCIBLE_TIME_2, false, true).timeout
+	reset_sprite_shader()
+	SfxManager.play_sound_effect(SfxManager.INVINCIBILITY_RUNNING_OUT)
+	await get_tree().create_timer(INVINCIBLE_TIME_2, false, true).timeout
+	is_invincible = false
+	modulate.a = 1
+	if(!is_dead):
+		hitbox.set_deferred("monitoring", true)
+
+func apply_invincible_palette() -> void:
+	sprite.material.shader = palette_swap_shader
+
+func reset_sprite_shader() -> void:
+	sprite.material.shader = null
 
 func get_weapon_to_attack() -> int:
 	if(current_subweapon == Subweapons.NONE || num_existing_subweapons >= max_num_subweapons):
@@ -503,12 +533,16 @@ func move_in_bounds() -> void:
 	global_position.x = clamp(global_position.x, limit_left + MIN_BORDER_DISTANCE, limit_right - MIN_BORDER_DISTANCE)
 
 func do_flashing() -> void:
-	if(!invulnerability_timer.is_stopped()):
+	if(!invulnerability_timer.is_stopped() || is_invincible):
 		modulate.a =  1 - modulate.a
 
 func _ready() -> void:
 	animation_player.play("idle")
 	last_grounded_y = global_position.y
+	sprite.material = ShaderMaterial.new()
+	sprite.material.set_shader_parameter("original_palette", DEFAULT_PALETTE)
+	sprite.material.set_shader_parameter("new_palettes", INVINCIBLE_PALETTE)
+	sprite.material.set_shader_parameter("num_new_palettes", 1)
 
 func _process(delta: float) -> void:
 	do_flashing()

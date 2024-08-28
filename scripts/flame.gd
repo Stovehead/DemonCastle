@@ -32,7 +32,7 @@ enum Items{
 	preload("res://scenes/holy_water_item.tscn"),
 	preload("res://scenes/stopwatch_item.tscn"),
 	preload("res://scenes/rosary.tscn"),
-	null
+	preload("res://scenes/jar.tscn")
 ]
 
 var item_to_drop:int = 0
