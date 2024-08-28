@@ -17,6 +17,7 @@ var player_moving:bool = false
 var edge_of_next_screen:float
 
 func _ready() -> void:
+	ResourceLoader.load_threaded_request(next_stage_path)
 	raycast.target_position.x *= direction
 	scale.x = direction
 
@@ -24,7 +25,7 @@ func _ready() -> void:
 func check_player_reached_door() -> void:
 	if(is_instance_valid(Globals.current_player) && raycast.is_colliding()):
 		if(Globals.current_player is Player && Globals.current_player.is_on_floor()):
-			next_stage = load(next_stage_path)
+			next_stage = ResourceLoader.load_threaded_get(next_stage_path)
 			assert(next_stage != null, "Failed to load stage")
 			process_mode = Node.PROCESS_MODE_ALWAYS
 			raycast.enabled = false
