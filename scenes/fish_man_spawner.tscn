@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvypf6rxd8sp1"]
+
+[ext_resource type="Script" path="res://scripts/fish_man_spawner.gd" id="1_b0f6t"]
+[ext_resource type="PackedScene" uid="uid://edlgvg0tw61b" path="res://scenes/stop_component.tscn" id="2_v8yku"]
+
+[node name="FishManSpawner" type="Node2D"]
+script = ExtResource("1_b0f6t")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+process_callback = 0
+
+[node name="StopComponent" parent="." node_paths=PackedStringArray("timers") instance=ExtResource("2_v8yku")]
+timers = [NodePath("../SpawnTimer")]
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

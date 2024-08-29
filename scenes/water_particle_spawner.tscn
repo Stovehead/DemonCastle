@@ -3,6 +3,8 @@
 [ext_resource type="Script" path="res://scripts/water_particle_spawner.gd" id="1_v3ex6"]
 
 [node name="WaterParticleSpawner" type="Area2D"]
+collision_layer = 0
+collision_mask = 5
 script = ExtResource("1_v3ex6")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

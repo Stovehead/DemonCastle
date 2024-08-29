@@ -39,9 +39,7 @@ func start() -> void:
 			will_unpause_animation_player = false
 			animation_player.play()
 	for timer in timers_to_unpause:
-		if(!timer.paused):
-			timers_to_unpause.push_back(timer)
-			timer.paused = true
+		timer.paused = false
 	timers_to_unpause.clear()
 
 func stun() -> void:

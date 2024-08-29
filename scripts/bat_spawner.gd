@@ -2,6 +2,7 @@ class_name BatSpawner
 extends Node
 
 const TIME_INTERVAL:float = 6.4
+const SPAWN_HEIGHT:float = 8.0
 
 @onready var spawn_timer:Timer = $SpawnTimer
 @onready var bat_scene:PackedScene = preload("res://scenes/bat.tscn")
@@ -29,6 +30,6 @@ func _on_spawn_timer_timeout() -> void:
 	new_bat.died.connect(_on_bat_died)
 	num_bats += 1
 	add_sibling(new_bat)
-	new_bat.global_position = Vector2(screen_center_position.x + radius * player_direction, player_y)
+	new_bat.global_position = Vector2(screen_center_position.x + radius * player_direction, player_y - SPAWN_HEIGHT)
 	new_bat.initial_position = new_bat.global_position
 	spawn_timer.start(TIME_INTERVAL)

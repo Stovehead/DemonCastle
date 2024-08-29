@@ -1,0 +1,87 @@
+[gd_scene load_steps=11 format=3 uid="uid://bpa52yq5w58s6"]
+
+[ext_resource type="Texture2D" uid="uid://dv6585o30qnmv" path="res://media/graphics/fish_man.png" id="1_c1q71"]
+[ext_resource type="Script" path="res://scripts/fish_man.gd" id="1_i0a6v"]
+[ext_resource type="Script" path="res://scripts/flame_spawner.gd" id="2_2qx2k"]
+[ext_resource type="PackedScene" uid="uid://edlgvg0tw61b" path="res://scenes/stop_component.tscn" id="3_1moox"]
+[ext_resource type="Script" path="res://scripts/gravity_component.gd" id="4_865nj"]
+[ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="5_khv57"]
+[ext_resource type="Script" path="res://scripts/health_component.gd" id="6_eudlv"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="7_seok1"]
+[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="8_1kib1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uxw24"]
+size = Vector2(16, 32)
+
+[node name="FishMan" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_i0a6v")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_c1q71")
+hframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_uxw24")
+
+[node name="Left" type="RayCast2D" parent="."]
+position = Vector2(-8, 16)
+target_position = Vector2(0, 0)
+collision_mask = 130
+hit_from_inside = true
+
+[node name="Middle" type="RayCast2D" parent="."]
+position = Vector2(0, 16)
+enabled = false
+target_position = Vector2(0, 0)
+collision_mask = 130
+hit_from_inside = true
+
+[node name="Right" type="RayCast2D" parent="."]
+position = Vector2(8, 16)
+target_position = Vector2(0, 0)
+collision_mask = 130
+hit_from_inside = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="FlameSpawner" type="Node2D" parent="."]
+script = ExtResource("2_2qx2k")
+
+[node name="StopComponent" parent="." node_paths=PackedStringArray("animation_player", "hitbox", "hurtbox") instance=ExtResource("3_1moox")]
+animation_player = NodePath("../AnimationPlayer")
+hitbox = NodePath("../Hitbox")
+hurtbox = NodePath("../Hurtbox")
+
+[node name="GravityComponent" type="Node" parent="."]
+script = ExtResource("4_865nj")
+
+[node name="Despawner" parent="." instance=ExtResource("5_khv57")]
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("6_eudlv")
+max_hp = 1
+
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 4
+collision_mask = 288
+script = ExtResource("7_seok1")
+health_component = NodePath("../HealthComponent")
+awarded_points = 300
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_uxw24")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("8_1kib1")
+damage = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_uxw24")
+
+[connection signal="hp_changed" from="HealthComponent" to="." method="_on_hp_changed"]
+[connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]

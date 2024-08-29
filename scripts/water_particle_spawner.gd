@@ -21,6 +21,6 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	spawn_particles(Vector2(body.global_position.x, global_position.y))
 	if(body.velocity.y <= 0):
-		SfxManager.play_sound_effect(SfxManager.WATER_EXIT)
+		SfxManager.play_sound_effect_no_overlap(SfxManager.WATER_EXIT)
 	else:
-		SfxManager.play_sound_effect(SfxManager.WATER_ENTER)
+		SfxManager.play_sound_effect_no_overlap(SfxManager.WATER_ENTER)

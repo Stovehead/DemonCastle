@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://dtsk23hhg0se7"]
+[gd_scene load_steps=12 format=4 uid="uid://dtsk23hhg0se7"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_04sph"]
 [ext_resource type="AudioStream" uid="uid://bssm6y8l0d0mq" path="res://media/music/vampirekiller.ogg" id="2_okdho"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://j8u8ven5ixi" path="res://scenes/water_particle_spawner.tscn" id="6_fomwk"]
 [ext_resource type="Texture2D" uid="uid://bth430aycvq6f" path="res://media/graphics/fake_wall.png" id="7_vtijh"]
 [ext_resource type="PackedScene" uid="uid://cdots7dcx5gaa" path="res://scenes/candle.tscn" id="8_p08fi"]
+[ext_resource type="PackedScene" uid="uid://cvypf6rxd8sp1" path="res://scenes/fish_man_spawner.tscn" id="9_7dgpr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0rxd1"]
 size = Vector2(512, 8)
@@ -51,8 +52,6 @@ direction = -1
 
 [node name="WaterParticleSpawner" parent="Objects" instance=ExtResource("6_fomwk")]
 position = Vector2(0, 192)
-collision_layer = 0
-collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/WaterParticleSpawner"]
 position = Vector2(256, 8)
@@ -97,6 +96,14 @@ item_to_drop = 3
 [node name="Candle8" parent="Objects" instance=ExtResource("8_p08fi")]
 position = Vector2(496, 72)
 item_to_drop = 2
+
+[node name="FishManSpawner" parent="Objects" instance=ExtResource("9_7dgpr")]
+position = Vector2(0, 200)
+valid_spawn_range = Vector2(48, 432)
+
+[node name="FishManSpawner2" parent="Objects" instance=ExtResource("9_7dgpr")]
+position = Vector2(0, 200)
+valid_spawn_range = Vector2(48, 432)
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(112, 72)

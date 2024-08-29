@@ -49,7 +49,7 @@ signal time_started
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_1_inside.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_2.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var blackout:ColorRect = $GUI/Blackout
 @onready var full_blackout:ColorRect = $GUI/FullBlackout
