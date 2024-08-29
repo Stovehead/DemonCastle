@@ -99,11 +99,11 @@ item_to_drop = 2
 
 [node name="FishManSpawner" parent="Objects" instance=ExtResource("9_7dgpr")]
 position = Vector2(0, 200)
-valid_spawn_range = Vector2(48, 432)
+valid_spawn_positions = Array[float]([32.0, 96.0, 160.0, 224.0, 288.0, 352.0, 416.0])
 
 [node name="FishManSpawner2" parent="Objects" instance=ExtResource("9_7dgpr")]
 position = Vector2(0, 200)
-valid_spawn_range = Vector2(48, 432)
+valid_spawn_positions = Array[float]([32.0, 96.0, 160.0, 224.0, 288.0, 352.0, 416.0])
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(112, 72)
