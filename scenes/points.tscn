@@ -7,7 +7,7 @@
 z_index = 4
 texture = ExtResource("1_qq2eh")
 offset = Vector2(16, 0)
-hframes = 4
+hframes = 8
 
 [node name="DespawnTimer" parent="." instance=ExtResource("2_5iq8j")]
 wait_time = 0.55

@@ -4,6 +4,7 @@ extends Node2D
 const RANDOM_ITEM_CHANCE:int = 16
 const WHIP_UPGRADE_1_THRESHOLD:int = 4
 const WHIP_UPGRADE_2_THRESHOLD:int = 8
+const SUBWEAPON_HITS_FOR_MULTISHOT_THRESHOLD:int = 10
 
 enum Items{
 	NOTHING,
@@ -21,6 +22,7 @@ enum Items{
 	ROSARY,
 	JAR,
 	WHIP_UPGRADE,
+	MULTIPLIER,
 }
 
 @onready var droppable_items = [
@@ -38,7 +40,8 @@ enum Items{
 	preload("res://scenes/stopwatch_item.tscn"),
 	preload("res://scenes/rosary.tscn"),
 	preload("res://scenes/jar.tscn"),
-	preload("res://scenes/whip_upgrade.tscn")
+	preload("res://scenes/whip_upgrade.tscn"),
+	preload("res://scenes/multiplier.tscn")
 ]
 
 var item_to_drop:int = 0
@@ -55,6 +58,8 @@ func is_item_players_subweapon(item:int) -> bool:
 	return (item >= Items.KNIFE && item <= Items.STOPWATCH && item - Items.KNIFE + 1 == player_subweapon)
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
+	if(!is_instance_valid(Globals.current_player)):
+		return
 	if(item_to_drop == Items.NOTHING):
 		var random_number:int = randi() % RANDOM_ITEM_CHANCE
 		if(random_number == 0):
@@ -65,7 +70,11 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 			queue_free()
 			return
 	elif(item_to_drop == Items.SMALL_HEART_OR_MONEY_BAG || is_item_players_subweapon(item_to_drop)):
-		item_to_drop = get_random_item()
+		if(Globals.current_player.max_num_subweapons <= 2 && Globals.game_instance.num_subweapon_hits >= SUBWEAPON_HITS_FOR_MULTISHOT_THRESHOLD):
+			item_to_drop = Items.MULTIPLIER
+			Globals.game_instance.num_subweapon_hits = 0
+		else:
+			item_to_drop = get_random_item()
 	if(item_to_drop == Items.SMALL_HEART || item_to_drop == Items.MONEY_BAG_100):
 		if(Globals.current_player.whip_level + Globals.game_instance.num_whip_upgrades == 1 && Globals.current_player.num_hearts >= WHIP_UPGRADE_1_THRESHOLD):
 			item_to_drop = Items.WHIP_UPGRADE

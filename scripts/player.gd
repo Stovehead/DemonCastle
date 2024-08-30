@@ -19,9 +19,10 @@ var subweapon_scenes:Array = [
 	null,
 ]
 
-signal hp_changed(new_hp:int)
+signal hp_changed(new_hp:int, instant:bool)
 signal hearts_changed(new_hearts:int)
 signal subweapon_changed(new_subweapon:int)
+signal max_subweapons_changed(new_max_subweapons:int)
 signal time_stopped
 signal died
 
@@ -57,7 +58,7 @@ var last_grounded_y:float = 0
 var whip_level:int = 1
 var num_hearts:int = NUM_STARTING_HEARTS
 var current_subweapon:int = 0
-var max_num_subweapons:int = 3
+var max_num_subweapons:int = 1
 var num_existing_subweapons:int = 0
 var new_subweapon:Subweapon = null
 
@@ -95,6 +96,12 @@ var is_invincible:bool = false
 @onready var game:Game = Globals.game_instance
 
 @onready var palette_swap_shader:Shader = preload("res://shaders/palette_swap.gdshader")
+
+func emit_signals() -> void:
+	hp_changed.emit(health_component.remaining_hp, true)
+	hearts_changed.emit(num_hearts)
+	subweapon_changed.emit(current_subweapon)
+	max_subweapons_changed.emit(max_num_subweapons)
 
 func start_invincibility() -> void:
 	if(is_invincible):
@@ -572,7 +579,7 @@ func _on_animation_player_animation_finished(anim_name) -> void:
 	if(anim_name == "whip" || anim_name == "crouch_whip" || anim_name == "stair_up_whip" || anim_name == "stair_down_whip"):
 		is_whipping = false
 
-func _on_hitbox_area_entered(area) -> void:
+func _on_hitbox_area_entered(area:Area2D) -> void:
 	if(area is Upgrade):
 		area.do_upgrade(self)
 	elif(area.is_in_group("stairs")):
@@ -619,7 +626,7 @@ func _on_hitbox_got_hit(attacker:Hurtbox) -> void:
 		animation_player.play("hurt")
 
 func _on_hp_changed(new_hp) -> void:
-	hp_changed.emit(new_hp)
+	hp_changed.emit(new_hp, false)
 
 func _on_invulnerability_timer_timeout() -> void:
 	modulate.a = 1

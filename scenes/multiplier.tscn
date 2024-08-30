@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cqfq5a6hvsfpy"]
+
+[ext_resource type="PackedScene" uid="uid://dmgd6je3y8wn2" path="res://scenes/falling_object.tscn" id="1_hj77c"]
+[ext_resource type="Script" path="res://scripts/multiplier.gd" id="2_w3wrn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_durkh"]
+size = Vector2(16, 16)
+
+[node name="Multiplier" instance=ExtResource("1_hj77c")]
+
+[node name="Upgrade" type="Area2D" parent="." index="3" node_paths=PackedStringArray("sprite")]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("2_w3wrn")
+sprite = NodePath("../Sprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgrade" index="0"]
+shape = SubResource("RectangleShape2D_durkh")
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="5"]
+shape = SubResource("RectangleShape2D_durkh")

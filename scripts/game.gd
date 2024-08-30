@@ -32,6 +32,7 @@ var num_whip_upgrades:int = 0
 var music_pause_counter:int = 0
 var flashing:bool = false
 var flash_accumulator:int = 0
+var num_subweapon_hits:int = 0
 
 signal finished_fade
 signal finished_camera_tween
@@ -40,6 +41,7 @@ signal player_hp_changed(new_hp:int, instant:bool)
 signal enemy_hp_changed(new_hp:int, instant:bool)
 signal score_changed(new_score:int)
 signal time_left_changed(new_time:int)
+signal max_subweapons_changed(new_max_subweapons:int)
 signal hearts_changed(new_hearts:int)
 signal lives_changed(new_lives:int)
 signal subweapon_changed(new_subweapon:int)
@@ -49,7 +51,7 @@ signal time_started
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_2.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_1_inside.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var blackout:ColorRect = $GUI/Blackout
 @onready var full_blackout:ColorRect = $GUI/FullBlackout
@@ -73,6 +75,7 @@ func _connect_player_signals(player:Player):
 	player.hp_changed.connect(_on_player_hp_changed)
 	player.hearts_changed.connect(_on_player_hearts_changed)
 	player.subweapon_changed.connect(_on_player_subweapon_changed)
+	player.max_subweapons_changed.connect(_on_player_max_subweapons_changed)
 	player.time_stopped.connect(_on_time_stopped)
 	player.died.connect(_on_player_died)
 
@@ -106,6 +109,10 @@ func update_stage_variables(stage:Stage, scene:PackedScene):
 		if(stage.has_permanent_checkpoint):
 			last_permanent_checkpoint = scene
 	stage_changed.emit(stage)
+
+func increase_subweapon_hits() -> void:
+	num_subweapon_hits += 1
+	num_subweapon_hits = min(num_subweapon_hits, Flame.SUBWEAPON_HITS_FOR_MULTISHOT_THRESHOLD)
 
 func load_stage(stage:PackedScene, load_music:bool) -> void:
 	clear_persistent()
@@ -142,11 +149,9 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 	if(current_stage.start_timer):
 		time_timer.start()
 	time_left_changed.emit(time_left)
-	player_hp_changed.emit(16, true)
 	enemy_hp_changed.emit(16, true)
-	hearts_changed.emit(Globals.current_player.num_hearts)
 	lives_changed.emit(num_lives)
-	subweapon_changed.emit(0)
+	Globals.current_player.emit_signals()
 
 func unload_current_stage(retain_player:bool) -> void:
 	if(retain_player && Globals.current_player is Player):
@@ -256,6 +261,7 @@ func _process(_delta: float) -> void:
 			flash_accumulator += 1
 
 func _physics_process(delta) -> void:
+	print(num_subweapon_hits)
 	if(showing_logos):
 		if(!fade_rect.visible):
 			if(Input.is_action_just_pressed("start")):
@@ -307,14 +313,17 @@ func _on_time_timer_timeout():
 	elif(time_left < 30):
 		SfxManager.play_sound_effect(SfxManager.TIME_RUNNING_OUT)
 
-func _on_player_hp_changed(new_hp:int):
-	player_hp_changed.emit(new_hp, false)
+func _on_player_hp_changed(new_hp:int, instant:bool):
+	player_hp_changed.emit(new_hp, instant)
 
 func _on_player_hearts_changed(new_hearts:int):
 	hearts_changed.emit(new_hearts)
 
 func _on_player_subweapon_changed(new_subweapon:int) -> void:
 	subweapon_changed.emit(new_subweapon)
+
+func _on_player_max_subweapons_changed(new_max_subweapons:int) -> void:
+	max_subweapons_changed.emit(new_max_subweapons)
 
 func _on_player_died():
 	music_player.stop()

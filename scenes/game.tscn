@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://dm2gjidl1pws5"]
+[gd_scene load_steps=27 format=4 uid="uid://dm2gjidl1pws5"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ml3fd"]
 [ext_resource type="FontFile" uid="uid://bu0a23vdmliiy" path="res://media/fonts/CastlevaniaNES.otf" id="2_3e0pq"]
@@ -17,6 +17,8 @@
 [ext_resource type="Script" path="res://scripts/lives_label.gd" id="14_5i80s"]
 [ext_resource type="PackedScene" uid="uid://b8a8fl14ivr47" path="res://scenes/game_over.tscn" id="15_jld33"]
 [ext_resource type="PackedScene" uid="uid://i7cpmtm5t7sl" path="res://scenes/title_screen.tscn" id="16_en5xr"]
+[ext_resource type="Texture2D" uid="uid://cqcetalmr55gk" path="res://media/graphics/doubler.png" id="16_ursnk"]
+[ext_resource type="Script" path="res://scripts/multiplier_display.gd" id="17_xj6to"]
 [ext_resource type="PackedScene" uid="uid://ccyrkr374lqo4" path="res://scenes/logos.tscn" id="18_j6eax"]
 [ext_resource type="Shader" path="res://shaders/screen_palette_swap.gdshader" id="19_t4gdl"]
 [ext_resource type="Shader" path="res://shaders/screen_fade.gdshader" id="20_oj2do"]
@@ -202,6 +204,10 @@ wait_time = 0.133
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="Spacer5" type="Control" parent="GUI/HUD/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="MarginContainer" type="MarginContainer" parent="GUI/HUD/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 theme_override_constants/margin_top = 0
@@ -248,6 +254,21 @@ text = "P-00"
 script = ExtResource("14_5i80s")
 
 [node name="Spacer3" type="Control" parent="GUI/HUD/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Multiplier" type="TextureRect" parent="GUI/HUD/VBoxContainer/HBoxContainer2"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+texture = ExtResource("16_ursnk")
+stretch_mode = 2
+script = ExtResource("17_xj6to")
+
+[node name="FlashTimer" type="Timer" parent="GUI/HUD/VBoxContainer/HBoxContainer2/Multiplier"]
+wait_time = 0.067
+one_shot = true
+
+[node name="Spacer4" type="Control" parent="GUI/HUD/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -350,6 +371,7 @@ color = Color(0, 0, 0, 1)
 
 [connection signal="hearts_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Hearts" method="_hearts_changed"]
 [connection signal="lives_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer2/Lives" method="_lives_changed"]
+[connection signal="max_subweapons_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/Multiplier" method="_on_max_subweapons_changed"]
 [connection signal="player_hp_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/PlayerHealthBar" method="_hp_changed"]
 [connection signal="score_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer/Score" method="_score_changed"]
 [connection signal="stage_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer/Stage" method="update_label"]
@@ -357,6 +379,7 @@ color = Color(0, 0, 0, 1)
 [connection signal="time_left_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer/Time" method="_time_changed"]
 [connection signal="timeout" from="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/PlayerHealthBar/Timer" to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/PlayerHealthBar" method="_update_hp_display"]
 [connection signal="timeout" from="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/EnemyHealthBar/Timer" to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/EnemyHealthBar" method="_update_hp_display"]
+[connection signal="timeout" from="GUI/HUD/VBoxContainer/HBoxContainer2/Multiplier/FlashTimer" to="GUI/HUD/VBoxContainer/HBoxContainer2/Multiplier" method="_on_flash_timer_timeout"]
 [connection signal="continue_game" from="GUI/Game Over" to="." method="_on_continue_game"]
 [connection signal="end_game" from="GUI/Game Over" to="." method="_on_end_game"]
 [connection signal="select_options" from="GUI/TitleScreen" to="." method="_on_title_screen_select_options"]
