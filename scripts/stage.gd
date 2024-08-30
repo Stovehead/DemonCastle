@@ -15,3 +15,4 @@ extends Node2D
 @export var starting_time:int
 @export var death_barrier:float = 240
 @export var start_timer:bool = true
+@export var big_item_list:Array[Flame.Items]

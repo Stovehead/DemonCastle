@@ -17,6 +17,7 @@ has_checkpoint = true
 has_permanent_checkpoint = true
 stage_number = 1
 starting_time = 300
+big_item_list = Array[int]([11, 10, 6, 12])
 
 [node name="TileMap" type="Node2D" parent="."]
 
@@ -43,7 +44,7 @@ item_to_drop = 3
 
 [node name="Torch3" parent="Objects" instance=ExtResource("5_xbpa3")]
 position = Vector2(352, 176)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Torch4" parent="Objects" instance=ExtResource("5_xbpa3")]
 position = Vector2(480, 176)

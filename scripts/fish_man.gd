@@ -107,7 +107,6 @@ func _ready() -> void:
 	animation_player.pause()
 
 func _physics_process(delta: float) -> void:
-	print(animation_player.get_queue())
 	if(stop_component.is_stopped):
 		return
 	check_is_on_ground()

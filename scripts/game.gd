@@ -9,7 +9,7 @@ const NUM_FLASH_FRAMES:int = 2
 var debug_mode:bool = false
 
 var showing_logos:bool = true
-var load_test_stage:bool = true
+var load_test_stage:bool = false
 
 var current_stage:Stage
 var next_stage:Stage
@@ -144,7 +144,7 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 	time_left_changed.emit(time_left)
 	player_hp_changed.emit(16, true)
 	enemy_hp_changed.emit(16, true)
-	hearts_changed.emit(0)
+	hearts_changed.emit(Globals.current_player.num_hearts)
 	lives_changed.emit(num_lives)
 	subweapon_changed.emit(0)
 

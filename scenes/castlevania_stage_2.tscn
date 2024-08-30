@@ -21,6 +21,7 @@ music = ExtResource("2_aypc3")
 has_checkpoint = true
 stage_number = 2
 starting_time = 200
+big_item_list = Array[int]([11, 10, 6, 12])
 
 [node name="TileMap" type="Node2D" parent="."]
 

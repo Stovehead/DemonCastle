@@ -40,6 +40,7 @@ const DEFAULT_PALETTE:Array[Vector4] = [Vector4(0.337, 0.114, 0, 1), Vector4(0.9
 const INVINCIBLE_PALETTE:Array[Vector4] = [Vector4(0.753, 0.875, 1, 1), Vector4(0.969, 0.847, 0.647, 1), Vector4(0.918, 0.620, 0.133, 1)]
 const INVINCIBLE_TIME_1:float = 1.73333
 const INVINCIBLE_TIME_2:float = 2.13333
+const NUM_STARTING_HEARTS:int = 5
 
 var player_direction:int = 1
 var player_has_control:bool = true
@@ -55,7 +56,7 @@ var is_damaged:bool = false
 var is_crouching:bool = false
 var last_grounded_y:float = 0
 var whip_level:int = 1
-var num_hearts:int = 0
+var num_hearts:int = NUM_STARTING_HEARTS
 var current_subweapon:int = 0
 var max_num_subweapons:int = 3
 var num_existing_subweapons:int = 0
