@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d2vaanbqf83iu"]
+[gd_scene load_steps=10 format=3 uid="uid://d2vaanbqf83iu"]
 
 [ext_resource type="Script" path="res://scripts/fireball.gd" id="1_p624l"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="1_tp4qp"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://edlgvg0tw61b" path="res://scenes/stop_component.tscn" id="5_rmfqv"]
 [ext_resource type="PackedScene" uid="uid://div8rux31gto0" path="res://scenes/despawner.tscn" id="6_rbs34"]
 [ext_resource type="Script" path="res://scripts/flame_spawner.gd" id="7_qyq72"]
+[ext_resource type="Script" path="res://scripts/health_component.gd" id="8_wt85m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wux15"]
 size = Vector2(7, 6)
@@ -23,10 +24,12 @@ script = ExtResource("1_tp4qp")
 position = Vector2(0.47, 0)
 shape = SubResource("RectangleShape2D_wux15")
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
 collision_layer = 4
 collision_mask = 288
 script = ExtResource("2_73q3d")
+health_component = NodePath("../HealthComponent")
+awarded_points = 100
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0.47, 0)
@@ -41,6 +44,9 @@ texture = ExtResource("3_fws2a")
 
 [node name="FlameSpawner" type="Node2D" parent="."]
 script = ExtResource("7_qyq72")
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("8_wt85m")
 
 [connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]
 [connection signal="got_hit" from="Hitbox" to="." method="_on_hitbox_got_hit"]

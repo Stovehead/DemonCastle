@@ -4,6 +4,8 @@ extends Hurtbox
 @onready var hit_spark:PackedScene = preload("res://scenes/hit_spark.tscn")
 
 func _on_area_entered(area:Area2D) -> void:
+	if(area is not Hitbox):
+		return
 	SfxManager.play_sound_effect_no_overlap(SfxManager.HIT)
 	var new_spark:Node2D = hit_spark.instantiate()
 	new_spark.global_position.y = global_position.y
