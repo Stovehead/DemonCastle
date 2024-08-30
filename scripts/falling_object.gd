@@ -2,9 +2,10 @@ extends CharacterBody2D
 
 @onready var gravity_component:GravityComponent = $GravityComponent
 @onready var collision:CollisionShape2D = $CollisionShape2D
+@onready var wall_detector:ShapeCast2D = $WallDetector
 @onready var despawn_timer:Timer = $DespawnTimer
 @export var despawn_on_hit_ground:bool = true
-@export var wall_detector:ShapeCast2D
+
 
 func _ready() -> void:
 	if(is_instance_valid(wall_detector)):

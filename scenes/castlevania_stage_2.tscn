@@ -72,11 +72,11 @@ item_to_drop = 2
 
 [node name="Candle2" parent="Objects" instance=ExtResource("8_g73mf")]
 position = Vector2(160, 72)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle3" parent="Objects" instance=ExtResource("8_g73mf")]
 position = Vector2(224, 152)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle4" parent="Objects" instance=ExtResource("8_g73mf")]
 position = Vector2(32, 184)
@@ -96,7 +96,7 @@ item_to_drop = 12
 
 [node name="Candle8" parent="Objects" instance=ExtResource("8_g73mf")]
 position = Vector2(480, 88)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="BatSpawner" parent="Objects" instance=ExtResource("9_ycfrr")]
 

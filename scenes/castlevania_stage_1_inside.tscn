@@ -93,31 +93,31 @@ item_to_drop = 3
 
 [node name="Candle4" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(224, 152)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle5" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(288, 184)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle6" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(352, 152)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle7" parent="Objects" instance=ExtResource("7_jj53p")]
-position = Vector2(416, 184)
-item_to_drop = 14
+position = Vector2(416, 186)
+item_to_drop = 3
 
 [node name="Candle8" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(480, 152)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle9" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(544, 184)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle10" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(608, 152)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle11" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(800, 56)
@@ -127,21 +127,13 @@ item_to_drop = 10
 position = Vector2(736, 184)
 item_to_drop = 6
 
-[node name="Candle13" parent="Objects" instance=ExtResource("7_jj53p")]
-position = Vector2(736, 184)
-item_to_drop = 6
-
-[node name="Candle14" parent="Objects" instance=ExtResource("7_jj53p")]
-position = Vector2(736, 184)
-item_to_drop = 6
-
 [node name="Candle15" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(864, 88)
 item_to_drop = 2
 
 [node name="Candle16" parent="Objects" instance=ExtResource("7_jj53p")]
-position = Vector2(992, 88)
-item_to_drop = 14
+position = Vector2(992, 89)
+item_to_drop = 3
 
 [node name="Candle17" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(928, 184)
@@ -149,31 +141,31 @@ item_to_drop = 6
 
 [node name="Candle18" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(1056, 185)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle19" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(1120, 184)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle20" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(1184, 184)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle21" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(1248, 184)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle22" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(1312, 184)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle23" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(1376, 152)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle24" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(1440, 88)
-item_to_drop = 14
+item_to_drop = 3
 
 [node name="Candle25" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(1504, 56)
