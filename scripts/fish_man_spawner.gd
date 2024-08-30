@@ -1,12 +1,14 @@
 extends Node2D
 
-const TIME_INTERVALS:Array[float] = [1.0, 3.0, 5.0]
-const JUMP_HEIGHT:float = -350
+const INITIAL_TIME_INTERVAL:float = 0.9
+const TIME_INTERVAL:float = 4.25
+const JUMP_HEIGHT:float = -360
 const HALF_TILE_SIZE:int = 8
 const SPAWN_SNAP_LENGTH:int = 32
 const PLAYER_AVOID_RADIUS:float = 32
 
 @onready var spawn_timer:Timer = $SpawnTimer
+@onready var queued_spawn_timer:Timer = $QueuedSpawnTimer
 @onready var fish_man_scene:PackedScene = preload("res://scenes/fish_man.tscn")
 
 @export var radius:float = 160
@@ -14,16 +16,9 @@ const PLAYER_AVOID_RADIUS:float = 32
 @export var valid_spawn_positions:Array[float]
 
 var num_fish:int = 0
+var fish_spawn_queued:bool = true
 
-func start_spawn_timer() -> void:
-	spawn_timer.start(TIME_INTERVALS[randi()%TIME_INTERVALS.size()])
-
-func _ready() -> void:
-	start_spawn_timer()
-
-func _on_spawn_timer_timeout() -> void:
-	if(num_fish >= max_num_fish):
-		return
+func spawn_fish() -> void:
 	if(!is_instance_valid(Globals.game_instance)):
 		return
 	if(!is_instance_valid(Globals.current_player)):
@@ -51,7 +46,25 @@ func _on_spawn_timer_timeout() -> void:
 	num_fish += 1
 	add_sibling(new_fish)
 	new_fish.global_position = spawn_position
-	start_spawn_timer()
+	if(spawn_position.x == Globals.game_instance.current_stage.global_position.x + 224 || spawn_position.x == Globals.game_instance.current_stage.global_position.x + 288):
+		# This is a dumb fucking solution, get rid of this eventually
+		new_fish.middle_ray.enabled = false
+	spawn_timer.start(TIME_INTERVAL)
+
+func _ready() -> void:
+	spawn_timer.start(INITIAL_TIME_INTERVAL)
+
+func _on_spawn_timer_timeout() -> void:
+	if(num_fish >= max_num_fish):
+		fish_spawn_queued = true
+		return
+	spawn_fish()
 
 func _on_fish_died() -> void:
 	num_fish -= 1
+	if(fish_spawn_queued):
+		queued_spawn_timer.start()
+		fish_spawn_queued = false
+
+func _on_queued_spawn_timer_timeout() -> void:
+	spawn_fish()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bpa52yq5w58s6"]
+[gd_scene load_steps=15 format=3 uid="uid://bpa52yq5w58s6"]
 
 [ext_resource type="Texture2D" uid="uid://dv6585o30qnmv" path="res://media/graphics/fish_man.png" id="1_c1q71"]
 [ext_resource type="Script" path="res://scripts/fish_man.gd" id="1_i0a6v"]
@@ -12,6 +12,63 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uxw24"]
 size = Vector2(16, 32)
+
+[sub_resource type="Animation" id="Animation_qmfkv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_br8n5"]
+resource_name = "walk"
+length = 0.833335
+loop_mode = 1
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.416667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_e4kyg"]
+resource_name = "attack"
+length = 0.533335
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qogjn"]
+_data = {
+"RESET": SubResource("Animation_qmfkv"),
+"attack": SubResource("Animation_e4kyg"),
+"walk": SubResource("Animation_br8n5")
+}
 
 [node name="FishMan" type="CharacterBody2D"]
 collision_layer = 4
@@ -33,7 +90,6 @@ hit_from_inside = true
 
 [node name="Middle" type="RayCast2D" parent="."]
 position = Vector2(0, 16)
-enabled = false
 target_position = Vector2(0, 0)
 collision_mask = 130
 hit_from_inside = true
@@ -45,6 +101,10 @@ collision_mask = 130
 hit_from_inside = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qogjn")
+}
+autoplay = "walk"
 
 [node name="FlameSpawner" type="Node2D" parent="."]
 script = ExtResource("2_2qx2k")
@@ -83,5 +143,15 @@ damage = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("RectangleShape2D_uxw24")
 
+[node name="StartWalkTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.167
+one_shot = true
+
+[node name="AttackTimer" type="Timer" parent="."]
+process_callback = 0
+autostart = true
+
 [connection signal="hp_changed" from="HealthComponent" to="." method="_on_hp_changed"]
 [connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]
+[connection signal="timeout" from="StartWalkTimer" to="." method="_on_start_walk_timer_timeout"]

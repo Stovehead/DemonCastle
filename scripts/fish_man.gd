@@ -3,6 +3,8 @@ extends CharacterBody2D
 
 signal died
 
+const SPEED:float = 45.0
+
 var custom_velocity:Vector2 = Vector2(0, 0)
 
 @onready var hitbox:Hitbox = $Hitbox
@@ -14,10 +16,22 @@ var custom_velocity:Vector2 = Vector2(0, 0)
 @onready var left_ray:RayCast2D = $Left
 @onready var middle_ray:RayCast2D = $Middle
 @onready var right_ray:RayCast2D = $Right
+@onready var start_walk_timer:Timer = $StartWalkTimer
+@onready var attack_timer:Timer = $AttackTimer
+@onready var animation_player:AnimationPlayer = $AnimationPlayer
 
 var hit_ground:bool = false
 var direction = 1
 var in_air:bool = true
+
+func set_direction() -> void:
+	if(!is_instance_valid(Globals.current_player)):
+		return
+	if(Globals.current_player.global_position.x < global_position.x):
+		direction = -1
+	else:
+		direction = 1
+	sprite.flip_h = direction == -1
 
 func _notification(what: int) -> void:
 	if(what == NOTIFICATION_PREDELETE):
@@ -56,12 +70,18 @@ func check_is_on_ground() -> void:
 		if(hit_ground):
 			in_air = false
 			SfxManager.play_sound_effect_no_overlap(SfxManager.FALL)
+			start_walk_timer.start()
 	else:
 		if(!hit_ground):
 			in_air = true
+			attack_timer.paused = true
+			animation_player.pause()
+			custom_velocity.x = 0
 
 func _ready() -> void:
 	sprite.flip_h = direction == -1
+	attack_timer.paused = true
+	animation_player.pause()
 
 func _physics_process(delta: float) -> void:
 	if(stop_component.is_stopped):
@@ -76,3 +96,9 @@ func _on_hp_changed(new_hp: int) -> void:
 		return
 	flame_spawner.spawn_flame()
 	queue_free()
+
+func _on_start_walk_timer_timeout() -> void:
+	attack_timer.paused = false
+	animation_player.play()
+	set_direction()
+	custom_velocity.x = SPEED * direction
