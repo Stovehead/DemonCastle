@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://chsawtbhhcw53"]
+[gd_scene load_steps=13 format=4 uid="uid://chsawtbhhcw53"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_e0aqt"]
 [ext_resource type="TileSet" uid="uid://bpyv70mj7h5m5" path="res://tilesets/cv_level_1.tres" id="2_aa8q8"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bro1sgoogwq23" path="res://scenes/breakable_block.tscn" id="8_lm6pt"]
 [ext_resource type="PackedScene" uid="uid://cqfq5a6hvsfpy" path="res://scenes/multiplier.tscn" id="9_18q4f"]
 [ext_resource type="Texture2D" uid="uid://bth430aycvq6f" path="res://media/graphics/fake_wall.png" id="10_7o255"]
+[ext_resource type="PackedScene" uid="uid://toy7h2j7tauc" path="res://scenes/zombie_spawner.tscn" id="11_rtr47"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_e0aqt")
@@ -114,6 +115,10 @@ metadata/_edit_group_ = true
 texture = ExtResource("10_7o255")
 hframes = 3
 frame = 2
+
+[node name="ZombieSpawner" parent="Objects" instance=ExtResource("11_rtr47")]
+left_valid_spawn_range = Vector2(0, 216)
+right_valid_spawn_range = Vector2(0, 480)
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(40, 88)

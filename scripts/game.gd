@@ -2,7 +2,9 @@ class_name Game
 extends Node2D
 
 const STARTING_LIVES:int = 3
+const MAX_LIVES:int = 99
 const POINTS_1_UP_THRESHOLD = 30000
+const MAX_SCORE:int = 999999 
 const FADE_TIME:float = 0.25
 const NUM_FLASH_FRAMES:int = 2
 
@@ -19,13 +21,18 @@ var camera_tween_speed:float
 var last_checkpoint:PackedScene
 var last_permanent_checkpoint:PackedScene
 var last_loaded_stage:PackedScene
-var num_lives:int = STARTING_LIVES
+var num_lives:int = STARTING_LIVES:
+	set(new_num_lives):
+		new_num_lives = clamp(new_num_lives, 0, MAX_LIVES)
+		num_lives = new_num_lives
 var next_score_threshold = POINTS_1_UP_THRESHOLD
 var score:int = 0:
 	set(new_score):
-		if(new_score > next_score_threshold):
+		if(new_score >= next_score_threshold):
 			give_1up()
 			next_score_threshold += POINTS_1_UP_THRESHOLD
+		if(new_score > MAX_SCORE):
+			new_score = MAX_SCORE
 		score = new_score
 var time_left:int = 300
 var num_whip_upgrades:int = 0
