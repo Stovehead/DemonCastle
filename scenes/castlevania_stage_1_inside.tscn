@@ -172,5 +172,5 @@ position = Vector2(1504, 56)
 item_to_drop = 12
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
-position = Vector2(112, 192)
+position = Vector2(1456, 96)
 script = ExtResource("7_nuam7")

@@ -51,6 +51,7 @@ func do_upgrade(player:Player):
 		1000:
 			new_points_graphic.frame = 4
 			if(new_points_graphic.material is ShaderMaterial):
+				new_points_graphic.material = new_points_graphic.material.duplicate(true)
 				new_points_graphic.material.set_shader_parameter("num_new_palettes", POINTS_NUM_NEW_PALETTES)
 				new_points_graphic.material.set_shader_parameter("new_palettes", POINTS_NEW_PALETTES)
 	player.add_sibling(new_points_graphic)

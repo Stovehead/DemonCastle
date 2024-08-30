@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dtsk23hhg0se7"]
+[gd_scene load_steps=14 format=4 uid="uid://dtsk23hhg0se7"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_04sph"]
 [ext_resource type="AudioStream" uid="uid://bssm6y8l0d0mq" path="res://media/music/vampirekiller.ogg" id="2_okdho"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://bth430aycvq6f" path="res://media/graphics/fake_wall.png" id="7_vtijh"]
 [ext_resource type="PackedScene" uid="uid://cdots7dcx5gaa" path="res://scenes/candle.tscn" id="8_p08fi"]
 [ext_resource type="PackedScene" uid="uid://cvypf6rxd8sp1" path="res://scenes/fish_man_spawner.tscn" id="9_7dgpr"]
+[ext_resource type="PackedScene" uid="uid://ddc6o6mngn6tv" path="res://scenes/secret_item_spawner.tscn" id="10_hp875"]
+[ext_resource type="PackedScene" uid="uid://bhawyoqqegpye" path="res://scenes/secret_item_crouch_activator.tscn" id="12_mn17k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0rxd1"]
 size = Vector2(512, 8)
@@ -108,6 +110,17 @@ valid_spawn_positions = Array[float]([32.0, 96.0, 160.0, 224.0, 288.0, 352.0, 41
 [node name="FishManSpawner2" parent="Objects" instance=ExtResource("9_7dgpr")]
 position = Vector2(0, 200)
 valid_spawn_positions = Array[float]([32.0, 96.0, 160.0, 224.0, 288.0, 352.0, 416.0])
+
+[node name="SecretItemSpawner" parent="Objects" instance=ExtResource("10_hp875")]
+position = Vector2(352, 136)
+metadata/_edit_group_ = true
+
+[node name="MoneyBag1000" parent="Objects/SecretItemSpawner" instance_placeholder="res://scenes/money_bag_1000.tscn"]
+z_index = -3
+
+[node name="SecretItemCrouchActivator" parent="Objects" node_paths=PackedStringArray("secret_item_spawner") instance=ExtResource("12_mn17k")]
+position = Vector2(464, 192)
+secret_item_spawner = NodePath("../SecretItemSpawner")
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(112, 72)

@@ -1,6 +1,7 @@
 extends StaticBody2D
 
 const CAMERA_UNLOCKED_LIMIT:int = 10000000
+const TWEEN_SPEED:float = 80.0
 
 @export_range(-1, 1, 2) var direction:int = 1
 @export var next_stage_path:String
@@ -32,19 +33,23 @@ func check_player_reached_door() -> void:
 			# Remove control from player
 			Globals.current_player.player_has_control = false
 			Globals.current_player.cutscene_control = false
+			# Load next stage
+			Globals.game_instance.load_next_stage(next_stage, next_stage_position)
+			# Reparent self so that it doesn't get unloaded early
+			reparent(Globals.game_instance.next_stage)
+			#await get_tree().create_timer(0.2, true, true).timeout
 			# Move camera back into the limits
 			Globals.game_instance.camera.global_position = Globals.game_instance.camera.get_screen_center_position()
 			# Remove camera limits so it can scroll
 			Globals.game_instance.camera.limit_right = CAMERA_UNLOCKED_LIMIT
 			Globals.game_instance.camera.limit_left = -CAMERA_UNLOCKED_LIMIT
-			Globals.game_instance.load_next_stage(next_stage, next_stage_position)
-			# Reparent self so that it doesn't get unloaded early
-			reparent(Globals.game_instance.next_stage)
 			# Move camera to door position
 			Globals.game_instance.camera_on_player = false
-			Globals.game_instance.camera_tween_position = global_position.x
-			Globals.game_instance.camera_tween_speed = direction
-			await Globals.game_instance.finished_camera_tween
+			var camera_tween:Tween = get_tree().create_tween()
+			camera_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+			var camera_tween_time:float = abs(global_position.x - Globals.game_instance.camera.global_position.x)/TWEEN_SPEED
+			camera_tween.tween_property(Globals.game_instance.camera, "global_position:x", global_position.x, camera_tween_time)
+			await camera_tween.finished
 			SfxManager.play_sound_effect(SfxManager.DOOR)
 			animation_player.play("open")
 			start_walk_timer.start()
@@ -78,8 +83,11 @@ func check_player_reached_target() -> void:
 		start_scroll_timer.start()
 		await start_scroll_timer.timeout
 		# Move the camera to the next stage
-		Globals.game_instance.camera_tween_position = edge_of_next_screen
-		await Globals.game_instance.finished_camera_tween
+		var camera_tween:Tween = get_tree().create_tween()
+		camera_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+		var camera_tween_time:float = abs(edge_of_next_screen - Globals.game_instance.camera.global_position.x)/TWEEN_SPEED
+		camera_tween.tween_property(Globals.game_instance.camera, "global_position:x", edge_of_next_screen, camera_tween_time)
+		await camera_tween.finished
 		# Make it so that the player can collide with doors again
 		Globals.current_player.set_collision_mask_value(5, true)
 		# Give control back to the player

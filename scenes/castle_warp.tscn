@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ck11dxaxphn3p" path="res://media/graphics/cvlevel1tileset.png" id="2_jqpdp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0p3lb"]
-size = Vector2(32, 8)
+size = Vector2(22, 8)
 
 [node name="CastleWarp" type="Area2D"]
 collision_layer = 0

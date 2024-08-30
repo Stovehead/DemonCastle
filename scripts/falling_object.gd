@@ -1,3 +1,4 @@
+class_name FallingObject
 extends CharacterBody2D
 
 @onready var gravity_component:GravityComponent = $GravityComponent
@@ -20,6 +21,6 @@ func _physics_process(delta: float) -> void:
 				collision.disabled = false
 	if(gravity_enabled):
 		velocity = gravity_component.apply_gravity(velocity, delta)
-	move_and_slide()
+		move_and_slide()
 	if(is_on_floor() && despawn_on_hit_ground && despawn_timer.is_stopped()):
 		despawn_timer.start()

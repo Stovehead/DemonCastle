@@ -54,11 +54,12 @@ signal lives_changed(new_lives:int)
 signal subweapon_changed(new_subweapon:int)
 signal time_stopped
 signal time_started
+signal loaded_stage
 
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_3.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_1_inside.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var blackout:ColorRect = $GUI/Blackout
 @onready var full_blackout:ColorRect = $GUI/FullBlackout
@@ -159,6 +160,7 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 	enemy_hp_changed.emit(16, true)
 	lives_changed.emit(num_lives)
 	Globals.current_player.emit_signals()
+	loaded_stage.emit()
 
 func unload_current_stage(retain_player:bool) -> void:
 	if(retain_player && Globals.current_player is Player):
@@ -178,6 +180,7 @@ func load_next_stage(stage:PackedScene, load_position:Vector2):
 		next_stage.objects.visible = false
 		current_stage.objects.process_mode = Node.PROCESS_MODE_DISABLED
 		add_child(next_stage)
+		loaded_stage.emit()
 
 func switch_stage():
 	Globals.current_player.reparent(self)

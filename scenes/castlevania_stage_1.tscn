@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://beqd18t5tn3jy"]
+[gd_scene load_steps=9 format=4 uid="uid://beqd18t5tn3jy"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_qw58i"]
 [ext_resource type="AudioStream" uid="uid://bssm6y8l0d0mq" path="res://media/music/vampirekiller.ogg" id="2_f8mm8"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://scripts/player_spawner.gd" id="2_x8rwt"]
 [ext_resource type="PackedScene" uid="uid://b10rseo558yr8" path="res://scenes/castle_warp.tscn" id="4_6qexp"]
 [ext_resource type="PackedScene" uid="uid://dxe8hkoq88i8g" path="res://scenes/torch.tscn" id="5_xbpa3"]
+[ext_resource type="PackedScene" uid="uid://ddc6o6mngn6tv" path="res://scenes/secret_item_spawner.tscn" id="6_5tbge"]
+[ext_resource type="PackedScene" uid="uid://cum41nagw30b0" path="res://scenes/secret_item_activator.tscn" id="7_qfpdb"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_qw58i")
@@ -53,6 +55,17 @@ item_to_drop = 2
 [node name="Torch5" parent="Objects" instance=ExtResource("5_xbpa3")]
 position = Vector2(608, 176)
 item_to_drop = 7
+
+[node name="SecretItemSpawner" parent="Objects" instance=ExtResource("6_5tbge")]
+position = Vector2(632, 200)
+metadata/_edit_group_ = true
+
+[node name="MoneyBag1000" parent="Objects/SecretItemSpawner" instance_placeholder="res://scenes/money_bag_1000.tscn"]
+z_index = -3
+
+[node name="SecretItemActivator" parent="Objects" node_paths=PackedStringArray("secret_item_spawner") instance=ExtResource("7_qfpdb")]
+position = Vector2(736, 192)
+secret_item_spawner = NodePath("../SecretItemSpawner")
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(48, 176)
