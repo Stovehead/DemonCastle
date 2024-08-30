@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=4 uid="uid://dhpv1faf7fpc5"]
+
+[ext_resource type="PackedScene" uid="uid://cilpt43lgenbl" path="res://scenes/money_bag_100.tscn" id="1_bvtbp"]
+[ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="2_jaa1o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k5a6k"]
+shader = ExtResource("2_jaa1o")
+shader_parameter/original_palette = PackedVector4Array(0.71, 0.192, 0.126, 1, 0.996, 0.431, 0.8, 1, 0, 0, 0, 1)
+shader_parameter/new_palettes = PackedVector4Array(0.71, 0.192, 0.126, 1, 0.996, 0.431, 0.8, 1, 0, 0, 0, 1, 0.71, 0.192, 0.126, 1, 0.996, 0.431, 0.8, 1, 0, 0, 0, 1, 0.777, 0.463, 1, 1, 0.984, 0.761, 1, 1, 0, 0, 0, 1, 0.969, 0.847, 0.647, 1, 0.082, 0.373, 0.851, 1, 0, 0, 0, 1)
+shader_parameter/num_new_palettes = 4
+shader_parameter/FPS = 30.0
+
+[node name="MoneyBag1000" instance=ExtResource("1_bvtbp")]
+material = SubResource("ShaderMaterial_k5a6k")
+gravity_enabled = false
+
+[node name="Upgrade" parent="." index="2"]
+num_points = 1000
+
+[node name="Sprite2D" parent="." index="3"]
+use_parent_material = true

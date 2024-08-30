@@ -16,6 +16,7 @@ script = ExtResource("2_1g14d")
 sprite = NodePath("../Sprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Upgrade" index="0"]
+use_parent_material = true
 shape = SubResource("RectangleShape2D_rtmdf")
 
 [node name="Sprite2D" type="Sprite2D" parent="." index="3"]

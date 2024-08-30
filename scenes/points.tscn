@@ -1,10 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://3cfk5jnvu4sy"]
+[gd_scene load_steps=5 format=4 uid="uid://3cfk5jnvu4sy"]
 
+[ext_resource type="Shader" path="res://shaders/palette_swap.gdshader" id="1_5seog"]
 [ext_resource type="Texture2D" uid="uid://dat5v1rwg4vd5" path="res://media/graphics/points.png" id="1_qq2eh"]
 [ext_resource type="PackedScene" uid="uid://dpqaif2q7u7ye" path="res://scenes/despawn_timer.tscn" id="2_5iq8j"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7t1fu"]
+shader = ExtResource("1_5seog")
+shader_parameter/original_palette = PackedVector4Array(0.969, 0.847, 0.647, 1, 0.082, 0.373, 0.851, 1, 0, 0, 0, 1)
+shader_parameter/new_palettes = null
+shader_parameter/num_new_palettes = null
+shader_parameter/FPS = 30.0
+
 [node name="Points" type="Sprite2D"]
 z_index = 4
+material = SubResource("ShaderMaterial_7t1fu")
 texture = ExtResource("1_qq2eh")
 offset = Vector2(16, 0)
 hframes = 8

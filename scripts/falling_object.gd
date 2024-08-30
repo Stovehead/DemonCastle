@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var wall_detector:ShapeCast2D = $WallDetector
 @onready var despawn_timer:Timer = $DespawnTimer
 @export var despawn_on_hit_ground:bool = true
+@export var gravity_enabled:bool = true
 
 
 func _ready() -> void:
@@ -17,7 +18,8 @@ func _physics_process(delta: float) -> void:
 			collision.disabled = true
 		elif(collision.disabled):
 				collision.disabled = false
-	velocity = gravity_component.apply_gravity(velocity, delta)
+	if(gravity_enabled):
+		velocity = gravity_component.apply_gravity(velocity, delta)
 	move_and_slide()
 	if(is_on_floor() && despawn_on_hit_ground && despawn_timer.is_stopped()):
 		despawn_timer.start()
