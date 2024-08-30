@@ -106,7 +106,12 @@ position = Vector2(48, 96)
 [node name="WallMeat" parent="." instance=ExtResource("8_2uoam")]
 position = Vector2(264, 192)
 
-[node name="PersistentObject" parent="WallMeat" index="0"]
-unique_name = "wall1"
+[node name="PersistentObject" parent="WallMeat/Block1" index="2"]
+unique_name = "block1"
+
+[node name="PersistentObject" parent="WallMeat/Block2" index="2"]
+unique_name = "block2"
 
 [editable path="WallMeat"]
+[editable path="WallMeat/Block1"]
+[editable path="WallMeat/Block2"]

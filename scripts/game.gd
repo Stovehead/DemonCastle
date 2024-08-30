@@ -51,7 +51,7 @@ signal time_started
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_1_inside.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_3.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var blackout:ColorRect = $GUI/Blackout
 @onready var full_blackout:ColorRect = $GUI/FullBlackout
@@ -261,7 +261,6 @@ func _process(_delta: float) -> void:
 			flash_accumulator += 1
 
 func _physics_process(delta) -> void:
-	print(num_subweapon_hits)
 	if(showing_logos):
 		if(!fade_rect.visible):
 			if(Input.is_action_just_pressed("start")):
