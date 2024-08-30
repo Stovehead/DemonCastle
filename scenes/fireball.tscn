@@ -15,6 +15,9 @@ size = Vector2(7, 6)
 [node name="Fireball" type="CharacterBody2D"]
 script = ExtResource("1_p624l")
 
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("8_wt85m")
+
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 0
@@ -44,9 +47,6 @@ texture = ExtResource("3_fws2a")
 
 [node name="FlameSpawner" type="Node2D" parent="."]
 script = ExtResource("7_qyq72")
-
-[node name="HealthComponent" type="Node2D" parent="."]
-script = ExtResource("8_wt85m")
 
 [connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]
 [connection signal="got_hit" from="Hitbox" to="." method="_on_hitbox_got_hit"]
