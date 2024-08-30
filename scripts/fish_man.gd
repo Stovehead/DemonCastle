@@ -4,6 +4,9 @@ extends CharacterBody2D
 signal died
 
 const SPEED:float = 45.0
+const FIREBALL_INTERVALS:Array[float] = [2.4, 2.0, 1.33]
+const FIREBALL_SPEED:float = 105.0
+const FIREBALL_SPAWN_OFFSET:Vector2 = Vector2(0, -8)
 
 var custom_velocity:Vector2 = Vector2(0, 0)
 
@@ -19,6 +22,7 @@ var custom_velocity:Vector2 = Vector2(0, 0)
 @onready var start_walk_timer:Timer = $StartWalkTimer
 @onready var attack_timer:Timer = $AttackTimer
 @onready var animation_player:AnimationPlayer = $AnimationPlayer
+@onready var fireball_scene:PackedScene = preload("res://scenes/fireball.tscn")
 
 var hit_ground:bool = false
 var direction = 1
@@ -78,12 +82,32 @@ func check_is_on_ground() -> void:
 			animation_player.pause()
 			custom_velocity.x = 0
 
+func start_attack_timer() -> void:
+	attack_timer.start(FIREBALL_INTERVALS.pick_random())
+
+func spawn_fireball() -> void:
+	var new_fireball:Fireball = fireball_scene.instantiate()
+	new_fireball.direction = direction
+	new_fireball.velocity.x = FIREBALL_SPEED * direction
+	add_sibling(new_fireball)
+	new_fireball.global_position = global_position + FIREBALL_SPAWN_OFFSET
+
+func start_walking() -> void:
+	set_direction()
+	animation_player.play("walk")
+	custom_velocity.x = SPEED * direction
+	if(attack_timer.paused):
+		attack_timer.paused = false
+	else:
+		start_attack_timer()
+
 func _ready() -> void:
 	sprite.flip_h = direction == -1
 	attack_timer.paused = true
 	animation_player.pause()
 
 func _physics_process(delta: float) -> void:
+	print(animation_player.get_queue())
 	if(stop_component.is_stopped):
 		return
 	check_is_on_ground()
@@ -98,7 +122,9 @@ func _on_hp_changed(new_hp: int) -> void:
 	queue_free()
 
 func _on_start_walk_timer_timeout() -> void:
-	attack_timer.paused = false
 	animation_player.play()
-	set_direction()
-	custom_velocity.x = SPEED * direction
+	start_walking()
+
+func _on_attack_timer_timeout() -> void:
+	custom_velocity.x = 0
+	animation_player.play("attack")
