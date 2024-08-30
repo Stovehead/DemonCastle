@@ -54,7 +54,7 @@ func is_item_players_subweapon(item:int) -> bool:
 	var player_subweapon = Globals.current_player.current_subweapon
 	return (item >= Items.KNIFE && item <= Items.STOPWATCH && item - Items.KNIFE + 1 == player_subweapon)
 
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	if(item_to_drop == Items.NOTHING):
 		var random_number:int = randi() % RANDOM_ITEM_CHANCE
 		if(random_number == 0):

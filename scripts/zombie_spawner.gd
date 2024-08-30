@@ -31,8 +31,8 @@ func init_rays() -> void:
 	ray_left = init_ray(-horizontal_range)
 	ray_right = init_ray(horizontal_range)
 
-func is_valid_spawn(ray:RayCast2D, range:Vector2) -> bool:
-	return ray.is_colliding() && ray.get_collision_point().y > top - ZOMBIE_HALF_HEIGHT && ray.get_collision_point().x > Globals.game_instance.current_stage.position.x + range.x && ray.get_collision_point().x < Globals.game_instance.current_stage.position.x + range.y 
+func is_valid_spawn(ray:RayCast2D, spawn_range:Vector2) -> bool:
+	return ray.is_colliding() && ray.get_collision_point().y > top - ZOMBIE_HALF_HEIGHT && ray.get_collision_point().x > Globals.game_instance.current_stage.position.x + spawn_range.x && ray.get_collision_point().x < Globals.game_instance.current_stage.position.x + spawn_range.y 
 
 func spawn(spawn_position:Vector2) -> void:
 	var new_zombie:Zombie = zombie.instantiate()
@@ -44,7 +44,7 @@ func _ready() -> void:
 	init_rays()
 	spawn_timer.start(randf_range(SPAWN_TIME_RANGE.x, SPAWN_TIME_RANGE.y))
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if(is_instance_valid(Globals.game_instance)):
 		global_position = Globals.game_instance.camera.get_screen_center_position()
 

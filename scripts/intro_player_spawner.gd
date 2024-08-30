@@ -7,7 +7,7 @@ const NEXT_STAGE_PATH:String = "res://scenes/castlevania_stage_1.tscn"
 
 @onready var game_start_timer:Timer = $GameStartTimer
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if(is_instance_valid(player) && player is Player):
 		if(Globals.crossed_point(player.global_position.x, global_position.x + TARGET, player.get_position_delta().x) && player.animation_player.assigned_animation == "walk"):
 			player.animation_player.play("back")

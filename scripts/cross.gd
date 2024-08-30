@@ -61,7 +61,7 @@ func finished_spin() -> void:
 	tween.set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(self, "velocity", -velocity, TURNAROUND_TIME)
 
-func _on_player_detector_area_entered(area: Area2D) -> void:
+func _on_player_detector_area_entered(_area: Area2D) -> void:
 	queue_free()
 
 func _on_sfx_timer_timeout() -> void:

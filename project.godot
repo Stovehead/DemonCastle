@@ -27,6 +27,10 @@ Globals="*res://scripts/globals.gd"
 SfxManager="*res://scripts/sfx_manager.gd"
 ShaderTime="*res://scripts/shader_time.gd"
 
+[debug]
+
+gdscript/warnings/narrowing_conversion=0
+
 [display]
 
 window/size/viewport_width=384

@@ -18,5 +18,4 @@ func _on_timer_timeout() -> void:
 	pauser.process_mode = Node.PROCESS_MODE_ALWAYS
 	Globals.current_player.sprite.use_parent_material = false
 	whip.current_level += 1
-	Globals.current_player.whip_level_changed.emit(whip.current_level)
 	get_tree().paused = false

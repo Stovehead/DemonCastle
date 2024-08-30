@@ -90,7 +90,7 @@ func check_player_reached_target() -> void:
 		process_mode = Node.PROCESS_MODE_INHERIT
 		queue_free()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if(player_moving):
 		check_player_reached_target()
 	else:

@@ -247,7 +247,7 @@ func _ready() -> void:
 		await finished_fade
 		logos_timer.start()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if(flashing):
 		if(flash_accumulator == NUM_FLASH_FRAMES):
 			flash_rect.visible = !flash_rect.visible

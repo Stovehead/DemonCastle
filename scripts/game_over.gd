@@ -7,7 +7,7 @@ var current_selection:int = 0
 
 @export var heart:TextureRect
 
-func _physics_process(delta) -> void:
+func _physics_process(_delta) -> void:
 	if(Input.is_action_just_pressed("up") || Input.is_action_just_pressed("down")):
 		SfxManager.play_sound_effect_no_overlap(SfxManager.SELECT)
 		current_selection += 1

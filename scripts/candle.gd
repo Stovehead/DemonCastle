@@ -6,6 +6,6 @@ extends Node2D
 func _ready() -> void:
 	flame_spawner.item_to_drop = item_to_drop
 
-func _on_got_hit(attacker: Hurtbox) -> void:
+func _on_got_hit(_attacker: Hurtbox) -> void:
 	flame_spawner.spawn_flame()
 	queue_free()

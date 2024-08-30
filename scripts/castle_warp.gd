@@ -69,7 +69,7 @@ func check_player() -> void:
 	else:
 		check_player_reached_door()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if(activated && !finalized):
 		check_player()
 	elif(has_overlapping_areas()):

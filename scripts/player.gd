@@ -21,7 +21,6 @@ var subweapon_scenes:Array = [
 
 signal hp_changed(new_hp:int)
 signal hearts_changed(new_hearts:int)
-signal whip_level_changed(new_level:int)
 signal subweapon_changed(new_subweapon:int)
 signal time_stopped
 signal died
@@ -224,16 +223,17 @@ func go_up_stairs() -> void:
 	going_up_stairs = false
 	current_step += current_stair.direction * player_direction
 
-func get_off_stairs(just_stair_transitioned:bool) -> void:
+# Returns true if just stair transitioned
+func get_off_stairs() -> bool:
 	if(current_stair is TransitionalStairs && current_step == current_stair.height * current_stair.target):
 		current_stair.transition(self)
-		just_stair_transitioned = true
-		return
+		return true
 	on_stairs = false
 	global_position.x = current_stair.global_position.x + Stairs.SINGLE_STAIR_HEIGHT * current_step * player_direction
 	global_position.y -= 1
 	velocity.y = 100
 	animation_player.play("idle")
+	return false
 
 func go_to_idle_on_stairs() -> void:
 	velocity = Vector2.ZERO
@@ -251,7 +251,7 @@ func start_moving_up_stairs(direction:int, animation:String) -> void:
 func stop_on_stairs(just_stair_transitioned: bool) -> void:
 	# If reached top/bottom
 	if(current_step <= 0 || current_step >= current_stair.height):
-		get_off_stairs(just_stair_transitioned)
+		just_stair_transitioned = get_off_stairs()
 	if(just_stair_transitioned || !on_stairs):
 		return
 	# Do the whip that was queued earlier
@@ -545,7 +545,7 @@ func _ready() -> void:
 	sprite.material.set_shader_parameter("new_palettes", INVINCIBLE_PALETTE)
 	sprite.material.set_shader_parameter("num_new_palettes", 1)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	do_flashing()
 
 func _physics_process(delta:float) -> void:

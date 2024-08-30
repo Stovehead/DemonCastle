@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 	time += delta
 	move_and_slide()
 
-func _on_hurtbox_area_entered(area: Area2D) -> void:
+func _on_hurtbox_area_entered(_area: Area2D) -> void:
 	health_component.remaining_hp = 0
 	die()
 

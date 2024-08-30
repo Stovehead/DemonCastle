@@ -24,7 +24,7 @@ signal select_quit
 var started:bool = false
 var current_option:int = 0
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if(Input.is_action_just_pressed("start") && !fades.visible && start_timer.is_stopped()):
 		if(!started):
 			fades.visible = true

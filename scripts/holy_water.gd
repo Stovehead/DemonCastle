@@ -15,7 +15,7 @@ func _ready() -> void:
 	collision.shape = RectangleShape2D.new()
 	collision.shape.extents = Vector2(4, 4)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if(is_instance_valid(bottle)):
 		collision.global_position = bottle.global_position + Vector2(0, 4)
 

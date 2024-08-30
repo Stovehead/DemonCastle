@@ -18,7 +18,7 @@ func _ready() -> void:
 		if(within_camera_range(last_camera_position)):
 			spawn()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	current_camera_position = Globals.game_instance.camera.get_screen_center_position()
 	if(!is_instance_valid(current_instance) && !within_camera_range(last_camera_position) && within_camera_range(current_camera_position)):
 		spawn()
