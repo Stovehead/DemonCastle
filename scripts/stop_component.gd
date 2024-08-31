@@ -47,7 +47,7 @@ func stun() -> void:
 	if(is_instance_valid(hitbox)):
 		if(hitbox.monitoring):
 			will_reenable_hitbox = true
-			hitbox.monitoring = false
+			hitbox.set_deferred("monitoring", false)
 	stun_timer.start()
 	if(is_frozen):
 		return
