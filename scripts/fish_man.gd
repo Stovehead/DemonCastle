@@ -7,6 +7,7 @@ const SPEED:float = 45.0
 const FIREBALL_INTERVALS:Array[float] = [2.4, 2.0, 1.33]
 const FIREBALL_SPEED:float = 105.0
 const FIREBALL_SPAWN_OFFSET:Vector2 = Vector2(0, -8)
+const MAX_UPWARP:float = -32.0
 
 var custom_velocity:Vector2 = Vector2(0, 0)
 
@@ -58,6 +59,7 @@ func check_is_in_ground() -> bool:
 func move(delta:float) -> void:
 	hit_ground = false
 	global_position.x += custom_velocity.x * delta
+	var old_y_position:float = global_position.y
 	global_position.y += custom_velocity.y * delta
 	if(custom_velocity.y > 0):
 		if(check_is_in_ground()):
@@ -66,6 +68,9 @@ func move(delta:float) -> void:
 			hit_ground = true
 		while(check_is_in_ground()):
 			global_position.y -= 1
+			if(global_position.y - old_y_position < MAX_UPWARP):
+				global_position.y = old_y_position
+				return
 		global_position.y = floor(global_position.y)
 		global_position.y += 1
 

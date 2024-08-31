@@ -42,7 +42,10 @@ const INVINCIBLE_TIME_1:float = 1.73333
 const INVINCIBLE_TIME_2:float = 2.13333
 const NUM_STARTING_HEARTS:int = 5
 
-var player_direction:int = 1
+var player_direction:int = 1:
+	set(new_player_direction):
+		if(new_player_direction != player_direction):
+			player_direction = new_player_direction
 var player_has_control:bool = true
 var can_move_horizontally:bool = true
 var cutscene_control:bool = false
@@ -350,7 +353,6 @@ func check_stun() -> void:
 
 func check_time_up() -> bool:
 	if(time_up):
-		player_direction *= -1
 		die()
 		return true
 	return false
@@ -385,7 +387,8 @@ func floor_movement(delta:float, did_horizontal_movement:bool) -> void:
 	# Stunning
 	check_stun()
 	if(check_time_up()):
-		pass
+		stop_movement(delta)
+		return
 	elif(is_hurt && velocity.y >= 0 && !is_dead):
 		hit_floor_after_hit()
 	# Horizontal movement
@@ -468,7 +471,7 @@ func handle_input(delta:float) -> void:
 
 func die_with_animation(animation:String) -> void:
 	died.emit()
-	if(animation_player.current_animation == "idle"):
+	if(animation_player.current_animation == "idle" || time_up):
 		player_direction *= -1
 	animation_player.play(animation)
 	is_dead = true
@@ -572,7 +575,7 @@ func _physics_process(delta:float) -> void:
 		collision.disabled = true
 	else:
 		collision.disabled = false
-		velocity = $GravityComponent.apply_gravity_with_terminal_velocity(velocity, TERMINAL_VELOCITY, delta)
+		velocity = gravity_component.apply_gravity_with_terminal_velocity(velocity, TERMINAL_VELOCITY, delta)
 	var old_velocity = velocity.x
 	move_and_slide()
 	velocity.x = old_velocity
