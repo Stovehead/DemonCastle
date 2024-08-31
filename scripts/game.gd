@@ -13,7 +13,6 @@ const FRAMES_BETWEEN_HEART_COUNTDOWN:int = 2
 const FRAMES_BETWEEN_HEART_COUNTDOWN_SOUND:int = 2
 const POINTS_PER_SECOND:int = 10
 const POINTS_PER_HEART:int = 100
-const MUSIC_FADE_TO_VOLUME:float = -80.0
 
 var debug_mode:bool = false
 
@@ -70,7 +69,7 @@ signal finished_music_fade
 
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
-@onready var music_player:AudioStreamPlayer = $MusicPlayer
+@onready var music_player:LinearAudioStreamPlayer = $MusicPlayer
 @onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_3.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var boss_music:AudioStream = preload("res://media/music/poisonmind.ogg")
@@ -118,12 +117,10 @@ func unpause_music() -> void:
 		music_fade_tween.play()
 
 func fade_out_music(fade_time:float) -> void:
-	print("start fade")
 	music_fade_tween = get_tree().create_tween()
-	music_fade_tween.set_ease(Tween.EASE_IN)
-	music_fade_tween.set_trans(Tween.TRANS_QUAD)
-	music_fade_tween.tween_property(music_player, "volume_db", MUSIC_FADE_TO_VOLUME, fade_time)
-	await get_tree().create_timer(fade_time * 0.6).timeout
+	music_fade_tween.set_trans(Tween.TRANS_LINEAR)
+	music_fade_tween.tween_property(music_player, "volume_linear", 0, fade_time)
+	await music_fade_tween.finished
 	music_fade_tween.stop()
 	music_player.stop()
 	music_player.volume_db = 0

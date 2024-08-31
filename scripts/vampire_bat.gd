@@ -7,7 +7,7 @@ enum States{
 	WAIT,
 }
 
-const MUSIC_FADE_TIME:float = 2.7
+const MUSIC_FADE_TIME:float = 1.7
 const FLY_X_RANGE:Vector2 = Vector2(-160, 160)
 const FLY_Y_RANGE:Vector2 = Vector2(-26, 36)
 const FLY_SPEED:float = 66.67
