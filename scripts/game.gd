@@ -13,11 +13,12 @@ const FRAMES_BETWEEN_HEART_COUNTDOWN:int = 2
 const FRAMES_BETWEEN_HEART_COUNTDOWN_SOUND:int = 2
 const POINTS_PER_SECOND:int = 10
 const POINTS_PER_HEART:int = 100
+const MUSIC_FADE_TO_VOLUME:float = -80.0
 
 var debug_mode:bool = false
 
 var showing_logos:bool = true
-var load_test_stage:bool = false
+var load_test_stage:bool = true
 
 var current_stage:Stage
 var next_stage:Stage
@@ -117,10 +118,13 @@ func unpause_music() -> void:
 		music_fade_tween.play()
 
 func fade_out_music(fade_time:float) -> void:
+	print("start fade")
 	music_fade_tween = get_tree().create_tween()
 	music_fade_tween.set_ease(Tween.EASE_IN)
-	music_fade_tween.set_trans(Tween.TRANS_EXPO)
-	await music_fade_tween.tween_property(music_player, "volume_db", -80, fade_time).finished
+	music_fade_tween.set_trans(Tween.TRANS_QUAD)
+	music_fade_tween.tween_property(music_player, "volume_db", MUSIC_FADE_TO_VOLUME, fade_time)
+	await get_tree().create_timer(fade_time * 0.6).timeout
+	music_fade_tween.stop()
 	music_player.stop()
 	music_player.volume_db = 0
 	music_fade_tween = null
