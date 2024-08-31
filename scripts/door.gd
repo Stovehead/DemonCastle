@@ -25,7 +25,7 @@ func _ready() -> void:
 # Checks if the player reached the door, starts the door sequence if they did
 func check_player_reached_door() -> void:
 	if(is_instance_valid(Globals.current_player) && raycast.is_colliding()):
-		if(Globals.current_player is Player && Globals.current_player.is_on_floor()):
+		if(Globals.current_player is Player && Globals.current_player.is_on_floor() && Globals.current_player.health_component.remaining_hp > 0):
 			next_stage = ResourceLoader.load_threaded_get(next_stage_path)
 			assert(next_stage != null, "Failed to load stage")
 			process_mode = Node.PROCESS_MODE_ALWAYS
@@ -33,6 +33,7 @@ func check_player_reached_door() -> void:
 			# Remove control from player
 			Globals.current_player.player_has_control = false
 			Globals.current_player.cutscene_control = false
+			Globals.current_player.stop_invulnerability()
 			# Load next stage
 			Globals.game_instance.load_next_stage(next_stage, next_stage_position)
 			# Reparent self so that it doesn't get unloaded early

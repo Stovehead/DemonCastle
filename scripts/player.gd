@@ -548,6 +548,13 @@ func do_flashing() -> void:
 	if(!invulnerability_timer.is_stopped() || is_invincible):
 		modulate.a =  1 - modulate.a
 
+func stop_invulnerability() -> void:
+	modulate.a = 1
+	hitbox.set_collision_mask_value(3, true)
+	# Force update collisions
+	hitbox.monitoring = false
+	hitbox.monitoring = true
+
 func _ready() -> void:
 	animation_player.play("idle")
 	last_grounded_y = global_position.y
@@ -629,11 +636,7 @@ func _on_hp_changed(new_hp) -> void:
 	hp_changed.emit(new_hp, false)
 
 func _on_invulnerability_timer_timeout() -> void:
-	modulate.a = 1
-	hitbox.set_collision_mask_value(3, true)
-	# Force update collisions
-	hitbox.monitoring = false
-	hitbox.monitoring = true
+	stop_invulnerability()
 
 func _on_stair_stun_timer_timeout() -> void:
 	animation_player.speed_scale = 1

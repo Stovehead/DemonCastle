@@ -1092,12 +1092,12 @@ wait_time = 0.3
 one_shot = true
 
 [node name="JumpBlockerL" type="RayCast2D" parent="."]
-position = Vector2(-7.5, 0)
+position = Vector2(-7, 0)
 target_position = Vector2(0, -17)
 collision_mask = 2
 
 [node name="JumpBlockerR" type="RayCast2D" parent="."]
-position = Vector2(7.5, 0)
+position = Vector2(7, 0)
 target_position = Vector2(0, -17)
 collision_mask = 2
 
