@@ -18,7 +18,7 @@ music = ExtResource("2_f8mm8")
 has_checkpoint = true
 has_permanent_checkpoint = true
 stage_number = 1
-starting_time = 5
+starting_time = 300
 big_item_list = Array[int]([11, 10, 6, 12])
 
 [node name="TileMap" type="Node2D" parent="."]

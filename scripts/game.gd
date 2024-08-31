@@ -14,10 +14,10 @@ const FRAMES_BETWEEN_HEART_COUNTDOWN_SOUND:int = 2
 const POINTS_PER_SECOND:int = 10
 const POINTS_PER_HEART:int = 100
 
-var debug_mode:bool = true
+var debug_mode:bool = false
 
 var showing_logos:bool = true
-var load_test_stage:bool = true
+var load_test_stage:bool = false
 
 var current_stage:Stage
 var next_stage:Stage
