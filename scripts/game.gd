@@ -70,7 +70,7 @@ signal finished_music_fade
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_2_underground.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_3.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var boss_music:AudioStream = preload("res://media/music/poisonmind.ogg")
 @onready var blackout:ColorRect = $GUI/Blackout
@@ -232,6 +232,7 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 	enemy_hp_changed.emit(16, true)
 	lives_changed.emit(num_lives)
 	Globals.current_player.emit_signals()
+	ShaderTime.time_scale = 1
 	loaded_stage.emit()
 
 func unload_current_stage(retain_player:bool) -> void:
@@ -489,6 +490,7 @@ func _on_time_stop_timer_timeout() -> void:
 func _on_start_time_countdown_timer_timeout() -> void:
 	current_stage.process_mode = PROCESS_MODE_DISABLED
 	doing_time_countdown = true
+	ShaderTime.time_scale = 0
 
 func _on_start_hearts_countdown_timer_timeout() -> void:
 	doing_hearts_countdown = true

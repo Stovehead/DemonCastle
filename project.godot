@@ -135,3 +135,7 @@ SCALABLE_TIME={
 "type": "float",
 "value": 0.0
 }
+ROLLOVER_TIME={
+"type": "float",
+"value": 0.0
+}
