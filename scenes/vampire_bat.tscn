@@ -105,6 +105,9 @@ animation_player = NodePath("../AnimationPlayer")
 hitbox = NodePath("../Hitbox")
 hurtbox = NodePath("../Hurtbox")
 
+[node name="StunTimer" parent="StopComponent" index="0"]
+wait_time = 0.167
+
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("5_s3wxt")
 max_hp = 16
@@ -127,3 +130,5 @@ one_shot = true
 [connection signal="timeout" from="StartFlyingTimer" to="." method="_on_start_flying_timer_timeout"]
 [connection signal="timeout" from="WaitTimer" to="." method="_on_wait_timer_timeout"]
 [connection signal="timeout" from="SwoopTimer" to="." method="_on_swoop_timer_timeout"]
+
+[editable path="StopComponent"]
