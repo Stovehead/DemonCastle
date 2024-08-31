@@ -29,7 +29,7 @@ var last_permanent_checkpoint:PackedScene
 var last_loaded_stage:PackedScene
 var num_lives:int = STARTING_LIVES:
 	set(new_num_lives):
-		new_num_lives = clamp(new_num_lives, 0, MAX_LIVES)
+		new_num_lives = clamp(new_num_lives, -1, MAX_LIVES)
 		num_lives = new_num_lives
 var next_score_threshold = POINTS_1_UP_THRESHOLD
 var score:int = 0:
@@ -421,7 +421,6 @@ func _on_player_died():
 	SfxManager.play_sound_effect(SfxManager.DEATH)
 	death_timer.start()
 	num_lives -= 1
-
 
 func _on_death_timer_timeout():
 	full_blackout.visible = true
