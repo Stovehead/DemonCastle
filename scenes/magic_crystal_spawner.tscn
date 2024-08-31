@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxr3tnh2qawuj"]
+
+[ext_resource type="Script" path="res://scripts/magic_crystal_spawner.gd" id="1_cppwh"]
+
+[node name="MagicCrystalSpawner" type="Node2D"]
+script = ExtResource("1_cppwh")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

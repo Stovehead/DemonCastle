@@ -25,9 +25,11 @@ var sfx_paths:Array = [
 	"res://media/sfx/axe.wav",
 	"res://media/sfx/cross.wav",
 	"res://media/sfx/time_countdown.wav",
+	"res://media/sfx/heart_countdown.wav",
 	"res://media/sfx/secret.wav",
 	"res://media/sfx/rosary.wav",
-	"res://media/sfx/invincibility_running_out.wav"]
+	"res://media/sfx/invincibility_running_out.wav",
+	"res://media/sfx/heart_countdown.wav"]
 var audio_streams:Array
 var playing_sounds:Array
 enum {
@@ -55,6 +57,7 @@ enum {
 	AXE,
 	CROSS,
 	TIME_COUNTDOWN,
+	HEART_COUNTDOWN,
 	SECRET,
 	ROSARY,
 	INVINCIBILITY_RUNNING_OUT

@@ -7,11 +7,17 @@ const POINTS_1_UP_THRESHOLD = 30000
 const MAX_SCORE:int = 999999 
 const FADE_TIME:float = 0.25
 const NUM_FLASH_FRAMES:int = 2
+const FRAMES_BETWEEN_TIME_COUNTDOWN:int = 2
+const FRAMES_BETWEEN_TIME_COUNTDOWN_SOUND:int = 8
+const FRAMES_BETWEEN_HEART_COUNTDOWN:int = 2
+const FRAMES_BETWEEN_HEART_COUNTDOWN_SOUND:int = 2
+const POINTS_PER_SECOND:int = 10
+const POINTS_PER_HEART:int = 100
 
 var debug_mode:bool = false
 
 var showing_logos:bool = true
-var load_test_stage:bool = true
+var load_test_stage:bool = false
 
 var current_stage:Stage
 var next_stage:Stage
@@ -41,6 +47,9 @@ var flashing:bool = false
 var flash_accumulator:int = 0
 var num_subweapon_hits:int = 0
 var music_fade_tween:Tween
+var time_countdown_frame_counter:int = 0
+var doing_time_countdown:bool = false
+var doing_hearts_countdown:bool = false
 
 signal finished_fade
 signal finished_camera_tween
@@ -78,11 +87,14 @@ signal finished_music_fade
 @onready var logos:Logos = $GUI/Logos
 @onready var logos_timer:Timer = $LogosTimer
 @onready var time_stop_timer:Timer = $TimeStopTimer
+@onready var start_time_countdown_timer:Timer = $StartTimeCountdownTimer
+@onready var start_hearts_countdown_timer:Timer = $StartHeartsCountdownTimer
+@onready var go_to_next_level_timer:Timer = $GoToNextLevelTimer
 
 func clear_persistent() -> void:
 	Globals.persistent_objects.clear()
 
-func _connect_player_signals(player:Player):
+func _connect_player_signals(player:Player) -> void:
 	player.hp_changed.connect(_on_player_hp_changed)
 	player.hearts_changed.connect(_on_player_hearts_changed)
 	player.subweapon_changed.connect(_on_player_subweapon_changed)
@@ -90,13 +102,13 @@ func _connect_player_signals(player:Player):
 	player.time_stopped.connect(_on_time_stopped)
 	player.died.connect(_on_player_died)
 
-func pause_music():
+func pause_music() -> void:
 	music_pause_counter += 1
 	music_player.stream_paused = true
 	if(is_instance_valid(music_fade_tween)):
 		music_fade_tween.pause()
 
-func unpause_music():
+func unpause_music() -> void:
 	music_pause_counter -= 1
 	if(music_pause_counter > 0):
 		return
@@ -104,7 +116,7 @@ func unpause_music():
 	if(is_instance_valid(music_fade_tween)):
 		music_fade_tween.play()
 
-func fade_out_music(fade_time:float):
+func fade_out_music(fade_time:float) -> void:
 	music_fade_tween = get_tree().create_tween()
 	music_fade_tween.set_ease(Tween.EASE_IN)
 	music_fade_tween.set_trans(Tween.TRANS_EXPO)
@@ -114,20 +126,63 @@ func fade_out_music(fade_time:float):
 	music_fade_tween = null
 	finished_music_fade.emit()
 
-func flash_screen(time:float):
+func begin_stage_clear() -> void:
+	time_timer.stop()
+	if(time_left > 0):
+		start_time_countdown_timer.start()
+
+func do_time_countdown() -> void:
+	if(time_countdown_frame_counter % FRAMES_BETWEEN_TIME_COUNTDOWN == 0):
+		if(time_left >= FRAMES_BETWEEN_TIME_COUNTDOWN):
+			time_left -= FRAMES_BETWEEN_TIME_COUNTDOWN
+			score += FRAMES_BETWEEN_TIME_COUNTDOWN * POINTS_PER_SECOND
+		else:
+			score += time_left * POINTS_PER_SECOND
+			time_left = 0
+		time_left_changed.emit(time_left)
+		score_changed.emit(score)
+	if(time_countdown_frame_counter % FRAMES_BETWEEN_TIME_COUNTDOWN_SOUND == 0):
+		SfxManager.play_sound_effect_no_overlap(SfxManager.TIME_COUNTDOWN)
+	time_countdown_frame_counter += 1
+	if(time_countdown_frame_counter >= FRAMES_BETWEEN_TIME_COUNTDOWN * FRAMES_BETWEEN_TIME_COUNTDOWN_SOUND):
+		time_countdown_frame_counter = 0
+	if(time_left == 0):
+		doing_time_countdown = false
+		time_countdown_frame_counter = 0
+		if(Globals.current_player.num_hearts > 0):
+			start_hearts_countdown_timer.start()
+		else:
+			go_to_next_level_timer.start()
+
+func do_hearts_countdown() -> void:
+	if(time_countdown_frame_counter % FRAMES_BETWEEN_HEART_COUNTDOWN == 0):
+		Globals.current_player.num_hearts -= 1
+		score += POINTS_PER_HEART
+		hearts_changed.emit(Globals.current_player.num_hearts)
+		score_changed.emit(score)
+	if(time_countdown_frame_counter % FRAMES_BETWEEN_HEART_COUNTDOWN_SOUND == 0):
+		SfxManager.play_sound_effect_no_overlap(SfxManager.HEART_COUNTDOWN)
+	time_countdown_frame_counter += 1
+	if(time_countdown_frame_counter >= FRAMES_BETWEEN_HEART_COUNTDOWN * FRAMES_BETWEEN_HEART_COUNTDOWN_SOUND):
+		time_countdown_frame_counter = 0
+	if(Globals.current_player.num_hearts == 0):
+		go_to_next_level_timer.start()
+		doing_hearts_countdown = false
+
+func flash_screen(time:float) -> void:
 	flashing = true
 	flash_rect.visible = true
 	await get_tree().create_timer(time, false, false).timeout
 	flashing = false
 	flash_rect.visible = false
 
-func _on_time_stopped():
+func _on_time_stopped() -> void:
 	SfxManager.play_sound_effect(SfxManager.STOPWATCH)
 	time_stop_timer.start()
 	pause_music()
 	time_stopped.emit()
 
-func update_stage_variables(stage:Stage, scene:PackedScene):
+func update_stage_variables(stage:Stage, scene:PackedScene) -> void:
 	if(stage is Stage):
 		if(stage.has_checkpoint):
 			last_checkpoint = scene
@@ -221,9 +276,14 @@ func move_camera_to_player() -> void:
 		camera.global_position = Globals.current_player.global_position
 
 func check_death_barrier() -> void:
-	if(is_instance_valid(Globals.current_player) && !Globals.current_player.is_dead):
-		if(Globals.current_player.global_position.y > current_stage.global_position.y + current_stage.death_barrier):
-			Globals.current_player.death_barrier()
+	if(!is_instance_valid(Globals.current_player)):
+		return
+	if(!is_instance_valid(current_stage)):
+		return
+	if(Globals.current_player.is_dead):
+		return
+	if(Globals.current_player.global_position.y > current_stage.global_position.y + current_stage.death_barrier):
+		Globals.current_player.death_barrier()
 
 func stop_music() -> void:
 	music_player.stop()
@@ -324,6 +384,10 @@ func _physics_process(delta) -> void:
 		if(camera.global_position.x != camera_tween_position):
 			tween_camera_x(camera_tween_position, camera_tween_speed, delta)
 	check_death_barrier()
+	if(doing_time_countdown):
+		do_time_countdown()
+	if(doing_hearts_countdown):
+		do_hearts_countdown()
 	if(debug_mode && is_instance_valid(Globals.current_player)):
 		debug_window.get_node("Camera2D").global_position = Globals.current_player.global_position
 
@@ -419,7 +483,19 @@ func _on_title_screen_select_quit() -> void:
 func _on_title_screen_select_options() -> void:
 	pass # Replace with function body.
 
-
 func _on_time_stop_timer_timeout() -> void:
 	unpause_music()
 	time_started.emit()
+
+func _on_start_time_countdown_timer_timeout() -> void:
+	current_stage.process_mode = PROCESS_MODE_DISABLED
+	doing_time_countdown = true
+
+func _on_start_hearts_countdown_timer_timeout() -> void:
+	doing_hearts_countdown = true
+
+func _on_go_to_next_level_timer_timeout() -> void:
+	doing_time_countdown = false
+	doing_hearts_countdown = false
+	unload_current_stage(true)
+	full_blackout.visible = true

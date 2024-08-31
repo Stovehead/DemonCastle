@@ -44,6 +44,7 @@ const NUM_STARTING_HEARTS:int = 5
 
 var player_direction:int = 1
 var player_has_control:bool = true
+var can_move_horizontally:bool = true
 var cutscene_control:bool = false
 var cutscene_move_direction:int = 1
 var cutscene_move_speed_factor:float = 1
@@ -389,7 +390,10 @@ func floor_movement(delta:float, did_horizontal_movement:bool) -> void:
 		hit_floor_after_hit()
 	# Horizontal movement
 	if(!did_horizontal_movement && !is_hurt && !is_dead):
-		check_horizontal_input(delta)
+		if(can_move_horizontally):
+			check_horizontal_input(delta)
+		else:
+			stop_movement(delta)
 	# Jumping
 	if(queued_jump && !is_whipping && !on_stairs && stun_timer.is_stopped()):
 		start_jump()

@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=3 uid="uid://dscymxjmydhah"]
+
+[ext_resource type="PackedScene" uid="uid://dmgd6je3y8wn2" path="res://scenes/falling_object.tscn" id="1_30koj"]
+[ext_resource type="Texture2D" uid="uid://3sb2ig5ifxnj" path="res://media/graphics/magic_crystal.png" id="2_0iblm"]
+[ext_resource type="Script" path="res://scripts/magic_crystal.gd" id="3_1i844"]
+
+[sub_resource type="Animation" id="Animation_u510w"]
+resource_name = "default"
+length = 0.0666683
+loop_mode = 1
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_0yats"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1nt88"]
+_data = {
+"RESET": SubResource("Animation_0yats"),
+"default": SubResource("Animation_u510w")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g0k2n"]
+size = Vector2(14, 16)
+
+[node name="MagicCrystal" instance=ExtResource("1_30koj")]
+despawn_on_hit_ground = false
+gravity_enabled = false
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="3"]
+texture = ExtResource("2_0iblm")
+hframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
+libraries = {
+"": SubResource("AnimationLibrary_1nt88")
+}
+
+[node name="Upgrade" type="Area2D" parent="." index="5" node_paths=PackedStringArray("sprite", "falling_object", "animation_player")]
+collision_layer = 64
+collision_mask = 0
+monitoring = false
+monitorable = false
+script = ExtResource("3_1i844")
+sprite = NodePath("../Sprite2D")
+falling_object = NodePath("..")
+animation_player = NodePath("../AnimationPlayer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgrade" index="0"]
+shape = SubResource("RectangleShape2D_g0k2n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="6"]
+shape = SubResource("RectangleShape2D_g0k2n")
+
+[node name="StartFallTimer" type="Timer" parent="." index="7"]
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="StartFallTimer" to="Upgrade" method="_on_start_fall_timer_timeout"]

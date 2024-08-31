@@ -99,7 +99,11 @@ damage = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("RectangleShape2D_lm664")
 
-[node name="StopComponent" parent="." instance=ExtResource("5_mk3wi")]
+[node name="StopComponent" parent="." node_paths=PackedStringArray("timers", "animation_player", "hitbox", "hurtbox") instance=ExtResource("5_mk3wi")]
+timers = [NodePath("../StartFlyingTimer"), NodePath("../WaitTimer"), NodePath("../SwoopTimer")]
+animation_player = NodePath("../AnimationPlayer")
+hitbox = NodePath("../Hitbox")
+hurtbox = NodePath("../Hurtbox")
 
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("5_s3wxt")

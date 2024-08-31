@@ -20,6 +20,11 @@ const REVERSE_GRAVITY:float = 60.0
 const HALF_WIDTH:float = 24
 const WAIT_AFTER_FIREBALL_TIME:float = 0.4
 const FIREBALL_SPEED:float = 105.0
+const BOSS_FLAME_SIZE:Vector2 = Vector2(8, 16)
+const BOSS_FLAME_OFFSET:Vector2 = Vector2(-12, -16)
+const TIME_TO_SPAWN_MAGIC_CRYSTAL:float = 2.067
+
+@export var magic_crystal_spawner:MagicCrystalSpawner
 
 @onready var hitbox:Hitbox = $Hitbox
 @onready var health_component:HealthComponent = $HealthComponent
@@ -30,6 +35,7 @@ const FIREBALL_SPEED:float = 105.0
 @onready var wait_timer:Timer = $WaitTimer
 @onready var swoop_timer:Timer = $SwoopTimer
 @onready var fireball_scene:PackedScene = preload("res://scenes/fireball.tscn")
+@onready var boss_flame_scene:PackedScene = preload("res://scenes/boss_flame.tscn")
 
 var current_state:States = States.PERCH
 var fly_target:Vector2
@@ -68,6 +74,16 @@ func check_reached_screen_edge() -> void:
 	elif(global_position.x - HALF_WIDTH < camera_position.x - screen_half_width || global_position.x + HALF_WIDTH > camera_position.x + screen_half_width):
 		velocity.x *= -1
 
+func spawn_boss_flame(spawn_position:Vector2) -> void:
+	var new_boss_flame:Node2D = boss_flame_scene.instantiate()
+	add_sibling(new_boss_flame)
+	new_boss_flame.global_position = spawn_position
+
+func spawn_boss_flames() -> void:
+	for i in range(3):
+		for j in range(2):
+			spawn_boss_flame(global_position + BOSS_FLAME_OFFSET + Vector2(i*BOSS_FLAME_SIZE.x, j*BOSS_FLAME_SIZE.y))
+
 func _physics_process(delta: float) -> void:
 	if(stop_component.is_stopped):
 		return
@@ -93,9 +109,12 @@ func _on_start_flying_timer_timeout() -> void:
 	animation_player.play("fly")
 	start_flying()
 
-func _on_hitbox_got_hit(attacker: Hurtbox) -> void:
+func _on_hitbox_got_hit(_attacker: Hurtbox) -> void:
 	Globals.game_instance.enemy_hp_changed.emit(health_component.remaining_hp, false)
 	if(health_component.remaining_hp <= 0):
+		spawn_boss_flames()
+		if(is_instance_valid(magic_crystal_spawner)):
+			magic_crystal_spawner.spawn(TIME_TO_SPAWN_MAGIC_CRYSTAL)
 		queue_free()
 		return
 	stop_component.stun()

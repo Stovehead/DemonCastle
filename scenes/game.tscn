@@ -345,6 +345,21 @@ process_callback = 0
 wait_time = 2.73
 one_shot = true
 
+[node name="StartTimeCountdownTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 4.0
+one_shot = true
+
+[node name="StartHeartsCountdownTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.833
+one_shot = true
+
+[node name="GoToNextLevelTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 1.9
+one_shot = true
+
 [node name="Flash" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="Flash"]
@@ -392,3 +407,6 @@ color = Color(0, 0, 0, 1)
 [connection signal="timeout" from="BlackScreenTimer" to="." method="_on_black_screen_timer_timeout"]
 [connection signal="timeout" from="ShortBlackScreenTimer" to="." method="_on_short_black_screen_timer_timeout"]
 [connection signal="timeout" from="TimeStopTimer" to="." method="_on_time_stop_timer_timeout"]
+[connection signal="timeout" from="StartTimeCountdownTimer" to="." method="_on_start_time_countdown_timer_timeout"]
+[connection signal="timeout" from="StartHeartsCountdownTimer" to="." method="_on_start_hearts_countdown_timer_timeout"]
+[connection signal="timeout" from="GoToNextLevelTimer" to="." method="_on_go_to_next_level_timer_timeout"]
