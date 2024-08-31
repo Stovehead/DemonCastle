@@ -560,10 +560,6 @@ func _process(_delta: float) -> void:
 	do_flashing()
 
 func _physics_process(delta:float) -> void:
-	if(Input.is_action_just_pressed("debug")):
-		current_subweapon += 1
-		current_subweapon %= 6
-		subweapon_changed.emit(current_subweapon)
 	handle_input(delta)
 	if(on_stairs):
 		collision.disabled = true
