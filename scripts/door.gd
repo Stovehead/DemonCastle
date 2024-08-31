@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 const CAMERA_UNLOCKED_LIMIT:int = 10000000
-const TWEEN_SPEED:float = 80.0
+const TWEEN_SPEED:float = 90.0
 
 @export_range(-1, 1, 2) var direction:int = 1
 @export var next_stage_path:String
@@ -46,7 +46,6 @@ func check_player_reached_door() -> void:
 			# Move camera to door position
 			Globals.game_instance.camera_on_player = false
 			var camera_tween:Tween = get_tree().create_tween()
-			camera_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 			var camera_tween_time:float = abs(global_position.x - Globals.game_instance.camera.global_position.x)/TWEEN_SPEED
 			camera_tween.tween_property(Globals.game_instance.camera, "global_position:x", global_position.x, camera_tween_time)
 			await camera_tween.finished
@@ -84,7 +83,6 @@ func check_player_reached_target() -> void:
 		await start_scroll_timer.timeout
 		# Move the camera to the next stage
 		var camera_tween:Tween = get_tree().create_tween()
-		camera_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 		var camera_tween_time:float = abs(edge_of_next_screen - Globals.game_instance.camera.global_position.x)/TWEEN_SPEED
 		camera_tween.tween_property(Globals.game_instance.camera, "global_position:x", edge_of_next_screen, camera_tween_time)
 		await camera_tween.finished

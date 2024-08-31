@@ -11,9 +11,11 @@ var next_stage:PackedScene
 
 func _ready() -> void:
 	super._ready()
-	next_stage = load(next_stage_path)
+	ResourceLoader.load_threaded_request(next_stage_path)
 
 func load_next_stage(game:Game) -> void:
+	next_stage = ResourceLoader.load_threaded_get(next_stage_path
+	)
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	game.blackout.visible = true
 	game.load_next_stage(next_stage, load_position)

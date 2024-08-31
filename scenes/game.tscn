@@ -369,6 +369,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
+[connection signal="enemy_hp_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/EnemyHealthBar" method="_hp_changed"]
 [connection signal="hearts_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Hearts" method="_hearts_changed"]
 [connection signal="lives_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer2/Lives" method="_lives_changed"]
 [connection signal="max_subweapons_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/Multiplier" method="_on_max_subweapons_changed"]

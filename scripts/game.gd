@@ -40,6 +40,7 @@ var music_pause_counter:int = 0
 var flashing:bool = false
 var flash_accumulator:int = 0
 var num_subweapon_hits:int = 0
+var music_fade_tween:Tween
 
 signal finished_fade
 signal finished_camera_tween
@@ -55,12 +56,14 @@ signal subweapon_changed(new_subweapon:int)
 signal time_stopped
 signal time_started
 signal loaded_stage
+signal finished_music_fade
 
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:AudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_1_inside.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_3.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
+@onready var boss_music:AudioStream = preload("res://media/music/poisonmind.ogg")
 @onready var blackout:ColorRect = $GUI/Blackout
 @onready var full_blackout:ColorRect = $GUI/FullBlackout
 @onready var time_timer:Timer = $TimeTimer
@@ -90,12 +93,26 @@ func _connect_player_signals(player:Player):
 func pause_music():
 	music_pause_counter += 1
 	music_player.stream_paused = true
+	if(is_instance_valid(music_fade_tween)):
+		music_fade_tween.pause()
 
 func unpause_music():
 	music_pause_counter -= 1
 	if(music_pause_counter > 0):
 		return
 	music_player.stream_paused = false
+	if(is_instance_valid(music_fade_tween)):
+		music_fade_tween.play()
+
+func fade_out_music(fade_time:float):
+	music_fade_tween = get_tree().create_tween()
+	music_fade_tween.set_ease(Tween.EASE_IN)
+	music_fade_tween.set_trans(Tween.TRANS_EXPO)
+	await music_fade_tween.tween_property(music_player, "volume_db", -80, fade_time).finished
+	music_player.stop()
+	music_player.volume_db = 0
+	music_fade_tween = null
+	finished_music_fade.emit()
 
 func flash_screen(time:float):
 	flashing = true

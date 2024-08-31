@@ -1,0 +1,125 @@
+[gd_scene load_steps=12 format=3 uid="uid://bmutoogn1vq46"]
+
+[ext_resource type="Script" path="res://scripts/vampire_bat.gd" id="1_7uuwt"]
+[ext_resource type="Texture2D" uid="uid://b8qt6w3y5tvrp" path="res://media/graphics/big_bat.png" id="1_ifw1e"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="3_gub1p"]
+[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="4_g2swu"]
+[ext_resource type="PackedScene" uid="uid://edlgvg0tw61b" path="res://scenes/stop_component.tscn" id="5_mk3wi"]
+[ext_resource type="Script" path="res://scripts/health_component.gd" id="5_s3wxt"]
+
+[sub_resource type="Animation" id="Animation_40ma8"]
+resource_name = "perch"
+length = 0.0166683
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_7rw66"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_gcb6u"]
+resource_name = "fly"
+length = 0.300002
+loop_mode = 1
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tc1gl"]
+_data = {
+"RESET": SubResource("Animation_7rw66"),
+"fly": SubResource("Animation_gcb6u"),
+"perch": SubResource("Animation_40ma8")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lm664"]
+size = Vector2(21, 16)
+
+[node name="VampireBat" type="CharacterBody2D"]
+script = ExtResource("1_7uuwt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ifw1e")
+hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tc1gl")
+}
+
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 4
+collision_mask = 32
+script = ExtResource("3_gub1p")
+health_component = NodePath("../HealthComponent")
+awarded_points = 3000
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_lm664")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("4_g2swu")
+damage = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_lm664")
+
+[node name="StopComponent" parent="." instance=ExtResource("5_mk3wi")]
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("5_s3wxt")
+max_hp = 16
+
+[node name="StartFlyingTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 2.0
+one_shot = true
+
+[node name="WaitTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
+[node name="SwoopTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
+[connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]
+[connection signal="got_hit" from="Hitbox" to="." method="_on_hitbox_got_hit"]
+[connection signal="timeout" from="StartFlyingTimer" to="." method="_on_start_flying_timer_timeout"]
+[connection signal="timeout" from="WaitTimer" to="." method="_on_wait_timer_timeout"]
+[connection signal="timeout" from="SwoopTimer" to="." method="_on_swoop_timer_timeout"]
