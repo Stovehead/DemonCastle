@@ -9,7 +9,7 @@ extends Control
 @export var a_display:TextureRect
 @export var b_display:TextureRect
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if(is_instance_valid(left_display)):
 		if(Input.is_action_pressed("left")):
 			left_display.modulate = Color(1, 1, 1)
