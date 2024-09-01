@@ -2,12 +2,14 @@ class_name StopComponent
 extends Node
 
 @export var freezable:bool = true
+@export var can_be_multi_hit:bool = true
 @export var timers:Array[Timer]
 @export var animation_player:AnimationPlayer
 @export var hitbox:Hitbox
 @export var hurtbox:Hurtbox
 
 @onready var stun_timer:Timer = $StunTimer
+@onready var invulnerability_timer:Timer = $InvulnerabilityTimer
 
 var is_stopped:bool = false
 var is_frozen:bool = false
@@ -49,6 +51,7 @@ func stun() -> void:
 			will_reenable_hitbox = true
 			hitbox.set_deferred("monitoring", false)
 	stun_timer.start()
+	invulnerability_timer.start()
 	if(is_frozen):
 		return
 	stop()
@@ -71,14 +74,14 @@ func _on_time_started() -> void:
 
 func _on_stun_timer_timeout() -> void:
 	is_stunned = false
-	if(will_reenable_hitbox && is_instance_valid(hitbox)):
-		# Have to do this to force update collision for some reason
-		hitbox.monitoring = true
-		hitbox.monitoring = false
-		hitbox.monitoring = true
-		for area in hitbox.get_overlapping_areas():
-			if(area is PlayerAttack && area.monitoring):
-				area._on_area_entered(hitbox)
 	if(is_frozen):
 		return
 	start()
+
+func _on_invulnerability_timer_timeout() -> void:
+	if(will_reenable_hitbox && is_instance_valid(hitbox)):
+		# Have to do this to force update collision for some reason
+		hitbox.monitoring = true
+		if(can_be_multi_hit):
+			hitbox.monitoring = false		
+			hitbox.monitoring = true

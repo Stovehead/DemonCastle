@@ -100,13 +100,17 @@ damage = 2
 shape = SubResource("RectangleShape2D_lm664")
 
 [node name="StopComponent" parent="." node_paths=PackedStringArray("timers", "animation_player", "hitbox", "hurtbox") instance=ExtResource("5_mk3wi")]
+can_be_multi_hit = false
 timers = [NodePath("../StartFlyingTimer"), NodePath("../WaitTimer"), NodePath("../SwoopTimer")]
 animation_player = NodePath("../AnimationPlayer")
 hitbox = NodePath("../Hitbox")
 hurtbox = NodePath("../Hurtbox")
 
 [node name="StunTimer" parent="StopComponent" index="0"]
-wait_time = 0.167
+wait_time = 0.084
+
+[node name="InvulnerabilityTimer" parent="StopComponent" index="1"]
+wait_time = 0.734
 
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("5_s3wxt")

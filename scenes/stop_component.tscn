@@ -10,4 +10,10 @@ process_callback = 0
 wait_time = 0.367
 one_shot = true
 
+[node name="InvulnerabilityTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.367
+one_shot = true
+
 [connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]
+[connection signal="timeout" from="InvulnerabilityTimer" to="." method="_on_invulnerability_timer_timeout"]

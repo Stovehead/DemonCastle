@@ -70,7 +70,7 @@ signal finished_music_fade
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:LinearAudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_18.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_2_underground.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var boss_music:AudioStream = preload("res://media/music/poisonmind.ogg")
 @onready var blackout:ColorRect = $GUI/Blackout
@@ -90,6 +90,7 @@ signal finished_music_fade
 @onready var start_time_countdown_timer:Timer = $StartTimeCountdownTimer
 @onready var start_hearts_countdown_timer:Timer = $StartHeartsCountdownTimer
 @onready var go_to_next_level_timer:Timer = $GoToNextLevelTimer
+@onready var thank_you_text:Label = $GUI/ThankYou
 
 func clear_persistent() -> void:
 	Globals.persistent_objects.clear()
@@ -120,6 +121,8 @@ func fade_out_music(fade_time:float) -> void:
 	music_fade_tween = get_tree().create_tween()
 	music_fade_tween.set_trans(Tween.TRANS_LINEAR)
 	music_fade_tween.tween_property(music_player, "volume_linear", 0, fade_time)
+	if(music_player.stream_paused):
+		music_fade_tween.pause()
 	await music_fade_tween.finished
 	music_fade_tween.stop()
 	music_player.stop()
@@ -500,3 +503,8 @@ func _on_go_to_next_level_timer_timeout() -> void:
 	doing_hearts_countdown = false
 	unload_current_stage(true)
 	full_blackout.visible = true
+	ShaderTime.time_scale = 1
+	await get_tree().create_timer(FADE_TIME).timeout
+	thank_you_text.text += "%06d" % clamp(score, 0, 999999)
+	thank_you_text.visible = true
+	fade_from_black(FADE_TIME)

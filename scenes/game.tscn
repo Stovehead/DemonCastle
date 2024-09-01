@@ -65,7 +65,6 @@ process_mode = 4
 visible = false
 
 [node name="HUD" type="PanelContainer" parent="GUI"]
-visible = false
 offset_right = 384.0
 offset_bottom = 35.0
 theme = ExtResource("2_kytct")
@@ -289,6 +288,20 @@ visible = false
 offset_right = 384.0
 offset_bottom = 216.0
 color = Color(0, 0, 0, 1)
+
+[node name="ThankYou" type="Label" parent="GUI"]
+visible = false
+offset_right = 384.0
+offset_bottom = 216.0
+theme = ExtResource("2_kytct")
+text = "THANK YOU FOR PLAYING!
+
+PLEASE MAKE SURE TO FILL OUT
+THE FEEDBACK FORM.
+
+FINAL SCORE-"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Camera" type="Camera2D" parent="."]
 
