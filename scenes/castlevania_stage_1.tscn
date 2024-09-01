@@ -68,5 +68,5 @@ position = Vector2(736, 192)
 secret_item_spawner = NodePath("../SecretItemSpawner")
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
-position = Vector2(48, 176)
+position = Vector2(48, 177)
 script = ExtResource("2_x8rwt")

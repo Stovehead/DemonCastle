@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://bjmityuwnbvo7"]
+[gd_scene load_steps=11 format=4 uid="uid://bjmityuwnbvo7"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_5j7wo"]
 [ext_resource type="AudioStream" uid="uid://bssm6y8l0d0mq" path="res://media/music/vampirekiller.ogg" id="2_f5sbe"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/player_spawner.gd" id="7_nuam7"]
 [ext_resource type="PackedScene" uid="uid://cxcrtby5j7sec" path="res://scenes/spawner.tscn" id="8_2thcl"]
 [ext_resource type="PackedScene" uid="uid://toy7h2j7tauc" path="res://scenes/zombie_spawner.tscn" id="8_rwpix"]
+[ext_resource type="PackedScene" uid="uid://by25ltsvlpl1r" path="res://scenes/player.tscn" id="10_vs1pe"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_5j7wo")
@@ -174,3 +175,6 @@ item_to_drop = 12
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(48, 200)
 script = ExtResource("7_nuam7")
+
+[node name="Player" parent="." instance=ExtResource("10_vs1pe")]
+position = Vector2(136, 176)

@@ -332,8 +332,6 @@ func _enter_tree():
 
 func _ready() -> void:
 	randomize()
-	ResourceLoader.load_threaded_request(INTRO_STAGE_PATH)
-	ResourceLoader.load_threaded_request(FINAL_STAGE_PATH)
 	if(debug_mode):
 		debug_window.show()
 		debug_window.get_viewport().world_2d = get_viewport().world_2d
@@ -482,6 +480,8 @@ func _on_short_black_screen_timer_timeout():
 	game_over_screen.process_mode = Node.PROCESS_MODE_INHERIT
 
 func _on_title_screen_select_start() -> void:
+	ResourceLoader.load_threaded_request(INTRO_STAGE_PATH)
+	ResourceLoader.load_threaded_request(FINAL_STAGE_PATH)
 	title_screen.visible = false
 	title_screen.process_mode = Node.PROCESS_MODE_DISABLED
 	full_blackout.visible = true

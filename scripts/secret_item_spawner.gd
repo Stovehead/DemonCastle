@@ -18,5 +18,6 @@ func spawn() -> void:
 		var tween:Tween = get_tree().create_tween()
 		tween.tween_property(new_instance, "global_position", global_position + ITEM_DISPLACEMENT,ITEM_RISE_TIME)
 		await tween.finished
-		new_instance.gravity_enabled = true
+		if(is_instance_valid(new_instance)):
+			new_instance.gravity_enabled = true
 		set_script(null)

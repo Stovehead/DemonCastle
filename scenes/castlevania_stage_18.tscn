@@ -38,6 +38,6 @@ height = 8
 direction = -1
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
-position = Vector2(336, 112)
+position = Vector2(336, 113)
 script = ExtResource("4_qyko3")
 facing_direction = -1
