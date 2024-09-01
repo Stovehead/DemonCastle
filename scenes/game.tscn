@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=4 uid="uid://dm2gjidl1pws5"]
+[gd_scene load_steps=37 format=4 uid="uid://dm2gjidl1pws5"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ml3fd"]
 [ext_resource type="FontFile" uid="uid://bu0a23vdmliiy" path="res://media/fonts/CastlevaniaNES.otf" id="2_3e0pq"]
@@ -20,10 +20,19 @@
 [ext_resource type="Texture2D" uid="uid://cqcetalmr55gk" path="res://media/graphics/doubler.png" id="16_ursnk"]
 [ext_resource type="Script" path="res://scripts/multiplier_display.gd" id="17_xj6to"]
 [ext_resource type="PackedScene" uid="uid://ccyrkr374lqo4" path="res://scenes/logos.tscn" id="18_j6eax"]
+[ext_resource type="Script" path="res://scripts/input_display.gd" id="19_nno4e"]
 [ext_resource type="Shader" path="res://shaders/screen_palette_swap.gdshader" id="19_t4gdl"]
+[ext_resource type="Texture2D" uid="uid://dcty56mf6awww" path="res://media/graphics/left_display.png" id="20_c7d5d"]
 [ext_resource type="Shader" path="res://shaders/screen_fade.gdshader" id="20_oj2do"]
 [ext_resource type="Script" path="res://scripts/linear_audio_stream_player.gd" id="21_iem20"]
+[ext_resource type="Texture2D" uid="uid://bc41kp00tjo3u" path="res://media/graphics/right_display.png" id="21_ofnga"]
 [ext_resource type="Texture2D" uid="uid://dcn7xtjdgjb06" path="res://media/graphics/black_fade_palette.png" id="21_tbxeh"]
+[ext_resource type="Texture2D" uid="uid://b7iptj40p7yxv" path="res://media/graphics/up_display.png" id="22_smarw"]
+[ext_resource type="Texture2D" uid="uid://tgf334w6rkgw" path="res://media/graphics/down_display.png" id="23_6nhk0"]
+[ext_resource type="Texture2D" uid="uid://44fi3hjpeqpr" path="res://media/graphics/start_display.png" id="24_5c8u3"]
+[ext_resource type="Texture2D" uid="uid://d2ttaedmcu41c" path="res://media/graphics/select_display.png" id="25_rpke7"]
+[ext_resource type="Texture2D" uid="uid://dvcps0mo1kkwy" path="res://media/graphics/b_display.png" id="26_ueaxd"]
+[ext_resource type="Texture2D" uid="uid://p3x1jv6xxhsq" path="res://media/graphics/a_display.png" id="27_x8vg0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2ieu"]
 content_margin_top = 3.0
@@ -275,6 +284,79 @@ one_shot = true
 [node name="Spacer4" type="Control" parent="GUI/HUD/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="InputDisplay" type="Control" parent="GUI" node_paths=PackedStringArray("left_display", "right_display", "up_display", "down_display", "start_display", "select_display", "a_display", "b_display")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 104.0
+offset_top = 3.0
+offset_right = 384.0
+offset_bottom = 35.0
+script = ExtResource("19_nno4e")
+left_display = NodePath("Left")
+right_display = NodePath("Right")
+up_display = NodePath("Up")
+down_display = NodePath("Down")
+start_display = NodePath("Start")
+select_display = NodePath("Select")
+a_display = NodePath("A")
+b_display = NodePath("B")
+
+[node name="Left" type="TextureRect" parent="GUI/InputDisplay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("20_c7d5d")
+stretch_mode = 2
+
+[node name="Right" type="TextureRect" parent="GUI/InputDisplay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("21_ofnga")
+stretch_mode = 2
+
+[node name="Up" type="TextureRect" parent="GUI/InputDisplay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("22_smarw")
+stretch_mode = 2
+
+[node name="Down" type="TextureRect" parent="GUI/InputDisplay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("23_6nhk0")
+stretch_mode = 2
+
+[node name="Start" type="TextureRect" parent="GUI/InputDisplay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("24_5c8u3")
+stretch_mode = 2
+
+[node name="Select" type="TextureRect" parent="GUI/InputDisplay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("25_rpke7")
+stretch_mode = 2
+
+[node name="B" type="TextureRect" parent="GUI/InputDisplay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("26_ueaxd")
+stretch_mode = 2
+
+[node name="A" type="TextureRect" parent="GUI/InputDisplay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("27_x8vg0")
+stretch_mode = 2
 
 [node name="TitleScreen" parent="GUI" instance=ExtResource("16_en5xr")]
 process_mode = 4

@@ -51,7 +51,7 @@ func start_flying() -> void:
 
 func start_swooping() -> void:
 	current_state = States.SWOOP
-	var player_position = Globals.current_player.global_position
+	var player_position = Globals.current_player.global_position + Vector2(0, Player.DEFAULT_COLLISION_SIZE.y/2)
 	velocity = global_position.direction_to(player_position) * SWOOP_SPEEDS.pick_random()
 	swoop_timer.start(SWOOP_TIMES.pick_random())
 
