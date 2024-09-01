@@ -17,6 +17,7 @@ run/max_fps=60
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 config/icon="res://media/icons/icon.svg"
+config/windows_native_icon="res://media/icons/icon.ico"
 
 [audio]
 
