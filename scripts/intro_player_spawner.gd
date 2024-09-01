@@ -7,6 +7,9 @@ const NEXT_STAGE_PATH:String = "res://scenes/castlevania_stage_1.tscn"
 
 @onready var game_start_timer:Timer = $GameStartTimer
 
+func _ready() -> void:
+	ResourceLoader.load_threaded_request(NEXT_STAGE_PATH)
+
 func _physics_process(_delta: float) -> void:
 	if(is_instance_valid(player) && player is Player):
 		if(Globals.crossed_point(player.global_position.x, global_position.x + TARGET, player.get_position_delta().x) && player.animation_player.assigned_animation == "walk"):
@@ -25,7 +28,7 @@ func spawn_player() -> Player:
 
 func _on_game_start_timer_timeout() -> void:
 	Globals.game_instance.full_blackout.visible = true
-	Globals.game_instance.last_checkpoint = load(NEXT_STAGE_PATH)
+	Globals.game_instance.last_checkpoint = ResourceLoader.load_threaded_get(NEXT_STAGE_PATH)
 	Globals.game_instance.black_screen_timer.start()
 	Globals.game_instance.unload_current_stage(false)
 	queue_free()

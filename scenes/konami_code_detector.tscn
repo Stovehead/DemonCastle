@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://wjd53324tc65"]
+
+[ext_resource type="Script" path="res://scripts/konami_code_detector.gd" id="1_vkrca"]
+
+[node name="KonamiCodeDetector" type="Node"]
+script = ExtResource("1_vkrca")

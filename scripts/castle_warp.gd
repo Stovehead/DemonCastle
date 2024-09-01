@@ -13,6 +13,9 @@ var activated:bool = false
 var finalized:bool = false
 var going_towards_target:bool = false
 
+func _ready() -> void:
+	ResourceLoader.load_threaded_request(next_stage_path)
+
 # Makes the player start walking towards the door
 func start_warp() -> void:
 	if(is_instance_valid(Globals.current_player) && Globals.current_player.is_on_floor()):
@@ -30,7 +33,7 @@ func load_next_stage():
 	finalized = true
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Globals.game_instance.blackout.visible = true
-	next_stage = load(next_stage_path)
+	next_stage = ResourceLoader.load_threaded_get(next_stage_path)
 	Globals.game_instance.load_next_stage(next_stage, load_position)
 	reparent(Globals.game_instance.next_stage)
 	Globals.game_instance.process_mode = Node.PROCESS_MODE_DISABLED

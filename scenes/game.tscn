@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://dm2gjidl1pws5"]
+[gd_scene load_steps=38 format=4 uid="uid://dm2gjidl1pws5"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ml3fd"]
 [ext_resource type="FontFile" uid="uid://bu0a23vdmliiy" path="res://media/fonts/CastlevaniaNES.otf" id="2_3e0pq"]
@@ -33,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://d2ttaedmcu41c" path="res://media/graphics/select_display.png" id="25_rpke7"]
 [ext_resource type="Texture2D" uid="uid://dvcps0mo1kkwy" path="res://media/graphics/b_display.png" id="26_ueaxd"]
 [ext_resource type="Texture2D" uid="uid://p3x1jv6xxhsq" path="res://media/graphics/a_display.png" id="27_x8vg0"]
+[ext_resource type="PackedScene" uid="uid://wjd53324tc65" path="res://scenes/konami_code_detector.tscn" id="29_s2xti"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2ieu"]
 content_margin_top = 3.0
@@ -361,6 +362,8 @@ stretch_mode = 2
 [node name="TitleScreen" parent="GUI" instance=ExtResource("16_en5xr")]
 process_mode = 4
 visible = false
+
+[node name="KonamiCodeDetector" parent="GUI/TitleScreen" instance=ExtResource("29_s2xti")]
 
 [node name="Logos" parent="GUI" instance=ExtResource("18_j6eax")]
 

@@ -32,7 +32,7 @@ process_mode = 4
 [node name="Transitional Stairs" parent="Objects" instance=ExtResource("4_us4f4")]
 position = Vector2(288, 128)
 next_stage_path = "res://scenes/castlevania_stage_18_top.tscn"
-load_position = Vector2(0, -96)
+load_position = Vector2(0, -192)
 target = 1
 height = 8
 direction = -1

@@ -14,6 +14,9 @@ const FRAMES_BETWEEN_HEART_COUNTDOWN_SOUND:int = 2
 const POINTS_PER_SECOND:int = 10
 const POINTS_PER_HEART:int = 100
 
+const INTRO_STAGE_PATH:String = "res://scenes/castlevania_intro_stage.tscn"
+const FINAL_STAGE_PATH:String = "res://scenes/castlevania_stage_18.tscn"
+
 var debug_mode:bool = false
 
 var showing_logos:bool = true
@@ -70,7 +73,7 @@ signal finished_music_fade
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:LinearAudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_2_underground.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_18.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var boss_music:AudioStream = preload("res://media/music/poisonmind.ogg")
 @onready var blackout:ColorRect = $GUI/Blackout
@@ -329,6 +332,8 @@ func _enter_tree():
 
 func _ready() -> void:
 	randomize()
+	ResourceLoader.load_threaded_request(INTRO_STAGE_PATH)
+	ResourceLoader.load_threaded_request(FINAL_STAGE_PATH)
 	if(debug_mode):
 		debug_window.show()
 		debug_window.get_viewport().world_2d = get_viewport().world_2d
@@ -438,7 +443,10 @@ func _on_death_timer_timeout():
 func _on_black_screen_timer_timeout():
 	lives_changed.emit(num_lives)
 	if(last_checkpoint == null):
-		last_checkpoint = load("res://scenes/castlevania_intro_stage.tscn")
+		if(Globals.entered_konami_code):
+			last_checkpoint = ResourceLoader.load_threaded_get(FINAL_STAGE_PATH)
+		else:
+			last_checkpoint = ResourceLoader.load_threaded_get(INTRO_STAGE_PATH)
 	load_stage(last_checkpoint, true)
 	full_blackout.visible = false
 
