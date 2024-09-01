@@ -70,7 +70,7 @@ signal finished_music_fade
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:LinearAudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_3.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_18.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var boss_music:AudioStream = preload("res://media/music/poisonmind.ogg")
 @onready var blackout:ColorRect = $GUI/Blackout
