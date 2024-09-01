@@ -60,6 +60,10 @@ offset_right = 384.0
 offset_bottom = 216.0
 color = Color(0, 0, 0, 1)
 
+[node name="Game Over" parent="GUI" instance=ExtResource("15_jld33")]
+process_mode = 4
+visible = false
+
 [node name="HUD" type="PanelContainer" parent="GUI"]
 visible = false
 offset_right = 384.0
@@ -273,10 +277,6 @@ one_shot = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Game Over" parent="GUI" instance=ExtResource("15_jld33")]
-process_mode = 4
-visible = false
-
 [node name="TitleScreen" parent="GUI" instance=ExtResource("16_en5xr")]
 process_mode = 4
 visible = false
@@ -395,11 +395,11 @@ color = Color(0, 0, 0, 1)
 [connection signal="stage_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer/Stage" method="update_label"]
 [connection signal="subweapon_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer2/MarginContainer/SubweaponContainer" method="_on_subweapon_changed"]
 [connection signal="time_left_changed" from="." to="GUI/HUD/VBoxContainer/HBoxContainer/Time" method="_time_changed"]
+[connection signal="continue_game" from="GUI/Game Over" to="." method="_on_continue_game"]
+[connection signal="end_game" from="GUI/Game Over" to="." method="_on_end_game"]
 [connection signal="timeout" from="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/PlayerHealthBar/Timer" to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/PlayerHealthBar" method="_update_hp_display"]
 [connection signal="timeout" from="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/EnemyHealthBar/Timer" to="GUI/HUD/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/EnemyHealthBar" method="_update_hp_display"]
 [connection signal="timeout" from="GUI/HUD/VBoxContainer/HBoxContainer2/Multiplier/FlashTimer" to="GUI/HUD/VBoxContainer/HBoxContainer2/Multiplier" method="_on_flash_timer_timeout"]
-[connection signal="continue_game" from="GUI/Game Over" to="." method="_on_continue_game"]
-[connection signal="end_game" from="GUI/Game Over" to="." method="_on_end_game"]
 [connection signal="select_options" from="GUI/TitleScreen" to="." method="_on_title_screen_select_options"]
 [connection signal="select_quit" from="GUI/TitleScreen" to="." method="_on_title_screen_select_quit"]
 [connection signal="select_start" from="GUI/TitleScreen" to="." method="_on_title_screen_select_start"]
