@@ -9,5 +9,5 @@ func _on_screen_entered():
 	if(abs(current_camera_pos.x + viewport_rect.size.x/2 - Globals.game_instance.camera.limit_right) < abs(current_camera_pos.x - viewport_rect.size.x/2 - Globals.game_instance.camera.limit_left)):
 		Globals.game_instance.camera.limit_left = current_camera_pos.x - viewport_rect.size.x/2 + 1
 	else:
-		Globals.game_instance.camera.limit_right = current_camera_pos.x + viewport_rect.size.x/2 - 1
+		Globals.game_instance.camera.limit_right = current_camera_pos.x + viewport_rect.size.x/2
 	screen_locked.emit()

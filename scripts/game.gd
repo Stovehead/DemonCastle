@@ -432,7 +432,6 @@ func _on_death_timer_timeout():
 	else:
 		black_screen_timer.start()
 
-
 func _on_black_screen_timer_timeout():
 	lives_changed.emit(num_lives)
 	if(last_checkpoint == null):
