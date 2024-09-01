@@ -64,6 +64,7 @@ enum {
 }
 
 func play_sound_effect(effect_id:int) -> AudioStreamPlayer:
+	print(effect_id)
 	var new_audio_player:AudioStreamPlayer = AudioStreamPlayer.new()
 	new_audio_player.stream = audio_streams[effect_id]
 	new_audio_player.finished.connect(_audio_finished.bind(new_audio_player))
