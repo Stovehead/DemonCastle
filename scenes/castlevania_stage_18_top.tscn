@@ -43,10 +43,6 @@ position = Vector2(-512, 32)
 position = Vector2(96, 104)
 item_to_drop = 9
 
-[node name="Candle2" parent="Objects" instance=ExtResource("6_tygdh")]
-position = Vector2(96, 104)
-item_to_drop = 9
-
 [node name="Candle3" parent="Objects" instance=ExtResource("6_tygdh")]
 position = Vector2(32, 136)
 item_to_drop = 3
