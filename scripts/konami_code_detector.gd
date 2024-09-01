@@ -22,7 +22,6 @@ func _physics_process(_delta: float) -> void:
 					progress += 1
 				else:
 					progress = 0
-				print(progress)
 	if(progress >= KONAMI_CODE.length()):
 		Globals.entered_konami_code = true
 		SfxManager.play_sound_effect(SfxManager.ONE_UP)

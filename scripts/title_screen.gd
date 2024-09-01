@@ -67,6 +67,8 @@ func _process(_delta: float) -> void:
 			input_direction += 1
 		if(input_direction != 0 && flash_timer.is_stopped()):
 			current_option += input_direction
+			if(current_option < 0):
+				current_option = NUM_OPTIONS - 1
 			current_option %= NUM_OPTIONS
 			heart_container.add_theme_constant_override("margin_top", current_option * SPACE_BETWEEN_OPTIONS)
 			SfxManager.play_sound_effect_no_overlap(SfxManager.SELECT)
