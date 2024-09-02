@@ -101,7 +101,7 @@ item_to_drop = 3
 [node name="BatSpawner" parent="Objects" instance=ExtResource("9_ycfrr")]
 
 [node name="PlayerSpawner" parent="." instance=ExtResource("6_q35hf")]
-position = Vector2(48, 96)
+position = Vector2(48, 97)
 
 [node name="WallMeat" parent="." instance=ExtResource("8_2uoam")]
 position = Vector2(264, 192)

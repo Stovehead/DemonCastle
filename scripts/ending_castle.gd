@@ -5,7 +5,7 @@ const FRAMES_BETWEEN_SHAKES:int = 2
 var frame_count:int = 0
 @export var collapsing:bool = false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if(!collapsing):
 		return
 	if(frame_count == 0):

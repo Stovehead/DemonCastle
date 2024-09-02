@@ -134,7 +134,7 @@ metadata/_edit_group_ = true
 [node name="MagicCrystal" parent="Objects/MagicCrystalSpawner" instance_placeholder="res://scenes/magic_crystal.tscn"]
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
-position = Vector2(40, 88)
+position = Vector2(48, 97)
 script = ExtResource("3_g3eg3")
 
 [connection signal="screen_locked" from="Objects/ScreenLock" to="Objects/VampireBat" method="_on_screen_locked"]

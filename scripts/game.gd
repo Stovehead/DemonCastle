@@ -58,6 +58,7 @@ var time_countdown_frame_counter:int = 0
 var doing_time_countdown:bool = false
 var doing_hearts_countdown:bool = false
 var ending_instance:Ending
+var hard_mode:bool = false
 
 signal finished_fade
 signal finished_camera_tween
@@ -232,10 +233,8 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 		if(is_instance_valid(Globals.current_player) && Globals.current_player is Player):
 			Globals.current_player.reparent(current_stage)
 			Globals.current_player.global_position = player_spawner.global_position
-			Globals.current_player.last_grounded_y = player_spawner.global_position.y
-			Globals.current_player.player_direction = current_stage.player_spawner.facing_direction
-			Globals.current_player.can_move_horizontally = true
-			Globals.current_player.player_has_control = true
+			Globals.current_player.reset_variables()
+			Globals.current_player.player_direction = player_spawner.facing_direction
 			Globals.current_player.process_mode = Node.PROCESS_MODE_INHERIT
 		else:
 			Globals.current_player = player_spawner.spawn_player()
@@ -557,7 +556,8 @@ func _on_go_to_next_level_timer_timeout() -> void:
 func _on_credits_finished() -> void:
 	if(is_instance_valid(ending_instance)):
 		ending_instance.queue_free()
-	ResourceLoader.load_threaded_get(INTRO_STAGE_PATH)
+	ResourceLoader.load_threaded_get(INTRO_STAGE_PATH) 
 	stage_to_load = STAGE_1_PATH
 	last_checkpoint = null
+	hard_mode = true
 	black_screen_timer.start()

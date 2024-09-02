@@ -102,6 +102,35 @@ var is_time_stopped:bool = false
 
 @onready var palette_swap_shader:Shader = preload("res://shaders/palette_swap.gdshader")
 
+func reset_variables() -> void:
+	player_has_control = true
+	can_move_horizontally = true
+	cutscene_control = false
+	queued_jump = false
+	queued_whip = false
+	is_jumping = false
+	is_falling = false
+	is_whipping = false
+	is_damaged = false
+	is_crouching = false
+	last_grounded_y = global_position.y
+	num_hearts = NUM_STARTING_HEARTS
+	num_existing_subweapons = 0
+	new_subweapon = null
+	on_stairs = false
+	in_stair_bottom = false
+	in_stair_top = false
+	going_up_stairs = false
+	just_warped = false
+	is_hurt = false
+	is_dead = false
+	time_up = false
+	is_invincible = false
+	is_time_stopped = false
+	whip.visible = false
+	whip.reset()
+	animation_player.play("idle")
+
 func emit_signals() -> void:
 	hp_changed.emit(health_component.remaining_hp, true)
 	hearts_changed.emit(num_hearts)

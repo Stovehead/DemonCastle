@@ -123,7 +123,7 @@ position = Vector2(464, 192)
 secret_item_spawner = NodePath("../SecretItemSpawner")
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
-position = Vector2(112, 72)
+position = Vector2(112, 81)
 script = ExtResource("5_ebkfr")
 
 [editable path="Objects/BreakableBlock"]

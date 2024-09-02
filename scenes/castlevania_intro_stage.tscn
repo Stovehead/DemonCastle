@@ -61,7 +61,6 @@ objects = NodePath("Objects")
 player_spawner = NodePath("PlayerSpawner")
 right_limit = 384
 music = ExtResource("2_uf5gu")
-stage_number = 1
 starting_time = 300
 start_timer = false
 
