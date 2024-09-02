@@ -28,6 +28,7 @@ var current_level:int = 1:
 		position.y = new_position.y
 
 func play_animation() -> void:
+	animation_player.stop()
 	if(current_level == 1):
 		animation_player.play("level1")
 	elif(current_level == 2):

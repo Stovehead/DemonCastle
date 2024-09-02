@@ -250,6 +250,8 @@ func get_off_stairs() -> bool:
 
 func go_to_idle_on_stairs() -> void:
 	velocity = Vector2.ZERO
+	if(is_whipping):
+		return
 	if(player_direction == current_stair.direction):
 		animation_player.play("stair_up_idle")
 	else:
@@ -626,6 +628,8 @@ func _on_hitbox_got_hit(attacker:Hurtbox) -> void:
 		whip.set_deferred("monitorable", false)
 		velocity = Vector2.ZERO
 	else:
+		whip.visible = false
+		whip.reset()
 		if(global_position.x > attacker.global_position.x):
 			player_direction = 1
 		else:
@@ -634,7 +638,6 @@ func _on_hitbox_got_hit(attacker:Hurtbox) -> void:
 		velocity.y = KNOCKBACK_VELOCITY.y
 		is_hurt = true
 		is_whipping = false
-		whip.reset()
 		animation_player.play("hurt")
 
 func _on_hp_changed(new_hp) -> void:
@@ -648,7 +651,6 @@ func _on_stair_stun_timer_timeout() -> void:
 	whip_animation_player.speed_scale = 1
 	if(health_component.remaining_hp > 0):
 		invulnerability_timer.start()
-		is_whipping = false
 		whip.monitorable = true
 	else:
 		fall_off_stairs()
