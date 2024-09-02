@@ -80,6 +80,7 @@ var is_hurt:bool = false
 var is_dead:bool = false
 var time_up:bool = false
 var is_invincible:bool = false
+var is_time_stopped:bool = false
 
 @onready var collision:CollisionShape2D = $Collision
 @onready var jump_timer:Timer = $JumpTimer
@@ -160,6 +161,7 @@ func create_subweapon(attack:int) -> void:
 		new_subweapon.subweapon_despawned.connect(_on_subweapon_despawned)
 
 func do_stopwatch() -> void:
+	is_time_stopped = true
 	time_stopped.emit()
 	num_hearts -= STOPWATCH_COST
 	hearts_changed.emit(num_hearts)
@@ -172,7 +174,7 @@ func do_attack() -> void:
 	var attack:int = get_weapon_to_attack()
 	if(attack == Subweapons.NONE || attack == Subweapons.STOPWATCH || !Input.is_action_pressed("up") || num_hearts <= 0):
 		whip.play_animation()
-		if(attack == Subweapons.STOPWATCH && num_hearts >= STOPWATCH_COST && Input.is_action_pressed("up")):
+		if(attack == Subweapons.STOPWATCH && num_hearts >= STOPWATCH_COST && Input.is_action_pressed("up") && !is_time_stopped):
 			do_stopwatch()
 	else:
 		create_subweapon(attack)
@@ -653,3 +655,6 @@ func _on_stair_stun_timer_timeout() -> void:
 
 func _on_subweapon_despawned() -> void:
 	num_existing_subweapons -= 1
+
+func _on_time_started() -> void:
+	is_time_stopped = false
