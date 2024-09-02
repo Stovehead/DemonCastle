@@ -16,15 +16,17 @@ const POINTS_PER_HEART:int = 100
 const FINAL_STAGE_NUMBER:int = 18
 
 const INTRO_STAGE_PATH:String = "res://scenes/castlevania_intro_stage.tscn"
+const STAGE_1_PATH:String = "res://scenes/castlevania_stage_1.tscn"
 const FINAL_STAGE_PATH:String = "res://scenes/castlevania_stage_18.tscn"
 const ENDING_PATH:String = "res://scenes/ending.tscn"
 
 var debug_mode:bool = false
 
 var showing_logos:bool = true
-var load_test_stage:bool = true
+var load_test_stage:bool = false
 
 var current_stage:Stage
+var stage_to_load:String
 var next_stage:Stage
 var camera_on_player:bool = true
 var camera_tween_position:float
@@ -55,6 +57,7 @@ var music_fade_tween:Tween
 var time_countdown_frame_counter:int = 0
 var doing_time_countdown:bool = false
 var doing_hearts_countdown:bool = false
+var ending_instance:Ending
 
 signal finished_fade
 signal finished_camera_tween
@@ -229,7 +232,10 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 		if(is_instance_valid(Globals.current_player) && Globals.current_player is Player):
 			Globals.current_player.reparent(current_stage)
 			Globals.current_player.global_position = player_spawner.global_position
+			Globals.current_player.last_grounded_y = player_spawner.global_position.y
 			Globals.current_player.player_direction = current_stage.player_spawner.facing_direction
+			Globals.current_player.can_move_horizontally = true
+			Globals.current_player.player_has_control = true
 			Globals.current_player.process_mode = Node.PROCESS_MODE_INHERIT
 		else:
 			Globals.current_player = player_spawner.spawn_player()
@@ -432,6 +438,10 @@ func _on_player_died():
 	time_timer.stop()
 	SfxManager.play_sound_effect(SfxManager.DEATH)
 	death_timer.start()
+	doing_time_countdown = false
+	doing_hearts_countdown = false
+	start_time_countdown_timer.stop()
+	start_hearts_countdown_timer.stop()
 	num_lives -= 1
 
 func _on_death_timer_timeout():
@@ -445,10 +455,15 @@ func _on_death_timer_timeout():
 func _on_black_screen_timer_timeout():
 	lives_changed.emit(num_lives)
 	if(last_checkpoint == null):
-		if(Globals.entered_konami_code):
-			last_checkpoint = ResourceLoader.load_threaded_get(FINAL_STAGE_PATH)
+		if(stage_to_load == null):
+			if(Globals.entered_konami_code):
+				stage_to_load = FINAL_STAGE_PATH
+			else:
+				stage_to_load = INTRO_STAGE_PATH
+		if(ResourceLoader.load_threaded_get_status(stage_to_load) == ResourceLoader.THREAD_LOAD_LOADED):
+			last_checkpoint = ResourceLoader.load_threaded_get(stage_to_load)
 		else:
-			last_checkpoint = ResourceLoader.load_threaded_get(INTRO_STAGE_PATH)
+			last_checkpoint = load(stage_to_load)
 	load_stage(last_checkpoint, true)
 	full_blackout.visible = false
 
@@ -460,7 +475,11 @@ func _on_continue_game():
 	score_changed.emit(score)
 	num_lives = STARTING_LIVES
 	next_score_threshold = POINTS_1_UP_THRESHOLD
-	last_checkpoint = last_permanent_checkpoint
+	if(is_instance_valid(last_permanent_checkpoint)):
+		last_checkpoint = last_permanent_checkpoint
+	else:
+		stage_to_load = STAGE_1_PATH
+		ResourceLoader.load_threaded_request(STAGE_1_PATH)
 	black_screen_timer.start()
 
 func _on_end_game():
@@ -484,8 +503,11 @@ func _on_short_black_screen_timer_timeout():
 	game_over_screen.process_mode = Node.PROCESS_MODE_INHERIT
 
 func _on_title_screen_select_start() -> void:
-	ResourceLoader.load_threaded_request(INTRO_STAGE_PATH)
-	ResourceLoader.load_threaded_request(FINAL_STAGE_PATH)
+	if(Globals.entered_konami_code):
+		stage_to_load = FINAL_STAGE_PATH
+	else:
+		stage_to_load = INTRO_STAGE_PATH
+	ResourceLoader.load_threaded_request(stage_to_load)
 	title_screen.visible = false
 	title_screen.process_mode = Node.PROCESS_MODE_DISABLED
 	full_blackout.visible = true
@@ -524,9 +546,18 @@ func _on_go_to_next_level_timer_timeout() -> void:
 	await get_tree().create_timer(FADE_TIME).timeout
 	if(will_load_ending):
 		var ending_scene:PackedScene = ResourceLoader.load_threaded_get(ENDING_PATH)
-		var ending_instance:Node2D = ending_scene.instantiate()
+		ending_instance = ending_scene.instantiate()
 		gui.add_child(ending_instance)
+		ending_instance.credits_finished.connect(_on_credits_finished)
 	else:
 		thank_you_text.text += "%06d" % clamp(score, 0, 999999)
 		thank_you_text.visible = true
 		fade_from_black(FADE_TIME)
+
+func _on_credits_finished() -> void:
+	if(is_instance_valid(ending_instance)):
+		ending_instance.queue_free()
+	ResourceLoader.load_threaded_get(INTRO_STAGE_PATH)
+	stage_to_load = STAGE_1_PATH
+	last_checkpoint = null
+	black_screen_timer.start()

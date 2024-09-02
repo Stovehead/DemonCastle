@@ -18,6 +18,7 @@ shader_parameter/palette = ExtResource("3_cdokt")
 
 [sub_resource type="Animation" id="Animation_biirx"]
 length = 0.001
+step = 0.0166667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -69,7 +70,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_gkl7q"]
 resource_name = "default"
-length = 50.0
+length = 83.3335
 step = 0.0166667
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -102,16 +103,70 @@ tracks/2/path = NodePath("Credits")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(12.2333, 16.4333, 17.4333),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(12.2333, 16.4333, 17.4333, 21.4167, 22.4167, 26.4, 27.4, 31.3833, 32.3833, 36.3667, 37.3667, 41.35, 42.35, 46.3333, 47.3333, 51.2333, 52.2333, 56.2167, 57.2167, 61.2, 62.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "values": [{
-"args": [0.5],
+"args": [0.2],
 "method": &"fade_in"
 }, {
-"args": [0.5],
+"args": [0.2],
 "method": &"fade_out"
 }, {
-"args": [0.5],
+"args": [0.2],
+"method": &"fade_in"
+}, {
+"args": [0.2],
+"method": &"fade_out"
+}, {
+"args": [0.2],
+"method": &"fade_in"
+}, {
+"args": [0.2],
+"method": &"fade_out"
+}, {
+"args": [0.2],
+"method": &"fade_in"
+}, {
+"args": [0.2],
+"method": &"fade_out"
+}, {
+"args": [0.2],
+"method": &"fade_in"
+}, {
+"args": [0.2],
+"method": &"fade_out"
+}, {
+"args": [0.2],
+"method": &"fade_in"
+}, {
+"args": [0.2],
+"method": &"fade_out"
+}, {
+"args": [0.2],
+"method": &"fade_in"
+}, {
+"args": [0.2],
+"method": &"fade_out"
+}, {
+"args": [0.2],
+"method": &"fade_in"
+}, {
+"args": [0.2],
+"method": &"fade_out"
+}, {
+"args": [0.2],
+"method": &"fade_in"
+}, {
+"args": [0.2],
+"method": &"fade_out"
+}, {
+"args": [0.2],
+"method": &"fade_in"
+}, {
+"args": [0.2],
+"method": &"fade_out"
+}, {
+"args": [0.2],
 "method": &"fade_in"
 }]
 }
@@ -122,11 +177,17 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(12.2333),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(2.1, 12.2333, 67.25),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [],
+"method": &"play_castle_collapse_sound"
+}, {
+"args": [],
 "method": &"play_music"
+}, {
+"args": [],
+"method": &"emit_credits_finished"
 }]
 }
 tracks/4/type = "value"
@@ -148,10 +209,10 @@ tracks/5/path = NodePath("Credits:frame")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(12.2333, 17.4333),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(12.2333, 17.4333, 22.4167, 27.4, 32.3833, 37.3667, 42.35, 47.3333, 52.2333, 57.2167, 62.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1]
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u7ygq"]

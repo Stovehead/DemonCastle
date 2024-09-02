@@ -29,7 +29,8 @@ var sfx_paths:Array = [
 	"res://media/sfx/secret.wav",
 	"res://media/sfx/rosary.wav",
 	"res://media/sfx/invincibility_running_out.wav",
-	"res://media/sfx/heart_countdown.wav"]
+	"res://media/sfx/castle_collapse.wav"]
+
 var audio_streams:Array
 var playing_sounds:Array
 enum {
@@ -60,7 +61,8 @@ enum {
 	HEART_COUNTDOWN,
 	SECRET,
 	ROSARY,
-	INVINCIBILITY_RUNNING_OUT
+	INVINCIBILITY_RUNNING_OUT,
+	CASTLE_COLLAPSE,
 }
 
 func play_sound_effect(effect_id:int) -> AudioStreamPlayer:

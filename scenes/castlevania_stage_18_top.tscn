@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://cave2kg26t6md"]
+[gd_scene load_steps=9 format=4 uid="uid://cave2kg26t6md"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_jeqll"]
 [ext_resource type="Script" path="res://scripts/player_spawner.gd" id="2_6l17a"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bkbmw24gpp54p" path="res://scenes/transitional_stairs.tscn" id="4_xapgg"]
 [ext_resource type="PackedScene" uid="uid://bunw8e1a1u3i8" path="res://scenes/screen_lock.tscn" id="5_626tj"]
 [ext_resource type="PackedScene" uid="uid://cdots7dcx5gaa" path="res://scenes/candle.tscn" id="6_tygdh"]
+[ext_resource type="PackedScene" uid="uid://dscymxjmydhah" path="res://scenes/magic_crystal.tscn" id="8_q7d3t"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("tile_map", "objects", "player_spawner")]
 script = ExtResource("1_jeqll")
@@ -83,3 +84,6 @@ item_to_drop = 10
 position = Vector2(144, 144)
 script = ExtResource("2_6l17a")
 facing_direction = -1
+
+[node name="MagicCrystal" parent="." instance=ExtResource("8_q7d3t")]
+position = Vector2(-320, 144)

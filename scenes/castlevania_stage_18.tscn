@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=4 uid="uid://df6d7f333hnwb"]
+[gd_scene load_steps=6 format=4 uid="uid://df6d7f333hnwb"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_q7vu4"]
 [ext_resource type="AudioStream" uid="uid://cpvbq6oy3ca6r" path="res://media/music/nothingtolose.ogg" id="2_gooiq"]
 [ext_resource type="TileSet" uid="uid://cfxhikoyxph70" path="res://tilesets/cv_level_7.tres" id="3_751sh"]
 [ext_resource type="Script" path="res://scripts/player_spawner.gd" id="4_qyko3"]
 [ext_resource type="PackedScene" uid="uid://bkbmw24gpp54p" path="res://scenes/transitional_stairs.tscn" id="4_us4f4"]
-[ext_resource type="PackedScene" uid="uid://dscymxjmydhah" path="res://scenes/magic_crystal.tscn" id="6_ih51n"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("tile_map", "objects", "player_spawner")]
 script = ExtResource("1_q7vu4")
@@ -42,6 +41,3 @@ direction = -1
 position = Vector2(336, 113)
 script = ExtResource("4_qyko3")
 facing_direction = -1
-
-[node name="MagicCrystal" parent="." instance=ExtResource("6_ih51n")]
-position = Vector2(296, 88)
