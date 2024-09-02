@@ -1,0 +1,68 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dwabrw2s2p12g"]
+
+[ext_resource type="Texture2D" uid="uid://o2qag8s3vamn" path="res://media/graphics/cvendingtileset.png" id="1_tm21t"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ji2uh"]
+texture = ExtResource("1_tm21t")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+1:0/0/z_index = 1
+2:0/0 = 0
+2:0/0/z_index = 1
+3:0/0 = 0
+3:0/0/z_index = 1
+4:0/0 = 0
+4:0/0/z_index = 1
+5:0/0 = 0
+5:0/0/z_index = 1
+0:1/0 = 0
+1:1/0 = 0
+1:1/0/z_index = 1
+2:1/0 = 0
+2:1/0/z_index = 1
+3:1/0 = 0
+3:1/0/z_index = 1
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+1:2/0/z_index = 1
+2:2/0 = 0
+2:2/0/z_index = 1
+3:2/0 = 0
+3:2/0/z_index = 1
+4:2/0 = 0
+4:2/0/z_index = 1
+5:2/0 = 0
+5:2/0/z_index = 1
+6:2/0 = 0
+6:2/0/z_index = 1
+7:2/0 = 0
+7:2/0/z_index = 1
+6:0/0 = 0
+6:0/0/z_index = 1
+7:0/0 = 0
+7:0/0/z_index = 1
+8:0/0 = 0
+8:0/0/z_index = 1
+8:1/0 = 0
+8:1/0/z_index = 1
+8:2/0 = 0
+8:2/0/z_index = 1
+9:0/0 = 0
+9:0/0/z_index = 1
+9:1/0 = 0
+9:1/0/z_index = 1
+9:2/0 = 0
+9:2/0/z_index = 1
+10:0/0 = 0
+10:0/0/z_index = 1
+10:1/0 = 0
+10:1/0/z_index = 1
+
+[resource]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_ji2uh")

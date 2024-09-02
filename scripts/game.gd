@@ -13,9 +13,11 @@ const FRAMES_BETWEEN_HEART_COUNTDOWN:int = 2
 const FRAMES_BETWEEN_HEART_COUNTDOWN_SOUND:int = 2
 const POINTS_PER_SECOND:int = 10
 const POINTS_PER_HEART:int = 100
+const FINAL_STAGE_NUMBER:int = 18
 
 const INTRO_STAGE_PATH:String = "res://scenes/castlevania_intro_stage.tscn"
 const FINAL_STAGE_PATH:String = "res://scenes/castlevania_stage_18.tscn"
+const ENDING_PATH:String = "res://scenes/ending.tscn"
 
 var debug_mode:bool = false
 
@@ -76,6 +78,7 @@ signal finished_music_fade
 @onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_18.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var boss_music:AudioStream = preload("res://media/music/poisonmind.ogg")
+@onready var gui:CanvasLayer = $GUI
 @onready var blackout:ColorRect = $GUI/Blackout
 @onready var full_blackout:ColorRect = $GUI/FullBlackout
 @onready var time_timer:Timer = $TimeTimer
@@ -507,12 +510,22 @@ func _on_start_hearts_countdown_timer_timeout() -> void:
 	doing_hearts_countdown = true
 
 func _on_go_to_next_level_timer_timeout() -> void:
+	Globals.current_player.player_has_control = false
 	doing_time_countdown = false
 	doing_hearts_countdown = false
+	var will_load_ending:bool = false
+	if(current_stage.stage_number == FINAL_STAGE_NUMBER):
+		will_load_ending = true
+		ResourceLoader.load_threaded_request(ENDING_PATH)
 	unload_current_stage(true)
 	full_blackout.visible = true
 	ShaderTime.time_scale = 1
 	await get_tree().create_timer(FADE_TIME).timeout
-	thank_you_text.text += "%06d" % clamp(score, 0, 999999)
-	thank_you_text.visible = true
-	fade_from_black(FADE_TIME)
+	if(will_load_ending):
+		var ending_scene:PackedScene = ResourceLoader.load_threaded_get(ENDING_PATH)
+		var ending_instance:Node2D = ending_scene.instantiate()
+		gui.add_child(ending_instance)
+	else:
+		thank_you_text.text += "%06d" % clamp(score, 0, 999999)
+		thank_you_text.visible = true
+		fade_from_black(FADE_TIME)

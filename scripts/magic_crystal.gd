@@ -1,7 +1,5 @@
 extends Upgrade
 
-const FINAL_STAGE_NUMBER:int = 18
-
 @export var sprite:Sprite2D
 @export var falling_object:FallingObject
 @export var animation_player:AnimationPlayer
@@ -26,7 +24,7 @@ func do_upgrade(player:Player):
 	player.can_move_horizontally = false
 	player.health_component.remaining_hp = 16
 	player.hp_changed.emit(player.health_component.remaining_hp, false)
-	if(Globals.game_instance.current_stage.stage_number == FINAL_STAGE_NUMBER):
+	if(Globals.game_instance.current_stage.stage_number == Game.FINAL_STAGE_NUMBER):
 		Globals.game_instance.music_player.stream = all_clear_music
 	else:
 		Globals.game_instance.music_player.stream = stage_clear_music
