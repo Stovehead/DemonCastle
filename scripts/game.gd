@@ -546,6 +546,7 @@ func _on_go_to_next_level_timer_timeout() -> void:
 	if(will_load_ending):
 		var ending_scene:PackedScene = ResourceLoader.load_threaded_get(ENDING_PATH)
 		ending_instance = ending_scene.instantiate()
+		ending_instance.visible = false
 		gui.add_child(ending_instance)
 		ending_instance.credits_finished.connect(_on_credits_finished)
 	else:

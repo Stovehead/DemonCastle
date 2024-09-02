@@ -129,7 +129,9 @@ func reset_variables() -> void:
 	is_time_stopped = false
 	whip.visible = false
 	whip.reset()
+	whip.collision.disabled = true
 	animation_player.play("idle")
+	sprite.frame = 0
 
 func emit_signals() -> void:
 	hp_changed.emit(health_component.remaining_hp, true)
@@ -201,9 +203,9 @@ func do_attack() -> void:
 	else:
 		play_floor_attack_animation()
 	var attack:int = get_weapon_to_attack()
-	if(attack == Subweapons.NONE || attack == Subweapons.STOPWATCH || !Input.is_action_pressed("up") || num_hearts <= 0):
+	if(attack == Subweapons.NONE || attack == Subweapons.STOPWATCH || !Input.is_action_pressed("up") || num_hearts <= 0 || !can_move_horizontally):
 		whip.play_animation()
-		if(attack == Subweapons.STOPWATCH && num_hearts >= STOPWATCH_COST && Input.is_action_pressed("up") && !is_time_stopped):
+		if(attack == Subweapons.STOPWATCH && num_hearts >= STOPWATCH_COST && Input.is_action_pressed("up") && !is_time_stopped && can_move_horizontally):
 			do_stopwatch()
 	else:
 		create_subweapon(attack)
