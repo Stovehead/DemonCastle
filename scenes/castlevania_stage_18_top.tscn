@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bkbmw24gpp54p" path="res://scenes/transitional_stairs.tscn" id="4_xapgg"]
 [ext_resource type="PackedScene" uid="uid://bunw8e1a1u3i8" path="res://scenes/screen_lock.tscn" id="5_626tj"]
 [ext_resource type="PackedScene" uid="uid://cdots7dcx5gaa" path="res://scenes/candle.tscn" id="6_tygdh"]
-[ext_resource type="PackedScene" uid="uid://dscymxjmydhah" path="res://scenes/magic_crystal.tscn" id="8_q7d3t"]
+[ext_resource type="PackedScene" uid="uid://syt7ch04wile" path="res://scenes/dracula.tscn" id="7_w1xpb"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("tile_map", "objects", "player_spawner")]
 script = ExtResource("1_jeqll")
@@ -39,6 +39,7 @@ direction = -1
 
 [node name="ScreenLock" parent="Objects" instance=ExtResource("5_626tj")]
 position = Vector2(-512, 32)
+direction = -1
 
 [node name="Candle" parent="Objects" instance=ExtResource("6_tygdh")]
 position = Vector2(96, 104)
@@ -80,10 +81,13 @@ item_to_drop = 3
 position = Vector2(-480, 136)
 item_to_drop = 10
 
+[node name="Dracula" parent="Objects" instance=ExtResource("7_w1xpb")]
+visible = false
+position = Vector2(-240, 169)
+
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(144, 144)
 script = ExtResource("2_6l17a")
 facing_direction = -1
 
-[node name="MagicCrystal" parent="." instance=ExtResource("8_q7d3t")]
-position = Vector2(-320, 144)
+[connection signal="screen_locked" from="Objects/ScreenLock" to="Objects/Dracula" method="appear"]

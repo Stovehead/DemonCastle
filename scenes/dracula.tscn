@@ -1,0 +1,270 @@
+[gd_scene load_steps=9 format=3 uid="uid://syt7ch04wile"]
+
+[ext_resource type="Texture2D" uid="uid://bn6s33os6nniq" path="res://media/graphics/dracula_body.png" id="1_ldkrq"]
+[ext_resource type="Script" path="res://scripts/dracula.gd" id="1_ue1p5"]
+[ext_resource type="Texture2D" uid="uid://dg7uohix6bwp" path="res://media/graphics/dracula_head.png" id="2_fnux8"]
+[ext_resource type="PackedScene" uid="uid://beu78sgaaem2q" path="res://scenes/dracula_fireball_spawner.tscn" id="4_5esyk"]
+
+[sub_resource type="Animation" id="Animation_dmvep"]
+resource_name = "attack"
+length = 2.53334
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0166667, 2.53333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0166667, 2.53333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0001, 0.533333, 0.533433, 1.46667, 2, 2.51667, 2.53333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"start_head_flashing"
+}, {
+"args": [],
+"method": &"start_body_flashing"
+}, {
+"args": [],
+"method": &"stop_head_flashing"
+}, {
+"args": [],
+"method": &"stop_body_flashing"
+}, {
+"args": [],
+"method": &"spawn_fireballs"
+}, {
+"args": [],
+"method": &"start_head_flashing"
+}, {
+"args": [],
+"method": &"start_teleport_timer"
+}, {
+"args": [],
+"method": &"stop_head_flashing"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.16667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_vaspu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Head:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Body:flip_h")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Head:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -27)]
+}
+
+[sub_resource type="Animation" id="Animation_xfysi"]
+resource_name = "appear"
+length = 8.8
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5.78333, 8.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.86667, 8.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Head:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.86667, 4.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 29), Vector2(0, 29), Vector2(0, -27)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(5.78333, 6.9, 7.76667, 8.3, 8.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"start_body_flashing"
+}, {
+"args": [],
+"method": &"stop_body_flashing"
+}, {
+"args": [],
+"method": &"spawn_fireballs"
+}, {
+"args": [],
+"method": &"start_head_flashing"
+}, {
+"args": [],
+"method": &"start_teleport_timer"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Body:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(7.48333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_se5yx"]
+_data = {
+"RESET": SubResource("Animation_vaspu"),
+"appear": SubResource("Animation_xfysi"),
+"attack": SubResource("Animation_dmvep")
+}
+
+[node name="Dracula" type="Node2D"]
+script = ExtResource("1_ue1p5")
+
+[node name="Body" type="Sprite2D" parent="."]
+texture = ExtResource("1_ldkrq")
+hframes = 2
+
+[node name="Head" type="Sprite2D" parent="."]
+position = Vector2(0, -27)
+texture = ExtResource("2_fnux8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+callback_mode_process = 0
+libraries = {
+"": SubResource("AnimationLibrary_se5yx")
+}
+
+[node name="FireballSpawner" parent="." instance=ExtResource("4_5esyk")]
+position = Vector2(0, -5)
+
+[node name="TeleportTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 1.333
+one_shot = true
+
+[connection signal="timeout" from="TeleportTimer" to="." method="_on_teleport_timer_timeout"]

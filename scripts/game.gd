@@ -23,7 +23,7 @@ const ENDING_PATH:String = "res://scenes/ending.tscn"
 var debug_mode:bool = false
 
 var showing_logos:bool = true
-var load_test_stage:bool = false
+var load_test_stage:bool = true
 
 var current_stage:Stage
 var stage_to_load:String
@@ -79,7 +79,7 @@ signal finished_music_fade
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:LinearAudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_2_underground.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_18_top.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var boss_music:AudioStream = preload("res://media/music/poisonmind.ogg")
 @onready var gui:CanvasLayer = $GUI
@@ -391,10 +391,10 @@ func _physics_process(delta) -> void:
 	if(debug_mode):
 		debug_window.get_node("CameraOutline").global_position = camera.get_screen_center_position() - Vector2(192, 108)
 	if(Input.is_action_just_pressed("fullscreen")):
-		if(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN):
+		if(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		else:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	if(camera_on_player):
 		move_camera_to_player()
 	else:

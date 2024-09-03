@@ -131,6 +131,7 @@ func reset_variables() -> void:
 	whip.reset()
 	whip.collision.disabled = true
 	animation_player.play("idle")
+	velocity = Vector2.ZERO
 	sprite.frame = 0
 
 func emit_signals() -> void:
