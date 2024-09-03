@@ -11,13 +11,13 @@ var body_flashing:bool = false
 @onready var fireball_spawner:DraculaFireballSpawner = $FireballSpawner
 @onready var animation_player:AnimationPlayer = $AnimationPlayer
 @onready var teleport_timer:Timer = $TeleportTimer
+@onready var hurtbox:Hurtbox = $Hurtbox
 
 func face_player() -> void:
 	if(!is_instance_valid(Globals.current_player)):
 		return
-	var facing_left:bool = Globals.current_player.global_position.x < global_position.x
-	body_sprite.flip_h = facing_left
-	head_sprite.flip_h = facing_left
+	var direction:int = -1 if Globals.current_player.global_position.x < global_position.x else 1
+	scale.x = direction
 
 func start_head_flashing() -> void:
 	head_flashing = true
@@ -37,6 +37,7 @@ func spawn_fireballs() -> void:
 	var target:Vector2 = global_position
 	if(is_instance_valid(Globals.current_player)):
 		target = Globals.current_player.position
+		target.y += Player.DEFAULT_COLLISION_SIZE.y/4
 	fireball_spawner.spawn_fireballs(target)
 
 func appear() -> void:
@@ -47,6 +48,16 @@ func appear() -> void:
 
 func start_teleport_timer() -> void:
 	teleport_timer.start()
+
+func disable_hurtbox() -> void:
+	hurtbox.monitorable = false
+	hurtbox.set_collision_layer_value(3, false)
+	$Hurtbox/CollisionShape2D.disabled = true
+
+func enable_hurtbox() -> void:
+	hurtbox.monitorable = true
+	hurtbox.set_collision_layer_value(3, true)
+	$Hurtbox/CollisionShape2D.disabled = false
 
 func _process(_delta: float) -> void:
 	if(head_flashing):

@@ -80,7 +80,8 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 			item_to_drop = Items.WHIP_UPGRADE
 		elif(Globals.current_player.whip_level + Globals.game_instance.num_whip_upgrades == 2 && Globals.current_player.num_hearts >= WHIP_UPGRADE_2_THRESHOLD):
 			item_to_drop = Items.WHIP_UPGRADE
-	var item_instance:Node2D = droppable_items[item_to_drop].instantiate()
-	item_instance.position = position
-	add_sibling(item_instance)
+	if(droppable_items[item_to_drop] != null):
+		var item_instance:Node2D = droppable_items[item_to_drop].instantiate()
+		item_instance.position = position
+		add_sibling(item_instance)
 	queue_free()

@@ -3,20 +3,26 @@ extends Node2D
 
 const FIREBALL_H_SPEED:float = 120.0
 const FIREBALL_DAMAGE:int = 4
-const MAX_PARALLEL_ANGLE:float = PI/4
+const MAX_PARALLEL_ANGLE:float = PI/6
 
 @onready var fireball_scene:PackedScene = preload("res://scenes/fireball.tscn")
 
-@export var separation_angle:float = PI/20.0
+@export var separation_angle:float = PI/24.0
+@export var min_angle:float = PI/8
 
 func spawn_fireball(angle:float) -> void:
 	var new_fireball:Fireball = fireball_scene.instantiate()
+	if(angle > 2*PI - min_angle):
+		angle = min_angle
+	if(angle > PI + min_angle):
+		angle = PI + min_angle
 	var vector_to_target = Vector2(cos(angle), sin(angle))
 	if((angle > 2*PI-MAX_PARALLEL_ANGLE && angle < MAX_PARALLEL_ANGLE) || (angle > PI/2 * MAX_PARALLEL_ANGLE && angle < 3*PI/2 - MAX_PARALLEL_ANGLE)):
 		vector_to_target *= abs(FIREBALL_H_SPEED / vector_to_target.x)
 	else:
 		vector_to_target *= FIREBALL_H_SPEED
 	new_fireball.velocity = vector_to_target
+	print(angle)
 	new_fireball.direction = -1 if angle > PI/2 && angle < 3*PI/2 else 1
 	new_fireball.damage = FIREBALL_DAMAGE
 	get_parent().add_sibling(new_fireball)

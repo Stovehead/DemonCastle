@@ -3,22 +3,31 @@ extends Area2D
 
 @export var health_component:HealthComponent
 @export var awarded_points:int = 0
+@export var can_be_hit_multiple_times_per_frame:bool = false
 
 signal got_hit(attacker:Hurtbox)
 signal processed_hit
 
 var has_processed_hit:bool = false
+var will_reenable_monitoring:bool = false
 
 func _physics_process(_delta: float) -> void:
 	has_processed_hit = false
+	if(will_reenable_monitoring):
+		monitoring = true
 
 func _on_area_entered(area) -> void:
 	if(area is not Hurtbox):
+		return
+	if(has_processed_hit && !can_be_hit_multiple_times_per_frame):
 		return
 	if(is_instance_valid(health_component)):
 		health_component._decrease_hp(area.damage)
 	got_hit.emit(area)
 	has_processed_hit = true
+	if(monitoring):
+		will_reenable_monitoring = true
+	set_deferred("monitoring", false)
 	processed_hit.emit()
 
 func _notification(what: int) -> void:

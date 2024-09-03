@@ -213,6 +213,8 @@ func load_stage(stage:PackedScene, load_music:bool) -> void:
 	clear_persistent()
 	if(is_instance_valid(next_stage)):
 		next_stage.queue_free()
+	if(stage == null):
+		stage = load(INTRO_STAGE_PATH)
 	current_stage = stage.instantiate()
 	add_child(current_stage)
 	hud.visible = true

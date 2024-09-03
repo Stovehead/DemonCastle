@@ -590,8 +590,6 @@ func do_flashing() -> void:
 func stop_invulnerability() -> void:
 	modulate.a = 1
 	hitbox.set_collision_mask_value(3, true)
-	# Force update collisions
-	hitbox.monitoring = false
 	hitbox.monitoring = true
 
 func _ready() -> void:
