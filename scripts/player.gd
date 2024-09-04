@@ -611,8 +611,6 @@ func _process(_delta: float) -> void:
 	do_flashing()
 
 func _physics_process(delta:float) -> void:
-	if(!on_stairs && !is_on_floor()):
-		print(global_position)
 	handle_input(delta)
 	if(on_stairs):
 		collision.disabled = true
