@@ -353,6 +353,10 @@ wait_time = 2.5
 one_shot = true
 
 [node name="FakeHitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 32
+monitoring = false
+monitorable = false
 script = ExtResource("8_4jfet")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FakeHitbox"]

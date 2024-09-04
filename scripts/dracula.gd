@@ -23,6 +23,7 @@ var active:bool = true
 @onready var teleport_timer:Timer = $TeleportTimer
 @onready var hurtbox:Hurtbox = $Hurtbox
 @onready var hitbox:Hitbox = $Hitbox
+@onready var fake_hitbox:FakeHitbox = $FakeHitbox
 @onready var health_component:HealthComponent = $HealthComponent
 @onready var death_timer:Timer = $DeathTimer
 @onready var particle_scene:PackedScene = preload("res://scenes/particle.tscn")
@@ -75,11 +76,15 @@ func disable_hurtbox() -> void:
 	hurtbox.set_deferred("monitorable", false)
 	hitbox.set_deferred("monitoring", false)
 	hitbox.set_deferred("monitorable", false)
+	fake_hitbox.set_deferred("monitoring", false)
+	fake_hitbox.set_deferred("monitorable", false)
 
 func enable_hurtbox() -> void:
 	hurtbox.set_deferred("monitorable", true)
 	hitbox.set_deferred("monitoring", true)
 	hitbox.set_deferred("monitorable", true)
+	fake_hitbox.set_deferred("monitoring", true)
+	fake_hitbox.set_deferred("monitorable", true)
 	notify_hitboxes.call_deferred()
 
 func spawn_particle(velocity:Vector2, velocity_scale:Vector2, flip_h:bool) -> void:

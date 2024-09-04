@@ -88,3 +88,4 @@ func reset():
 	start_text.visible = true
 	menu.visible = false
 	copyright_text.modulate.a = 1
+	Globals.entered_konami_code = false

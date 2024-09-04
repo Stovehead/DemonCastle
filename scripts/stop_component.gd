@@ -17,6 +17,7 @@ var is_stunned:bool = false
 var will_unpause_animation_player:bool = false
 var will_reenable_hitbox:bool = false
 var timers_to_unpause:Array[Timer]
+var animation_player_queue:Array[String]
 
 func _ready() -> void:
 	if(is_instance_valid(Globals.game_instance)):
@@ -28,6 +29,8 @@ func stop() -> void:
 	if(is_instance_valid(animation_player)):
 		if(animation_player.is_playing()):
 			will_unpause_animation_player = true
+			for animation in animation_player.get_queue():
+				animation_player_queue.push_back(animation)
 			animation_player.pause()
 	for timer in timers:
 		if(!timer.paused):
@@ -40,6 +43,9 @@ func start() -> void:
 		if(will_unpause_animation_player):
 			will_unpause_animation_player = false
 			animation_player.play()
+			for animation in animation_player_queue:
+				animation_player.queue(animation)
+			animation_player_queue.clear()
 	for timer in timers_to_unpause:
 		timer.paused = false
 	timers_to_unpause.clear()
