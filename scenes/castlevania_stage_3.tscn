@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://chsawtbhhcw53"]
+[gd_scene load_steps=16 format=4 uid="uid://chsawtbhhcw53"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_e0aqt"]
 [ext_resource type="TileSet" uid="uid://bpyv70mj7h5m5" path="res://tilesets/cv_level_1.tres" id="2_aa8q8"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://toy7h2j7tauc" path="res://scenes/zombie_spawner.tscn" id="11_rtr47"]
 [ext_resource type="PackedScene" uid="uid://bmutoogn1vq46" path="res://scenes/vampire_bat.tscn" id="12_yoj7f"]
 [ext_resource type="PackedScene" uid="uid://bxr3tnh2qawuj" path="res://scenes/magic_crystal_spawner.tscn" id="13_wkwae"]
+[ext_resource type="PackedScene" uid="uid://wo487plbq2st" path="res://scenes/bat_spawner.tscn" id="14_6rh06"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_e0aqt")
@@ -132,6 +133,10 @@ position = Vector2(576, 128)
 metadata/_edit_group_ = true
 
 [node name="MagicCrystal" parent="Objects/MagicCrystalSpawner" instance_placeholder="res://scenes/magic_crystal.tscn"]
+
+[node name="BatSpawner" parent="Objects" instance=ExtResource("14_6rh06")]
+max_num_bats = 0
+valid_spawn_range = Vector2(0, 416)
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(48, 97)

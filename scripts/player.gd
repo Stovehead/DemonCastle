@@ -652,6 +652,8 @@ func _on_stun_timer_timeout() -> void:
 		is_crouching = false
 
 func _on_hitbox_got_hit(attacker:Hurtbox) -> void:
+	if(is_instance_valid(Globals.game_instance) && Globals.game_instance.hard_mode):
+		health_component._decrease_hp(attacker.damage)
 	SfxManager.play_sound_effect(SfxManager.HURT)
 	if(new_subweapon != null):
 		new_subweapon.queue_free()

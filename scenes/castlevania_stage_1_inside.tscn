@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://bjmityuwnbvo7"]
+[gd_scene load_steps=11 format=4 uid="uid://bjmityuwnbvo7"]
 
 [ext_resource type="Script" path="res://scripts/stage.gd" id="1_5j7wo"]
 [ext_resource type="AudioStream" uid="uid://bssm6y8l0d0mq" path="res://media/music/vampirekiller.ogg" id="2_f5sbe"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/player_spawner.gd" id="7_nuam7"]
 [ext_resource type="PackedScene" uid="uid://cxcrtby5j7sec" path="res://scenes/spawner.tscn" id="8_2thcl"]
 [ext_resource type="PackedScene" uid="uid://toy7h2j7tauc" path="res://scenes/zombie_spawner.tscn" id="8_rwpix"]
+[ext_resource type="PackedScene" uid="uid://wo487plbq2st" path="res://scenes/bat_spawner.tscn" id="9_td7be"]
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("objects", "player_spawner")]
 script = ExtResource("1_5j7wo")
@@ -170,6 +171,9 @@ item_to_drop = 3
 [node name="Candle25" parent="Objects" instance=ExtResource("7_jj53p")]
 position = Vector2(1504, 56)
 item_to_drop = 12
+
+[node name="BatSpawner" parent="Objects" instance=ExtResource("9_td7be")]
+max_num_bats = 0
 
 [node name="PlayerSpawner" type="Node2D" parent="."]
 position = Vector2(48, 193)
