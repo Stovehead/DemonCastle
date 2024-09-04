@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://syt7ch04wile"]
+[gd_scene load_steps=14 format=3 uid="uid://syt7ch04wile"]
 
 [ext_resource type="Texture2D" uid="uid://bn6s33os6nniq" path="res://media/graphics/dracula_body.png" id="1_ldkrq"]
 [ext_resource type="Script" path="res://scripts/dracula.gd" id="1_ue1p5"]
 [ext_resource type="Texture2D" uid="uid://dg7uohix6bwp" path="res://media/graphics/dracula_head.png" id="2_fnux8"]
 [ext_resource type="PackedScene" uid="uid://beu78sgaaem2q" path="res://scenes/dracula_fireball_spawner.tscn" id="4_5esyk"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="5_jf8d4"]
+[ext_resource type="Script" path="res://scripts/health_component.gd" id="6_rn51w"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="7_1jk5x"]
 
 [sub_resource type="Animation" id="Animation_dmvep"]
 resource_name = "attack"
@@ -82,7 +84,7 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.533333, 2.53333),
+"times": PackedFloat32Array(0.533333, 2),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -229,8 +231,8 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(5.78333, 6.9, 6.9001, 7.76667, 8.3, 8.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(5.78333, 6.9, 6.9001, 7.76667, 8.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "values": [{
 "args": [],
 "method": &"start_body_flashing"
@@ -246,9 +248,6 @@ tracks/3/keys = {
 }, {
 "args": [],
 "method": &"start_head_flashing"
-}, {
-"args": [],
-"method": &"disable_hurtbox"
 }]
 }
 tracks/4/type = "value"
@@ -270,9 +269,12 @@ tracks/5/path = NodePath(".")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(8.8),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(8.3, 8.8),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"disable_hurtbox"
+}, {
 "args": [],
 "method": &"start_teleport_timer"
 }]
@@ -287,6 +289,9 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i5rim"]
 size = Vector2(8, 58)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m418j"]
+size = Vector2(8, 14)
 
 [node name="Dracula" type="Node2D"]
 script = ExtResource("1_ue1p5")
@@ -324,4 +329,28 @@ damage = 4
 position = Vector2(5, -5)
 shape = SubResource("RectangleShape2D_i5rim")
 
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("6_rn51w")
+max_hp = 32
+
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 4
+collision_mask = 32
+monitoring = false
+monitorable = false
+script = ExtResource("7_1jk5x")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(5, -27)
+shape = SubResource("RectangleShape2D_m418j")
+
+[node name="DeathTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 2.5
+one_shot = true
+
 [connection signal="timeout" from="TeleportTimer" to="." method="_on_teleport_timer_timeout"]
+[connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]
+[connection signal="got_hit" from="Hitbox" to="." method="_on_hitbox_got_hit"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

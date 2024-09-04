@@ -9,12 +9,9 @@ signal got_hit(attacker:Hurtbox)
 signal processed_hit
 
 var has_processed_hit:bool = false
-var will_reenable_monitoring:bool = false
 
 func _physics_process(_delta: float) -> void:
 	has_processed_hit = false
-	if(will_reenable_monitoring):
-		monitoring = true
 
 func _on_area_entered(area) -> void:
 	if(area is not Hurtbox):
@@ -25,9 +22,6 @@ func _on_area_entered(area) -> void:
 		health_component._decrease_hp(area.damage)
 	got_hit.emit(area)
 	has_processed_hit = true
-	if(monitoring):
-		will_reenable_monitoring = true
-	set_deferred("monitoring", false)
 	processed_hit.emit()
 
 func _notification(what: int) -> void:

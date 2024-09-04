@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://d3joj28aqfajy"]
+
+[ext_resource type="Script" path="res://scripts/cookie_monster.gd" id="1_rjvoa"]
+[ext_resource type="Texture2D" uid="uid://bch6xk3abt1tf" path="res://media/graphics/cookie_monster.png" id="2_6180d"]
+[ext_resource type="Script" path="res://scripts/gravity_component.gd" id="3_fukry"]
+[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="4_0oy0b"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="5_rnwis"]
+[ext_resource type="Script" path="res://scripts/health_component.gd" id="6_mfcpf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mhjy2"]
+size = Vector2(20, 64)
+
+[node name="CookieMonster" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_rjvoa")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_6180d")
+hframes = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_mhjy2")
+
+[node name="GravityComponent" type="Node" parent="."]
+script = ExtResource("3_fukry")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("4_0oy0b")
+damage = 4
+
+[node name="Hitbox" type="Area2D" parent="."]
+script = ExtResource("5_rnwis")
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("6_mfcpf")
+max_hp = 64
