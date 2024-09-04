@@ -2,13 +2,16 @@ extends Node2D
 
 const ZOMBIE_HALF_HEIGHT:float = 16
 const SPAWN_TIME_RANGE:Vector2 = Vector2(0.8, 1.2)
+const WAVE_INTERVAL_TIME_RANGE:Vector2 = Vector2(3.0, 7.0)
 const MAX_ZOMBIES:int = 5
 
 var ray_left:RayCast2D
 var ray_right:RayCast2D
+var num_spawned:int = 0
 
 @onready var zombie:PackedScene = preload("res://scenes/zombie.tscn")
 @onready var spawn_timer:Timer = $SpawnTimer
+@onready var wave_timer:Timer = $WaveTimer
 
 @export var left_valid_spawn_range:Vector2
 @export var right_valid_spawn_range:Vector2
@@ -62,4 +65,12 @@ func _on_spawn_timer_timeout() -> void:
 				spawn(ray_right.get_collision_point())
 			else:
 				spawn(ray_left.get_collision_point())
+	num_spawned += 1
+	if(num_spawned < MAX_ZOMBIES):
+		spawn_timer.start(randf_range(SPAWN_TIME_RANGE.x, SPAWN_TIME_RANGE.y))
+	else:
+		num_spawned = 0
+		wave_timer.start(randf_range(WAVE_INTERVAL_TIME_RANGE.x, WAVE_INTERVAL_TIME_RANGE.y))
+
+func _on_wave_timer_timeout() -> void:
 	spawn_timer.start(randf_range(SPAWN_TIME_RANGE.x, SPAWN_TIME_RANGE.y))
