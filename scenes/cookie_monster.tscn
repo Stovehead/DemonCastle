@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d3joj28aqfajy"]
+[gd_scene load_steps=21 format=3 uid="uid://d3joj28aqfajy"]
 
 [ext_resource type="Script" path="res://scripts/cookie_monster.gd" id="1_rjvoa"]
 [ext_resource type="Texture2D" uid="uid://bch6xk3abt1tf" path="res://media/graphics/cookie_monster.png" id="2_6180d"]
@@ -6,9 +6,188 @@
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="4_0oy0b"]
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="5_rnwis"]
 [ext_resource type="Script" path="res://scripts/health_component.gd" id="6_mfcpf"]
+[ext_resource type="PackedScene" uid="uid://edlgvg0tw61b" path="res://scenes/stop_component.tscn" id="7_6x8be"]
+[ext_resource type="PackedScene" uid="uid://beu78sgaaem2q" path="res://scenes/dracula_fireball_spawner.tscn" id="8_ycyck"]
+[ext_resource type="Script" path="res://scripts/fake_hitbox.gd" id="9_eov7x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mhjy2"]
 size = Vector2(20, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c6uyx"]
+size = Vector2(35, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ywdq"]
+size = Vector2(18, 24)
+
+[sub_resource type="Animation" id="Animation_5xm0v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_moo5i"]
+resource_name = "crouch"
+length = 0.0166683
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_4ladv"]
+resource_name = "high_jump"
+length = 1.05
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.266667, 0.566667, 1.03333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [2, 3, 4, 3]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.266667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_high_jump"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_6de52"]
+resource_name = "idle"
+length = 1.1
+loop_mode = 1
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.55),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_duer5"]
+resource_name = "low_jump"
+length = 0.283335
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.266667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 3]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.266667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_low_jump"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_lvq2l"]
+resource_name = "shoot_fireballs"
+length = 0.816668
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.266667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.533333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"spawn_fireballs"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FireballWaitTimer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [-1],
+"method": &"start"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nlgxb"]
+_data = {
+"RESET": SubResource("Animation_5xm0v"),
+"crouch": SubResource("Animation_moo5i"),
+"high_jump": SubResource("Animation_4ladv"),
+"idle": SubResource("Animation_6de52"),
+"low_jump": SubResource("Animation_duer5"),
+"shoot_fireballs": SubResource("Animation_lvq2l")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y2aqo"]
+size = Vector2(35, 36)
 
 [node name="CookieMonster" type="CharacterBody2D"]
 collision_layer = 0
@@ -20,6 +199,7 @@ texture = ExtResource("2_6180d")
 hframes = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_mhjy2")
 
@@ -33,9 +213,97 @@ monitoring = false
 script = ExtResource("4_0oy0b")
 damage = 4
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(1.5, -8)
+shape = SubResource("RectangleShape2D_c6uyx")
+
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 4
+collision_mask = 32
 script = ExtResource("5_rnwis")
+health_component = NodePath("../HealthComponent")
+awarded_points = 50000
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(8, -28)
+shape = SubResource("RectangleShape2D_8ywdq")
 
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("6_mfcpf")
 max_hp = 64
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_nlgxb")
+}
+autoplay = "idle"
+
+[node name="StopComponent" parent="." node_paths=PackedStringArray("timers", "animation_player", "hitbox", "hurtbox") instance=ExtResource("7_6x8be")]
+timers = [NodePath("../HighJumpTimer"), NodePath("../LowJumpTimer"), NodePath("../FireballTimer"), NodePath("../WaitTimer"), NodePath("../FireballWaitTimer"), NodePath("../CrouchTimer")]
+animation_player = NodePath("../AnimationPlayer")
+hitbox = NodePath("../Hitbox")
+hurtbox = NodePath("../Hurtbox")
+
+[node name="StunTimer" parent="StopComponent" index="0"]
+wait_time = 0.167
+
+[node name="HighJumpTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 1.417
+one_shot = true
+
+[node name="LowJumpTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 2.05
+one_shot = true
+
+[node name="FireballTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.267
+one_shot = true
+
+[node name="WaitTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.267
+one_shot = true
+autostart = true
+
+[node name="FireballWaitTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.55
+one_shot = true
+
+[node name="CrouchTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.4
+one_shot = true
+
+[node name="DraculaFireballSpawner" parent="." instance=ExtResource("8_ycyck")]
+position = Vector2(9, -24)
+min_angle = 1.571
+
+[node name="FakeHitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 32
+script = ExtResource("9_eov7x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FakeHitbox"]
+position = Vector2(1.5, 6)
+shape = SubResource("RectangleShape2D_y2aqo")
+
+[node name="HolyWaterDamageTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.533
+
+[connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]
+[connection signal="got_hit" from="Hitbox" to="." method="_on_hitbox_got_hit"]
+[connection signal="timeout" from="HighJumpTimer" to="." method="_on_high_jump_timer_timeout"]
+[connection signal="timeout" from="LowJumpTimer" to="." method="_on_low_jump_timer_timeout"]
+[connection signal="timeout" from="FireballTimer" to="." method="_on_fireball_timer_timeout"]
+[connection signal="timeout" from="WaitTimer" to="." method="_on_wait_timer_timeout" binds= [false]]
+[connection signal="timeout" from="FireballWaitTimer" to="." method="_on_wait_timer_timeout" binds= [true]]
+[connection signal="timeout" from="CrouchTimer" to="." method="_on_crouch_timer_timeout"]
+[connection signal="area_entered" from="FakeHitbox" to="FakeHitbox" method="_on_area_entered"]
+[connection signal="timeout" from="HolyWaterDamageTimer" to="." method="_on_holy_water_damage_timer_timeout"]
+
+[editable path="StopComponent"]

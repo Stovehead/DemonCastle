@@ -48,5 +48,7 @@ func reset() -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	super._on_area_entered(area)
+	if(area is not Hitbox && area is not FakeHitbox):
+		return
 	if(is_instance_valid(current_sfx)):
 		SfxManager.stop_sound_effect(current_sfx)

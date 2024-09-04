@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://ie6c6mshp7uk"]
+
+[ext_resource type="Script" path="res://scripts/fake_hitbox.gd" id="1_guotq"]
+
+[node name="FakeHitbox" type="Area2D"]
+collision_layer = 4
+collision_mask = 32
+script = ExtResource("1_guotq")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -8,10 +8,13 @@ const HEAD_OFFSET:float = 3
 const DIAGONAL_PARTICLE_VELOCITY = Vector2(168, 168)
 const HORIZONTAL_PARTICLE_VELOCITY = Vector2(264, 0)
 const COOKIE_MONSTER_SPAWN_DELAY:float = 0.283
+const COOKIE_MONSTER_SPAWN_OFFSET:Vector2 = Vector2(0, -1)
 
 var head_flashing:bool = false
 var body_flashing:bool = false
 var active:bool = true
+
+@export var magic_crystal_spawner:MagicCrystalSpawner
 
 @onready var head_sprite:Sprite2D = $Head
 @onready var body_sprite:Sprite2D = $Body
@@ -103,7 +106,7 @@ func _on_teleport_timer_timeout() -> void:
 	global_position = teleport_position
 	animation_player.play("attack")
 
-func _on_hitbox_got_hit(attacker: Hurtbox) -> void:
+func _on_hitbox_got_hit(_attacker: Hurtbox) -> void:
 	var scaled_health:int = int(health_component.remaining_hp/2.0 + 0.5)
 	Globals.game_instance.enemy_hp_changed.emit(scaled_health, false)
 	if(health_component.remaining_hp <= 0):
@@ -140,7 +143,9 @@ func _on_death_timer_timeout() -> void:
 	body_sprite.visible = false
 	await get_tree().create_timer(COOKIE_MONSTER_SPAWN_DELAY, false, true).timeout
 	var cookie_monster_instance:CookieMonster = cookie_monster_scene.instantiate()
+	if(is_instance_valid(magic_crystal_spawner)):
+		cookie_monster_instance.magic_crystal_spawner = magic_crystal_spawner
 	add_sibling(cookie_monster_instance)
-	cookie_monster_instance.global_position = global_position
+	cookie_monster_instance.global_position = global_position + COOKIE_MONSTER_SPAWN_OFFSET
 	cookie_monster_instance.face_player()
 	queue_free()
