@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/flame_spawner.gd" id="4_xcwfp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l3ofd"]
-size = Vector2(8, 16)
+size = Vector2(8, 14)
 
 [sub_resource type="Animation" id="Animation_dk2e7"]
 length = 0.001
@@ -57,6 +57,7 @@ collision_mask = 32
 script = ExtResource("1_3au44")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_l3ofd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
