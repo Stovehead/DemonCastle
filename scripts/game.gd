@@ -485,6 +485,7 @@ func _on_continue_game():
 
 func _on_end_game():
 	music_player.stop()
+	hard_mode = false
 	game_over_screen.process_mode = Node.PROCESS_MODE_DISABLED
 	game_over_screen.visible = false
 	last_checkpoint = null
