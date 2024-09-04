@@ -274,10 +274,11 @@ func get_off_stairs() -> bool:
 		current_stair.transition(self)
 		return true
 	on_stairs = false
-	global_position.x = current_stair.global_position.x + Stairs.SINGLE_STAIR_HEIGHT * current_step * player_direction
-	global_position.y -= 1
-	velocity.y = 100
 	animation_player.play("idle")
+	sprite.frame = 0
+	global_position.x = current_stair.global_position.x + Stairs.SINGLE_STAIR_HEIGHT * current_step * player_direction
+	global_position.y = current_stair.global_position.y - Stairs.SINGLE_STAIR_HEIGHT * current_step * player_direction * current_stair.direction - DEFAULT_COLLISION_SIZE.y/2 + 2
+	velocity.y = 100
 	return false
 
 func go_to_idle_on_stairs() -> void:
@@ -610,6 +611,8 @@ func _process(_delta: float) -> void:
 	do_flashing()
 
 func _physics_process(delta:float) -> void:
+	if(!on_stairs && !is_on_floor()):
+		print(global_position)
 	handle_input(delta)
 	if(on_stairs):
 		collision.disabled = true
