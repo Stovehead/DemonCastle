@@ -79,6 +79,10 @@ libraries = {
 "": SubResource("AnimationLibrary_tc1gl")
 }
 
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("5_s3wxt")
+max_hp = 16
+
 [node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
 collision_layer = 4
 collision_mask = 32
@@ -111,10 +115,6 @@ wait_time = 0.084
 
 [node name="InvulnerabilityTimer" parent="StopComponent" index="1"]
 wait_time = 0.734
-
-[node name="HealthComponent" type="Node2D" parent="."]
-script = ExtResource("5_s3wxt")
-max_hp = 16
 
 [node name="StartFlyingTimer" type="Timer" parent="."]
 process_callback = 0

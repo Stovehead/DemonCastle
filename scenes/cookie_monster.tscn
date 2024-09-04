@@ -206,6 +206,10 @@ shape = SubResource("RectangleShape2D_mhjy2")
 [node name="GravityComponent" type="Node" parent="."]
 script = ExtResource("3_fukry")
 
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("6_mfcpf")
+max_hp = 64
+
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 0
@@ -227,10 +231,6 @@ awarded_points = 50000
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(8, -28)
 shape = SubResource("RectangleShape2D_8ywdq")
-
-[node name="HealthComponent" type="Node2D" parent="."]
-script = ExtResource("6_mfcpf")
-max_hp = 64
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

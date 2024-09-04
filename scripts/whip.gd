@@ -19,7 +19,7 @@ var current_level:int = 1:
 		if(new_current_level == 1):
 			damage = 1
 		else:
-			damage = 16
+			damage = 2
 
 @export var new_position:Vector2:
 	set(new_new_position):

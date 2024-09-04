@@ -66,6 +66,11 @@ func appear() -> void:
 func start_teleport_timer() -> void:
 	teleport_timer.start()
 
+func notify_hitboxes() -> void:
+	for area in hurtbox.get_overlapping_areas():
+		if(area is Hitbox):
+			area.area_entered.emit(hurtbox)
+
 func disable_hurtbox() -> void:
 	hurtbox.set_deferred("monitorable", false)
 	hitbox.set_deferred("monitoring", false)
@@ -75,6 +80,7 @@ func enable_hurtbox() -> void:
 	hurtbox.set_deferred("monitorable", true)
 	hitbox.set_deferred("monitoring", true)
 	hitbox.set_deferred("monitorable", true)
+	notify_hitboxes.call_deferred()
 
 func spawn_particle(velocity:Vector2, velocity_scale:Vector2, flip_h:bool) -> void:
 	var new_particle:Particle = particle_scene.instantiate()

@@ -17,6 +17,7 @@ script = ExtResource("1_p624l")
 
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("8_wt85m")
+max_hp = 1
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 4

@@ -109,7 +109,7 @@ func check_hit_edge_of_screen() -> void:
 	elif(velocity.x < 0 && global_position.x - HALF_WIDTH <= camera_position.x - screen_half_width):
 		velocity.x *= -1
 
-func process_hit() -> void:
+func process_hit() -> bool:
 	var scaled_health:int = int(health_component.remaining_hp/4.0 + 0.75)
 	Globals.game_instance.enemy_hp_changed.emit(scaled_health, false)
 	if(health_component.remaining_hp == 0):
@@ -117,6 +117,8 @@ func process_hit() -> void:
 		if(is_instance_valid(magic_crystal_spawner)):
 			magic_crystal_spawner.spawn(TIME_TO_SPAWN_MAGIC_CRYSTAL)
 		queue_free()
+		return true
+	return false
 
 func _ready() -> void:
 	if(is_instance_valid(Globals.game_instance)):
@@ -133,7 +135,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _on_hitbox_got_hit(_attacker: Hurtbox) -> void:
-	process_hit()
+	if(process_hit()):
+		return
 	stop_component.stun()
 
 func _on_high_jump_timer_timeout() -> void:

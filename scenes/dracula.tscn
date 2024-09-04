@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://syt7ch04wile"]
+[gd_scene load_steps=16 format=3 uid="uid://syt7ch04wile"]
 
 [ext_resource type="Texture2D" uid="uid://bn6s33os6nniq" path="res://media/graphics/dracula_body.png" id="1_ldkrq"]
 [ext_resource type="Script" path="res://scripts/dracula.gd" id="1_ue1p5"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="5_jf8d4"]
 [ext_resource type="Script" path="res://scripts/health_component.gd" id="6_rn51w"]
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="7_1jk5x"]
+[ext_resource type="Script" path="res://scripts/fake_hitbox.gd" id="8_4jfet"]
 
 [sub_resource type="Animation" id="Animation_vaspu"]
 length = 0.001
@@ -293,6 +294,9 @@ size = Vector2(8, 58)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m418j"]
 size = Vector2(8, 14)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ao8c"]
+size = Vector2(8, 42)
+
 [node name="Dracula" type="Node2D"]
 script = ExtResource("1_ue1p5")
 
@@ -319,8 +323,6 @@ one_shot = true
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 4
-collision_mask = 0
-monitoring = false
 monitorable = false
 script = ExtResource("5_jf8d4")
 damage = 4
@@ -350,7 +352,15 @@ process_callback = 0
 wait_time = 2.5
 one_shot = true
 
+[node name="FakeHitbox" type="Area2D" parent="."]
+script = ExtResource("8_4jfet")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FakeHitbox"]
+position = Vector2(5, 3)
+shape = SubResource("RectangleShape2D_8ao8c")
+
 [connection signal="timeout" from="TeleportTimer" to="." method="_on_teleport_timer_timeout"]
 [connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]
 [connection signal="got_hit" from="Hitbox" to="." method="_on_hitbox_got_hit"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
+[connection signal="area_entered" from="FakeHitbox" to="FakeHitbox" method="_on_area_entered"]

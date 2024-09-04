@@ -587,10 +587,16 @@ func do_flashing() -> void:
 	if(!invulnerability_timer.is_stopped() || is_invincible):
 		modulate.a =  1 - modulate.a
 
+func update_hitbox() -> void:
+	for area in hitbox.get_overlapping_areas():
+		if(area is Hurtbox):
+			hitbox.area_entered.emit(area)
+
 func stop_invulnerability() -> void:
 	modulate.a = 1
 	hitbox.set_collision_mask_value(3, true)
-	hitbox.monitoring = true
+	hitbox.set_deferred("monitoring", true)
+	update_hitbox.call_deferred()
 
 func _ready() -> void:
 	animation_player.play("idle")
