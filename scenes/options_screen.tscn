@@ -1,7 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://dkljxn86jf6ui"]
+[gd_scene load_steps=10 format=3 uid="uid://dkljxn86jf6ui"]
 
 [ext_resource type="Texture2D" uid="uid://b25hdoxabl6jq" path="res://media/graphics/options_skull.png" id="1_5ix5j"]
 [ext_resource type="Script" path="res://scripts/options_screen.gd" id="1_rvsu1"]
+[ext_resource type="Script" path="res://scripts/menu.gd" id="3_ebdoj"]
+[ext_resource type="Texture2D" uid="uid://hfqx1mlweo18" path="res://media/graphics/heart_icon.png" id="4_b7bed"]
+[ext_resource type="Script" path="res://scripts/translatable_label.gd" id="5_lfo62"]
+[ext_resource type="Script" path="res://scripts/selection.gd" id="5_oiulk"]
+[ext_resource type="Theme" uid="uid://01naekklebon" path="res://scenes/theme.tres" id="5_y3ais"]
+[ext_resource type="Script" path="res://scripts/sub_menu.gd" id="7_kigcn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wydf5"]
 bg_color = Color(0, 0, 0, 1)
@@ -30,11 +36,326 @@ theme_override_constants/margin_bottom = 16
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 8
 
 [node name="Skulls" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("1_5ix5j")
 stretch_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="Menu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+layout_mode = 2
+script = ExtResource("3_ebdoj")
+default_selection = NodePath("HBoxContainer/VBoxContainer/WindowSelection")
+labels = [NodePath("HBoxContainer/VBoxContainer/WindowSelection/Window"), NodePath("HBoxContainer/VBoxContainer/AudioSelection/Audio"), NodePath("HBoxContainer/VBoxContainer/ControlsSelection/Controls")]
+cursor = NodePath("Cursor")
+active = true
+focused = true
+
+[node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("4_b7bed")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="WindowSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("menu", "label", "up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("7_kigcn")
+menu = NodePath("../../WindowMenu")
+label = NodePath("Window")
+up_selection = NodePath("../ControlsSelection")
+down_selection = NodePath("../AudioSelection")
+parent_menu = NodePath("../../..")
+
+[node name="Window" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer/WindowSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "WINDOW"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "WINDOW"
+}
+
+[node name="AudioSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("menu", "label", "up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("7_kigcn")
+menu = NodePath("../../AudioMenu")
+label = NodePath("Audio")
+up_selection = NodePath("../WindowSelection")
+down_selection = NodePath("../ControlsSelection")
+parent_menu = NodePath("../../..")
+
+[node name="Audio" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer/AudioSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "AUDIO
+"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "AUDIO"
+}
+
+[node name="ControlsSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("menu", "label", "up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("7_kigcn")
+menu = NodePath("../../ControlsMenu")
+label = NodePath("Controls")
+up_selection = NodePath("../AudioSelection")
+down_selection = NodePath("../WindowSelection")
+parent_menu = NodePath("../../..")
+
+[node name="Controls" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer/ControlsSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "CONTROLS
+"
+script = ExtResource("5_lfo62")
+
+[node name="WindowMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+visible = false
+layout_mode = 2
+script = ExtResource("3_ebdoj")
+default_selection = NodePath("VBoxContainer/ScaleSelection")
+labels = [NodePath("VBoxContainer/ScaleSelection/Scale"), NodePath("VBoxContainer/FullscreenSelection/Fullscreen")]
+cursor = NodePath("Cursor")
+hide_cursor_on_lost_focus = true
+
+[node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu"]
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("4_b7bed")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 8
+
+[node name="ScaleSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+up_selection = NodePath("../FullscreenSelection")
+down_selection = NodePath("../FullscreenSelection")
+parent_menu = NodePath("../..")
+
+[node name="Scale" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer/ScaleSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "SCALE"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "SCALE"
+}
+
+[node name="FullscreenSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+up_selection = NodePath("../ScaleSelection")
+down_selection = NodePath("../ScaleSelection")
+parent_menu = NodePath("../..")
+
+[node name="Fullscreen" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer/FullscreenSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "FULLSCREEN"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "FULLSCREEN"
+}
+
+[node name="AudioMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+visible = false
+layout_mode = 2
+script = ExtResource("3_ebdoj")
+default_selection = NodePath("VBoxContainer/MusicSelection")
+labels = [NodePath("VBoxContainer/MusicSelection/Music"), NodePath("VBoxContainer/SFXSelection/SFX")]
+cursor = NodePath("Cursor")
+hide_cursor_on_lost_focus = true
+
+[node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu"]
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("4_b7bed")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 8
+
+[node name="MusicSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+up_selection = NodePath("../SFXSelection")
+down_selection = NodePath("../SFXSelection")
+parent_menu = NodePath("../..")
+
+[node name="Music" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer/MusicSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "MUSIC VOLUME
+"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "MUSIC VOLUME"
+}
+
+[node name="SFXSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+up_selection = NodePath("../MusicSelection")
+down_selection = NodePath("../MusicSelection")
+parent_menu = NodePath("../..")
+
+[node name="SFX" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer/SFXSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "SFX VOLUME
+"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "SFX VOLUME"
+}
+
+[node name="ControlsMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+visible = false
+layout_mode = 2
+script = ExtResource("3_ebdoj")
+default_selection = NodePath("VBoxContainer/UpSelection")
+labels = [NodePath("VBoxContainer/UpSelection/Up"), NodePath("VBoxContainer/DownSelection/Down"), NodePath("VBoxContainer/LeftSelection/Left"), NodePath("VBoxContainer/RightSelection/Right"), NodePath("VBoxContainer/JumpSelection/Jump"), NodePath("VBoxContainer/WhipSelection/Whip")]
+cursor = NodePath("Cursor")
+hide_cursor_on_lost_focus = true
+
+[node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu"]
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("4_b7bed")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 8
+
+[node name="UpSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+up_selection = NodePath("../WhipSelection")
+down_selection = NodePath("../DownSelection")
+parent_menu = NodePath("../..")
+
+[node name="Up" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/UpSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "UP
+"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "UP"
+}
+
+[node name="DownSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+up_selection = NodePath("../UpSelection")
+down_selection = NodePath("../LeftSelection")
+parent_menu = NodePath("../..")
+
+[node name="Down" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/DownSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "DOWN"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "DOWN"
+}
+
+[node name="LeftSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+up_selection = NodePath("../DownSelection")
+down_selection = NodePath("../RightSelection")
+parent_menu = NodePath("../..")
+
+[node name="Left" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/LeftSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "LEFT"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "LEFT"
+}
+
+[node name="RightSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+up_selection = NodePath("../LeftSelection")
+down_selection = NodePath("../JumpSelection")
+parent_menu = NodePath("../..")
+
+[node name="Right" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/RightSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "RIGHT"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "RIGHT"
+}
+
+[node name="JumpSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+up_selection = NodePath("../RightSelection")
+down_selection = NodePath("../WhipSelection")
+parent_menu = NodePath("../..")
+
+[node name="Jump" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/JumpSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "JUMP"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "JUMP"
+}
+
+[node name="WhipSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+up_selection = NodePath("../JumpSelection")
+down_selection = NodePath("../UpSelection")
+parent_menu = NodePath("../..")
+
+[node name="Whip" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/WhipSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "WHIP"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "WHIP"
+}
 
 [node name="Skulls2" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
