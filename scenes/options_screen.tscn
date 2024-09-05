@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dkljxn86jf6ui"]
+[gd_scene load_steps=11 format=3 uid="uid://dkljxn86jf6ui"]
 
 [ext_resource type="Texture2D" uid="uid://b25hdoxabl6jq" path="res://media/graphics/options_skull.png" id="1_5ix5j"]
 [ext_resource type="Script" path="res://scripts/options_screen.gd" id="1_rvsu1"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/selection.gd" id="5_oiulk"]
 [ext_resource type="Theme" uid="uid://01naekklebon" path="res://scenes/theme.tres" id="5_y3ais"]
 [ext_resource type="Script" path="res://scripts/sub_menu.gd" id="7_kigcn"]
+[ext_resource type="Script" path="res://scripts/exit_selection.gd" id="8_ann8w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wydf5"]
 bg_color = Color(0, 0, 0, 1)
@@ -52,7 +53,7 @@ theme_override_constants/margin_right = 16
 layout_mode = 2
 script = ExtResource("3_ebdoj")
 default_selection = NodePath("HBoxContainer/VBoxContainer/WindowSelection")
-labels = [NodePath("HBoxContainer/VBoxContainer/WindowSelection/Window"), NodePath("HBoxContainer/VBoxContainer/AudioSelection/Audio"), NodePath("HBoxContainer/VBoxContainer/ControlsSelection/Controls")]
+labels = [NodePath("HBoxContainer/VBoxContainer/WindowSelection/Window"), NodePath("HBoxContainer/VBoxContainer/AudioSelection/Audio"), NodePath("HBoxContainer/VBoxContainer/ControlsSelection/Controls"), NodePath("HBoxContainer/VBoxContainer/ExitSelection/Exit")]
 cursor = NodePath("Cursor")
 active = true
 focused = true
@@ -80,7 +81,7 @@ layout_mode = 2
 script = ExtResource("7_kigcn")
 menu = NodePath("../../WindowMenu")
 label = NodePath("Window")
-up_selection = NodePath("../ControlsSelection")
+up_selection = NodePath("../ExitSelection")
 down_selection = NodePath("../AudioSelection")
 parent_menu = NodePath("../../..")
 
@@ -118,7 +119,7 @@ script = ExtResource("7_kigcn")
 menu = NodePath("../../ControlsMenu")
 label = NodePath("Controls")
 up_selection = NodePath("../AudioSelection")
-down_selection = NodePath("../WindowSelection")
+down_selection = NodePath("../ExitSelection")
 parent_menu = NodePath("../../..")
 
 [node name="Controls" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer/ControlsSelection"]
@@ -126,6 +127,19 @@ layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "CONTROLS
 "
+script = ExtResource("5_lfo62")
+
+[node name="ExitSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
+layout_mode = 2
+script = ExtResource("8_ann8w")
+up_selection = NodePath("../ControlsSelection")
+down_selection = NodePath("../WindowSelection")
+parent_menu = NodePath("../../..")
+
+[node name="Exit" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer/ExitSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "EXIT"
 script = ExtResource("5_lfo62")
 
 [node name="WindowMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
@@ -362,3 +376,5 @@ layout_mode = 2
 size_flags_vertical = 10
 texture = ExtResource("1_5ix5j")
 stretch_mode = 1
+
+[connection signal="selected_exit" from="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer/ExitSelection" to="." method="_on_selected_exit"]

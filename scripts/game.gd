@@ -510,6 +510,17 @@ func _on_end_game():
 	title_screen.process_mode = Node.PROCESS_MODE_INHERIT
 	full_blackout.visible = false
 
+func _on_exited_options_menu():
+	music_player.stop()
+	options_screen.process_mode = Node.PROCESS_MODE_DISABLED
+	options_screen.visible = false
+	full_blackout.visible = true
+	await get_tree().create_timer(0.233, true, true).timeout
+	title_screen.visible = true
+	title_screen.process_mode = Node.PROCESS_MODE_INHERIT
+	title_screen.exit_options()
+	full_blackout.visible = false
+
 func _on_short_black_screen_timer_timeout():
 	full_blackout.visible = false
 	music_player.stream = game_over_music

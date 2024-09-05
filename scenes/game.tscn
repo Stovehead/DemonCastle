@@ -506,6 +506,7 @@ color = Color(0, 0, 0, 1)
 [connection signal="select_options" from="GUI/TitleScreen" to="." method="_on_title_screen_select_options"]
 [connection signal="select_quit" from="GUI/TitleScreen" to="." method="_on_title_screen_select_quit"]
 [connection signal="select_start" from="GUI/TitleScreen" to="." method="_on_title_screen_select_start"]
+[connection signal="selected_exit" from="GUI/OptionsScreen" to="." method="_on_exited_options_menu"]
 [connection signal="close_requested" from="DebugWindow" to="." method="_on_debug_window_close_requested"]
 [connection signal="timeout" from="TimeTimer" to="." method="_on_time_timer_timeout"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

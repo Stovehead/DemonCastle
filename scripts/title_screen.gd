@@ -36,6 +36,9 @@ func reset() -> void:
 	copyright_text.modulate.a = 1
 	Globals.entered_konami_code = false
 
+func exit_options() -> void:
+	flash_timer.stop()
+
 func _process(_delta: float) -> void:
 	if(Input.is_action_just_pressed("start") && !fades.visible && start_timer.is_stopped()):
 		if(!started):
