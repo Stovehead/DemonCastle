@@ -92,6 +92,7 @@ signal finished_music_fade
 @onready var game_over_screen:Control = $"GUI/Game Over"
 @onready var hud:Control = $GUI/HUD
 @onready var title_screen:TitleScreen = $GUI/TitleScreen
+@onready var options_screen:OptionsScreen = $GUI/OptionsScreen
 @onready var fade_rect:ColorRect = $Fade/ColorRect
 @onready var flash_rect:ColorRect = $Flash/ColorRect
 @onready var logos:Logos = $GUI/Logos
@@ -338,6 +339,26 @@ func give_1up() -> void:
 	SfxManager.play_sound_effect(SfxManager.ONE_UP)
 	lives_changed.emit(num_lives)
 
+func start_game() -> void:
+	lives_changed.emit(num_lives)
+	if(last_checkpoint == null):
+		if(stage_to_load == null):
+			if(Globals.entered_konami_code):
+				stage_to_load = FINAL_STAGE_PATH
+			else:
+				stage_to_load = INTRO_STAGE_PATH
+		if(ResourceLoader.load_threaded_get_status(stage_to_load) == ResourceLoader.THREAD_LOAD_LOADED):
+			last_checkpoint = ResourceLoader.load_threaded_get(stage_to_load)
+		else:
+			last_checkpoint = load(stage_to_load)
+	load_stage(last_checkpoint, true)
+	full_blackout.visible = false
+
+func open_options_menu() -> void:
+	options_screen.visible = true
+	options_screen.process_mode = Node.PROCESS_MODE_INHERIT
+	full_blackout.visible = false
+
 func _enter_tree():
 	Globals.game_instance = self
 
@@ -454,19 +475,11 @@ func _on_death_timer_timeout():
 		black_screen_timer.start()
 
 func _on_black_screen_timer_timeout():
-	lives_changed.emit(num_lives)
-	if(last_checkpoint == null):
-		if(stage_to_load == null):
-			if(Globals.entered_konami_code):
-				stage_to_load = FINAL_STAGE_PATH
-			else:
-				stage_to_load = INTRO_STAGE_PATH
-		if(ResourceLoader.load_threaded_get_status(stage_to_load) == ResourceLoader.THREAD_LOAD_LOADED):
-			last_checkpoint = ResourceLoader.load_threaded_get(stage_to_load)
-		else:
-			last_checkpoint = load(stage_to_load)
-	load_stage(last_checkpoint, true)
-	full_blackout.visible = false
+	match(title_screen.current_option):
+		0:
+			start_game()
+		1:
+			open_options_menu()
 
 func _on_continue_game():
 	game_over_screen.process_mode = Node.PROCESS_MODE_DISABLED
@@ -520,7 +533,10 @@ func _on_title_screen_select_quit() -> void:
 	get_tree().quit()
 
 func _on_title_screen_select_options() -> void:
-	pass # Replace with function body.
+	title_screen.visible = false
+	title_screen.process_mode = Node.PROCESS_MODE_DISABLED
+	full_blackout.visible = true
+	black_screen_timer.start()
 
 func _on_time_stop_timer_timeout() -> void:
 	unpause_music()

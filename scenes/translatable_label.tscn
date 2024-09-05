@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgelpu7nmk577"]
+
+[ext_resource type="Script" path="res://scripts/translatable_label.gd" id="1_x2go6"]
+
+[node name="TranslatableLabel" type="Label"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("1_x2go6")

@@ -25,13 +25,14 @@ shader_parameter/fade_length = 1.0
 shader_parameter/backwards = false
 shader_parameter/palette = ExtResource("8_vxyce")
 
-[node name="TitleScreen" type="Control" node_paths=PackedStringArray("start_text", "start_option", "copyright_text", "menu", "heart_container")]
+[node name="TitleScreen" type="Control" node_paths=PackedStringArray("start_text", "start_option", "options_option", "copyright_text", "menu", "heart_container")]
 layout_mode = 3
 anchors_preset = 0
 theme = ExtResource("1_m6s14")
 script = ExtResource("1_70ivp")
 start_text = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/PressStart")
 start_option = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/VBoxContainer/Start")
+options_option = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/VBoxContainer/Options")
 copyright_text = NodePath("PanelContainer/CenterContainer/VBoxContainer/Copyright")
 menu = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer")
 heart_container = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/HeartContainer")
@@ -146,6 +147,10 @@ process_callback = 0
 wait_time = 1.333
 one_shot = true
 
+[node name="OptionsTimer" type="Timer" parent="."]
+wait_time = 1.333
+one_shot = true
+
 [node name="Fades" type="CanvasLayer" parent="."]
 visible = false
 
@@ -175,3 +180,4 @@ color = Color(0, 0, 0, 1)
 
 [connection signal="timeout" from="FlashTimer" to="." method="_on_flash_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="timeout" from="OptionsTimer" to="." method="_on_options_timer_timeout"]
