@@ -23,6 +23,11 @@ signal select_quit
 @onready var fade_2:ColorRect = $Fades/ColorRect2
 @onready var fade_3:ColorRect = $Fades/ColorRect3
 @onready var options_music:AudioStream = preload("res://media/music/options.ogg")
+@export var dotted_line_1:TextureRect
+@export var dotted_line_2:TextureRect
+@export var bottom_line:ColorRect
+@export var logo_en:TextureRect
+@export var logo_jp:TextureRect
 var started:bool = false
 var current_option:int = 0
 
@@ -38,6 +43,31 @@ func reset() -> void:
 
 func exit_options() -> void:
 	flash_timer.stop()
+
+func update_language() -> void:
+	match(Settings.current_language):
+		"en":
+			dotted_line_1.visible = true
+			dotted_line_2.visible = true
+			logo_en.visible = true
+			bottom_line.visible = true
+			logo_jp.visible = false
+			fade_1.position.y = 134
+			fade_2.position.y = 160
+			fade_3.position.y = 120
+		"jp":
+			dotted_line_1.visible = false
+			dotted_line_2.visible = false
+			logo_en.visible = false
+			bottom_line.visible = false
+			logo_jp.visible = true
+			fade_1.position.y = 161
+			fade_2.position.y = 187
+			fade_3.position.y = 147
+
+func _ready() -> void:
+	update_language()
+	Settings.language_changed.connect(_language_changed)
 
 func _process(_delta: float) -> void:
 	if(Input.is_action_just_pressed("start") && !fades.visible && start_timer.is_stopped()):
@@ -105,3 +135,6 @@ func _on_start_timer_timeout() -> void:
 
 func _on_options_timer_timeout() -> void:
 	select_options.emit()
+
+func _language_changed() -> void:
+	update_language()

@@ -91,7 +91,8 @@ theme = ExtResource("5_y3ais")
 text = "WINDOW"
 script = ExtResource("5_lfo62")
 strings = {
-"en": "WINDOW"
+"en": "WINDOW",
+"jp": "AAAAAA"
 }
 
 [node name="AudioSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("menu", "label", "up_selection", "down_selection", "parent_menu")]
@@ -110,7 +111,8 @@ text = "AUDIO
 "
 script = ExtResource("5_lfo62")
 strings = {
-"en": "AUDIO"
+"en": "AUDIO",
+"jp": "AAAAA"
 }
 
 [node name="ControlsSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("menu", "label", "up_selection", "down_selection", "parent_menu")]
@@ -128,6 +130,10 @@ theme = ExtResource("5_y3ais")
 text = "CONTROLS
 "
 script = ExtResource("5_lfo62")
+strings = {
+"en": "CONTROLS",
+"jp": "AAAAAAAA"
+}
 
 [node name="ExitSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
 layout_mode = 2
@@ -141,6 +147,10 @@ layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "EXIT"
 script = ExtResource("5_lfo62")
+strings = {
+"en": "EXIT",
+"jp": "AAAA"
+}
 
 [node name="WindowMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
 visible = false
@@ -152,6 +162,7 @@ cursor = NodePath("Cursor")
 hide_cursor_on_lost_focus = true
 
 [node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu"]
+layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 texture = ExtResource("4_b7bed")
@@ -177,7 +188,8 @@ theme = ExtResource("5_y3ais")
 text = "SCALE"
 script = ExtResource("5_lfo62")
 strings = {
-"en": "SCALE"
+"en": "SCALE",
+"jp": "AAAAA"
 }
 
 [node name="FullscreenSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
@@ -193,7 +205,8 @@ theme = ExtResource("5_y3ais")
 text = "FULLSCREEN"
 script = ExtResource("5_lfo62")
 strings = {
-"en": "FULLSCREEN"
+"en": "FULLSCREEN",
+"jp": "AAAAAAAAAA"
 }
 
 [node name="AudioMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
@@ -206,6 +219,7 @@ cursor = NodePath("Cursor")
 hide_cursor_on_lost_focus = true
 
 [node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu"]
+layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 texture = ExtResource("4_b7bed")
@@ -232,7 +246,8 @@ text = "MUSIC VOLUME
 "
 script = ExtResource("5_lfo62")
 strings = {
-"en": "MUSIC VOLUME"
+"en": "MUSIC VOLUME",
+"jp": "AAAAA AAAAAA"
 }
 
 [node name="SFXSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
@@ -249,7 +264,8 @@ text = "SFX VOLUME
 "
 script = ExtResource("5_lfo62")
 strings = {
-"en": "SFX VOLUME"
+"en": "SFX VOLUME",
+"jp": "AAA AAAAAA"
 }
 
 [node name="ControlsMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
@@ -262,6 +278,7 @@ cursor = NodePath("Cursor")
 hide_cursor_on_lost_focus = true
 
 [node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu"]
+layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 texture = ExtResource("4_b7bed")
@@ -288,7 +305,8 @@ text = "UP
 "
 script = ExtResource("5_lfo62")
 strings = {
-"en": "UP"
+"en": "UP",
+"jp": "AA"
 }
 
 [node name="DownSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
@@ -304,7 +322,8 @@ theme = ExtResource("5_y3ais")
 text = "DOWN"
 script = ExtResource("5_lfo62")
 strings = {
-"en": "DOWN"
+"en": "DOWN",
+"jp": "AAAA"
 }
 
 [node name="LeftSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
@@ -320,7 +339,8 @@ theme = ExtResource("5_y3ais")
 text = "LEFT"
 script = ExtResource("5_lfo62")
 strings = {
-"en": "LEFT"
+"en": "LEFT",
+"jp": "AAAA"
 }
 
 [node name="RightSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
@@ -336,7 +356,8 @@ theme = ExtResource("5_y3ais")
 text = "RIGHT"
 script = ExtResource("5_lfo62")
 strings = {
-"en": "RIGHT"
+"en": "RIGHT",
+"jp": "AAAAA"
 }
 
 [node name="JumpSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
@@ -352,7 +373,8 @@ theme = ExtResource("5_y3ais")
 text = "JUMP"
 script = ExtResource("5_lfo62")
 strings = {
-"en": "JUMP"
+"en": "JUMP",
+"jp": "AAAA"
 }
 
 [node name="WhipSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
@@ -368,7 +390,8 @@ theme = ExtResource("5_y3ais")
 text = "WHIP"
 script = ExtResource("5_lfo62")
 strings = {
-"en": "WHIP"
+"en": "WHIP",
+"jp": "AAAA"
 }
 
 [node name="Skulls2" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer"]

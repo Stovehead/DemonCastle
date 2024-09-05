@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://ccyrkr374lqo4"]
+[gd_scene load_steps=6 format=3 uid="uid://ccyrkr374lqo4"]
 
 [ext_resource type="Script" path="res://scripts/logos.gd" id="1_85ae2"]
 [ext_resource type="Theme" uid="uid://01naekklebon" path="res://scenes/theme.tres" id="1_qrhlh"]
 [ext_resource type="Texture2D" uid="uid://c85oemvv6ffh" path="res://media/graphics/konami_logo.png" id="2_w2iud"]
+[ext_resource type="Script" path="res://scripts/translatable_label.gd" id="4_jjmt0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_65cdt"]
 bg_color = Color(0, 0, 0, 1)
@@ -48,3 +49,8 @@ CASTLEVANIA IS OWNED BY KONAMI.
 
 THIS GAME WAS MADE WITH GODOT."
 horizontal_alignment = 1
+script = ExtResource("4_jjmt0")
+strings = {
+"en": "THIS GAME IS A FAN-MADE PROJECT.\\nIT IS NOT LICENSED BY, ENDORSED\\nBY, OR AFFILIATED WITH KONAMI.\\n\\n\\n\\nCASTLEVANIA IS OWNED BY KONAMI.\\n\\n\\n\\nTHIS GAME WAS MADE WITH GODOT.",
+"jp": "ほんさくひんは　にじそうさくゲームであり\\n\\nかぶしきがいしゃ　コナミデジタルエンタテインメント\\n\\n（いか,コナミといいます）とは\\n\\nいっさいかんけいありません.\\n\\n\\n\\n\\nあくまじょうドラキュラは　コナミの\\n\\nとうろくしょうひょうです.\\n\\n\\n\\n\\nほんさくひんは　GODOTをしようして\\n\\nさくせいされました."
+}

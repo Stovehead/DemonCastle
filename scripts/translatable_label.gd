@@ -5,7 +5,7 @@ extends Label
 
 func update_text() -> void:
 	if(strings.has(Settings.current_language)):
-		text = strings[Settings.current_language]
+		text = strings[Settings.current_language].c_unescape()
 
 func _ready() -> void:
 	update_text()

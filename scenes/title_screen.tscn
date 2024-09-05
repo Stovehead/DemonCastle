@@ -1,12 +1,14 @@
-[gd_scene load_steps=14 format=3 uid="uid://i7cpmtm5t7sl"]
+[gd_scene load_steps=16 format=3 uid="uid://i7cpmtm5t7sl"]
 
 [ext_resource type="Texture2D" uid="uid://b7r4gne58qbgf" path="res://media/graphics/title_screen_dotted_line.png" id="1_8e1kj"]
 [ext_resource type="Script" path="res://scripts/title_screen.gd" id="1_70ivp"]
 [ext_resource type="Texture2D" uid="uid://dgtodxdkvvk4j" path="res://media/graphics/logo.png" id="1_717ov"]
 [ext_resource type="Theme" uid="uid://01naekklebon" path="res://scenes/theme.tres" id="1_m6s14"]
 [ext_resource type="Texture2D" uid="uid://btxfk2mt2s2xo" path="res://media/graphics/castle.png" id="3_d8082"]
+[ext_resource type="Texture2D" uid="uid://bo2jaghb2drm" path="res://media/graphics/logo_jp.png" id="4_7wdew"]
 [ext_resource type="Texture2D" uid="uid://hfqx1mlweo18" path="res://media/graphics/heart_icon.png" id="6_fbvl3"]
 [ext_resource type="Shader" path="res://shaders/screen_fade.gdshader" id="7_0a36f"]
+[ext_resource type="Script" path="res://scripts/translatable_label.gd" id="7_xivxi"]
 [ext_resource type="Texture2D" uid="uid://dcn7xtjdgjb06" path="res://media/graphics/black_fade_palette.png" id="8_vxyce"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_am75w"]
@@ -25,17 +27,22 @@ shader_parameter/fade_length = 1.0
 shader_parameter/backwards = false
 shader_parameter/palette = ExtResource("8_vxyce")
 
-[node name="TitleScreen" type="Control" node_paths=PackedStringArray("start_text", "start_option", "options_option", "copyright_text", "menu", "heart_container")]
+[node name="TitleScreen" type="Control" node_paths=PackedStringArray("start_text", "start_option", "options_option", "copyright_text", "menu", "heart_container", "dotted_line_1", "dotted_line_2", "bottom_line", "logo_en", "logo_jp")]
 layout_mode = 3
 anchors_preset = 0
 theme = ExtResource("1_m6s14")
 script = ExtResource("1_70ivp")
-start_text = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/PressStart")
-start_option = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/VBoxContainer/Start")
-options_option = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/VBoxContainer/Options")
+start_text = NodePath("PanelContainer/CenterContainer/VBoxContainer/Menu/PressStart")
+start_option = NodePath("PanelContainer/CenterContainer/VBoxContainer/Menu/HBoxContainer/VBoxContainer/Start")
+options_option = NodePath("PanelContainer/CenterContainer/VBoxContainer/Menu/HBoxContainer/VBoxContainer/Options")
 copyright_text = NodePath("PanelContainer/CenterContainer/VBoxContainer/Copyright")
-menu = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer")
-heart_container = NodePath("PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/HeartContainer")
+menu = NodePath("PanelContainer/CenterContainer/VBoxContainer/Menu/HBoxContainer")
+heart_container = NodePath("PanelContainer/CenterContainer/VBoxContainer/Menu/HBoxContainer/HeartContainer")
+dotted_line_1 = NodePath("PanelContainer/CenterContainer/VBoxContainer/DottedLine")
+dotted_line_2 = NodePath("PanelContainer/CenterContainer/VBoxContainer/DottedLine2")
+bottom_line = NodePath("PanelContainer/CenterContainer/VBoxContainer/ColorRect")
+logo_en = NodePath("PanelContainer/CenterContainer/VBoxContainer/LogoEN")
+logo_jp = NodePath("PanelContainer/CenterContainer/VBoxContainer/LogoJP")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 0
@@ -49,76 +56,100 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/CenterContainer"]
 layout_mode = 2
 
-[node name="Dotted Line" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
+[node name="DottedLine" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("1_8e1kj")
 stretch_mode = 1
 
-[node name="Logo" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 134)
+[node name="LogoJP" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+texture = ExtResource("4_7wdew")
+
+[node name="LogoEN" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 texture = ExtResource("1_717ov")
 stretch_mode = 2
 
-[node name="PressStart" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Logo"]
-material = SubResource("ShaderMaterial_6kfd2")
-layout_mode = 2
-offset_top = 111.0
-offset_right = 239.0
-offset_bottom = 119.0
-text = " PUSH START KEY  "
-horizontal_alignment = 1
-
-[node name="Castle" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer/Logo"]
+[node name="Castle" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer/LogoEN"]
 layout_mode = 0
-offset_left = 171.0
+offset_left = 170.0
 offset_top = 81.0
-offset_right = 243.0
+offset_right = 242.0
 offset_bottom = 134.0
 texture = ExtResource("3_d8082")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/CenterContainer/VBoxContainer/Logo"]
+[node name="Menu" type="Control" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="PressStart" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Menu"]
+material = SubResource("ShaderMaterial_6kfd2")
+layout_mode = 2
+offset_left = -120.0
+offset_top = -19.0
+offset_right = 119.0
+offset_bottom = -11.0
+text = " PUSH START KEY  "
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/CenterContainer/VBoxContainer/Menu"]
 visible = false
 material = SubResource("ShaderMaterial_wf8hh")
 layout_mode = 0
-offset_left = 87.0
-offset_top = 103.0
-offset_right = 155.0
-offset_bottom = 143.0
+offset_left = -33.0
+offset_top = -27.0
+offset_right = 35.0
+offset_bottom = 13.0
 metadata/_edit_group_ = true
 
-[node name="HeartContainer" type="MarginContainer" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer"]
+[node name="HeartContainer" type="MarginContainer" parent="PanelContainer/CenterContainer/VBoxContainer/Menu/HBoxContainer"]
 use_parent_material = true
 layout_mode = 2
 theme_override_constants/margin_top = 0
 
-[node name="Heart" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/HeartContainer"]
+[node name="Heart" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer/Menu/HBoxContainer/HeartContainer"]
 use_parent_material = true
 layout_mode = 2
 texture = ExtResource("6_fbvl3")
 stretch_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/CenterContainer/VBoxContainer/Menu/HBoxContainer"]
 use_parent_material = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Start" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/VBoxContainer"]
+[node name="Start" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Menu/HBoxContainer/VBoxContainer"]
 use_parent_material = true
 layout_mode = 2
 text = "START"
+script = ExtResource("7_xivxi")
+strings = {
+"en": "START",
+"jp": "はじめる"
+}
 
-[node name="Options" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/VBoxContainer"]
+[node name="Options" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Menu/HBoxContainer/VBoxContainer"]
 use_parent_material = true
 layout_mode = 2
 text = "OPTIONS"
+script = ExtResource("7_xivxi")
+strings = {
+"en": "OPTIONS",
+"jp": "オプション"
+}
 
-[node name="Quit" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Logo/HBoxContainer/VBoxContainer"]
+[node name="Quit" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/Menu/HBoxContainer/VBoxContainer"]
 use_parent_material = true
 layout_mode = 2
 text = "QUIT
 "
+script = ExtResource("7_xivxi")
+strings = {
+"en": "QUIT",
+"jp": "やめる"
+}
 
 [node name="Copyright" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer"]
 material = SubResource("ShaderMaterial_4ofy5")
@@ -128,7 +159,7 @@ text = "TM AND © KONAMI DE CO., LTD.
 FAN PROJECT, NOT AFFILIATED WITH KONAMI"
 horizontal_alignment = 1
 
-[node name="Dotted Line2" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
+[node name="DottedLine2" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("1_8e1kj")
 stretch_mode = 1
