@@ -2,7 +2,8 @@ class_name SubMenu
 extends Selection
 
 @export var menu:Menu
-@export var label:Label
+
+var just_entered:bool = false
 
 func _ready() -> void:
 	focused = focused
@@ -13,11 +14,11 @@ func update_active_and_focus(new_active:bool, new_focused:bool):
 
 func _on_accepted() -> void:
 	active = true
-	menu.focused = true
+	menu.set_deferred("focused", true)
 	parent_menu.focused = false
 
 func _process(_delta: float) -> void:
-	if(Input.is_action_just_pressed("cancel")):
+	if(Input.is_action_just_pressed("cancel") && menu.active && menu.focused):
 		active = false
 		menu.focused = false
 		parent_menu.focused = true

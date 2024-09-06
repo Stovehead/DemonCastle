@@ -7,6 +7,7 @@ extends MarginContainer
 @export var down_selection:Selection
 
 @export var parent_menu:Menu
+@export var label:Label
 
 @export var cursor_offset:Vector2 = Vector2(-16, 0)
 

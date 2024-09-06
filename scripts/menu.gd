@@ -7,6 +7,7 @@ const UNFOCUSED_COLOR:Color = Color(0.5, 0.5, 0.5)
 @export var labels:Array[Label]
 @export var cursor:TextureRect
 @export var hide_cursor_on_lost_focus:bool = false
+@export var grey_out_current_selection_on_lost_focus:bool = false
 
 var current_selection:Selection
 
@@ -25,6 +26,8 @@ func update_active_and_focus(new_active:bool, new_focused:bool):
 			label.self_modulate = Color.WHITE
 	else:
 		for label in labels:
+			if(is_instance_valid(current_selection) && label == current_selection.label && !grey_out_current_selection_on_lost_focus && active):
+				continue
 			label.self_modulate = UNFOCUSED_COLOR
 	if(is_instance_valid(cursor)):
 		if(new_active && new_focused):
@@ -66,4 +69,5 @@ func _process(_delta: float) -> void:
 	elif(Input.is_action_just_pressed("right") && is_instance_valid(current_selection.right_selection)):
 		update_selection(current_selection.right_selection)
 	if(Input.is_action_just_pressed("accept")):
+		Input.action_release("accept")
 		current_selection._on_accepted()
