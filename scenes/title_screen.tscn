@@ -67,6 +67,7 @@ layout_mode = 2
 texture = ExtResource("4_7wdew")
 
 [node name="LogoEN" type="TextureRect" parent="PanelContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 130)
 layout_mode = 2
 size_flags_horizontal = 4
 texture = ExtResource("1_717ov")
@@ -88,9 +89,9 @@ size_flags_horizontal = 4
 material = SubResource("ShaderMaterial_6kfd2")
 layout_mode = 2
 offset_left = -120.0
-offset_top = -19.0
+offset_top = -23.0
 offset_right = 119.0
-offset_bottom = -11.0
+offset_bottom = -15.0
 text = " PUSH START KEY  "
 horizontal_alignment = 1
 
@@ -99,9 +100,9 @@ visible = false
 material = SubResource("ShaderMaterial_wf8hh")
 layout_mode = 0
 offset_left = -33.0
-offset_top = -27.0
+offset_top = -31.0
 offset_right = 35.0
-offset_bottom = 13.0
+offset_bottom = 9.0
 metadata/_edit_group_ = true
 
 [node name="HeartContainer" type="MarginContainer" parent="PanelContainer/CenterContainer/VBoxContainer/Menu/HBoxContainer"]
