@@ -12,7 +12,7 @@ var music_volume:float = 100.0
 var sfx_volume:float = 100.0
 var window_scale:int = 1
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if(Input.is_action_just_pressed("debug")):
 		if(current_language == "en"):
 			current_language = "jp"

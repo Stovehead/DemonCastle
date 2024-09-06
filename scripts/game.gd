@@ -388,6 +388,10 @@ func _process(_delta: float) -> void:
 			flash_accumulator += 1
 
 func _physics_process(delta) -> void:
+	#if(Input.is_action_pressed("debug")):
+		#Engine.time_scale = 0.2
+	#else:
+		#Engine.time_scale = 1
 	if(showing_logos):
 		if(!fade_rect.visible):
 			if(Input.is_action_just_pressed("start")):

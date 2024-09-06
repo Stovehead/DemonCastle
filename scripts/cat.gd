@@ -48,6 +48,12 @@ func check_has_landed() -> void:
 	if(!in_air):
 		return
 	if(floor_detector.is_colliding()):
+		global_position.y -= 1
+		for i in range(16):
+			floor_detector.force_raycast_update()
+			if(floor_detector.is_colliding()):
+				global_position.y -= 1
+		global_position.y += 1
 		collision.disabled = false
 		in_air = false
 		animation_player.play("run")
