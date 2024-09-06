@@ -132,7 +132,6 @@ func _process(_delta: float) -> void:
 			heart_container.add_theme_constant_override("margin_top", current_option * SPACE_BETWEEN_OPTIONS)
 			SfxManager.play_sound_effect_no_overlap(SfxManager.SELECT)
 
-
 func _on_flash_timer_timeout() -> void:
 	match(current_option):
 		0:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dkljxn86jf6ui"]
+[gd_scene load_steps=13 format=3 uid="uid://dkljxn86jf6ui"]
 
 [ext_resource type="Texture2D" uid="uid://b25hdoxabl6jq" path="res://media/graphics/options_skull.png" id="1_5ix5j"]
 [ext_resource type="Script" path="res://scripts/options_screen.gd" id="1_rvsu1"]
@@ -9,18 +9,22 @@
 [ext_resource type="Theme" uid="uid://01naekklebon" path="res://scenes/theme.tres" id="5_y3ais"]
 [ext_resource type="Script" path="res://scripts/sub_menu.gd" id="7_kigcn"]
 [ext_resource type="Script" path="res://scripts/exit_selection.gd" id="8_ann8w"]
+[ext_resource type="Script" path="res://scripts/multi_selection.gd" id="9_8aiga"]
+[ext_resource type="Script" path="res://scripts/slider_selection.gd" id="10_joxj1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wydf5"]
 bg_color = Color(0, 0, 0, 1)
 
-[node name="OptionsScreen" type="Control"]
+[node name="OptionsScreen" type="Control" node_paths=PackedStringArray("must_restart_text")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("5_y3ais")
 script = ExtResource("1_rvsu1")
+must_restart_text = NodePath("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer/MustRestart")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 0
@@ -53,9 +57,8 @@ theme_override_constants/margin_right = 16
 layout_mode = 2
 script = ExtResource("3_ebdoj")
 default_selection = NodePath("HBoxContainer/VBoxContainer/WindowSelection")
-labels = [NodePath("HBoxContainer/VBoxContainer/WindowSelection/Window"), NodePath("HBoxContainer/VBoxContainer/AudioSelection/Audio"), NodePath("HBoxContainer/VBoxContainer/ControlsSelection/Controls"), NodePath("HBoxContainer/VBoxContainer/ExitSelection/Exit")]
+labels = [NodePath("HBoxContainer/VBoxContainer/WindowSelection/Window"), NodePath("HBoxContainer/VBoxContainer/AudioSelection/Audio"), NodePath("HBoxContainer/VBoxContainer/ControlsSelection/Controls"), NodePath("HBoxContainer/VBoxContainer/ExitSelection/Exit"), NodePath("HBoxContainer/VBoxContainer/OtherMenu/Other")]
 cursor = NodePath("Cursor")
-hide_cursor_on_lost_focus = true
 active = true
 focused = true
 
@@ -121,7 +124,7 @@ layout_mode = 2
 script = ExtResource("7_kigcn")
 menu = NodePath("../../ControlsMenu")
 up_selection = NodePath("../AudioSelection")
-down_selection = NodePath("../ExitSelection")
+down_selection = NodePath("../OtherMenu")
 parent_menu = NodePath("../../..")
 label = NodePath("Controls")
 
@@ -136,10 +139,29 @@ strings = {
 "jp": "そうさ"
 }
 
+[node name="OtherMenu" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("menu", "up_selection", "down_selection", "parent_menu", "label")]
+layout_mode = 2
+script = ExtResource("7_kigcn")
+menu = NodePath("../../OtherMenu")
+up_selection = NodePath("../ControlsSelection")
+down_selection = NodePath("../ExitSelection")
+parent_menu = NodePath("../../..")
+label = NodePath("Other")
+
+[node name="Other" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer/OtherMenu"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "OTHER"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "OTHER",
+"jp": "そのた"
+}
+
 [node name="ExitSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu")]
 layout_mode = 2
 script = ExtResource("8_ann8w")
-up_selection = NodePath("../ControlsSelection")
+up_selection = NodePath("../OtherMenu")
 down_selection = NodePath("../WindowSelection")
 parent_menu = NodePath("../../..")
 cursor_offset = null
@@ -155,11 +177,10 @@ strings = {
 }
 
 [node name="WindowMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
-visible = false
 layout_mode = 2
 script = ExtResource("3_ebdoj")
 default_selection = NodePath("VBoxContainer/ScaleSelection")
-labels = [NodePath("VBoxContainer/ScaleSelection/Scale"), NodePath("VBoxContainer/FullscreenSelection/Fullscreen")]
+labels = [NodePath("VBoxContainer/ScaleSelection/Scale"), NodePath("VBoxContainer/ScaleSelection/Scale/Label"), NodePath("VBoxContainer/FullscreenSelection/Fullscreen"), NodePath("VBoxContainer/FullscreenSelection/Fullscreen/Label"), NodePath("VBoxContainer/ScalingSelection/Scaling"), NodePath("VBoxContainer/ScalingSelection/Scaling/Label"), NodePath("VBoxContainer/MustRestart")]
 cursor = NodePath("Cursor")
 hide_cursor_on_lost_focus = true
 
@@ -177,14 +198,18 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/separation = 8
 
-[node name="ScaleSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu", "label")]
+[node name="ScaleSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer" node_paths=PackedStringArray("selection_label", "up_selection", "down_selection", "parent_menu", "label")]
 layout_mode = 2
-script = ExtResource("5_oiulk")
-up_selection = NodePath("../FullscreenSelection")
+script = ExtResource("9_8aiga")
+property = "window_scale"
+selections = Array[String](["<1X>", "<2X>", "<3X>", "<4X>", "<5X>"])
+values = [1, 2, 3, 4, 5]
+selection_label = NodePath("Scale/Label")
+default_selection = 2
+up_selection = NodePath("../ScalingSelection")
 down_selection = NodePath("../FullscreenSelection")
 parent_menu = NodePath("../..")
 label = NodePath("Scale")
-cursor_offset = null
 
 [node name="Scale" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer/ScaleSelection"]
 layout_mode = 2
@@ -196,14 +221,26 @@ strings = {
 "jp": "サイズ"
 }
 
-[node name="FullscreenSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu", "label")]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer/ScaleSelection/Scale"]
+layout_mode = 0
+offset_left = 96.0
+offset_right = 136.0
+offset_bottom = 8.0
+text = "<2X>"
+horizontal_alignment = 1
+
+[node name="FullscreenSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer" node_paths=PackedStringArray("selection_label", "up_selection", "down_selection", "parent_menu", "label")]
 layout_mode = 2
-script = ExtResource("5_oiulk")
+script = ExtResource("9_8aiga")
+property = "is_fullscreen"
+selections = Array[String](["<OFF>", "<ON>"])
+values = [false, true]
+selection_label = NodePath("Fullscreen/Label")
+changed_signal = "fullscreen_changed"
 up_selection = NodePath("../ScaleSelection")
-down_selection = NodePath("../ScaleSelection")
+down_selection = NodePath("../ScalingSelection")
 parent_menu = NodePath("../..")
 label = NodePath("Fullscreen")
-cursor_offset = null
 
 [node name="Fullscreen" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer/FullscreenSelection"]
 layout_mode = 2
@@ -215,12 +252,62 @@ strings = {
 "jp": "フルスクリーン"
 }
 
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer/FullscreenSelection/Fullscreen"]
+layout_mode = 0
+offset_left = 96.0
+offset_right = 136.0
+offset_bottom = 8.0
+text = "<OFF>"
+horizontal_alignment = 1
+
+[node name="ScalingSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer" node_paths=PackedStringArray("selection_label", "up_selection", "down_selection", "parent_menu", "label")]
+layout_mode = 2
+script = ExtResource("9_8aiga")
+property = "force_integer_scaling"
+selections = Array[String](["<OFF>", "<ON>"])
+values = [false, true]
+selection_label = NodePath("Scaling/Label")
+up_selection = NodePath("../FullscreenSelection")
+down_selection = NodePath("../ScaleSelection")
+parent_menu = NodePath("../..")
+label = NodePath("Scaling")
+
+[node name="Scaling" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer/ScalingSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "FORCE INTEGER SCALING"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "FORCE INTEGER SCALING",
+"jp": "せいすうばいの かいぞうどを きょうせい"
+}
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer/ScalingSelection/Scaling"]
+layout_mode = 0
+offset_left = 184.0
+offset_right = 224.0
+offset_bottom = 8.0
+text = "<OFF>"
+horizontal_alignment = 1
+
+[node name="MustRestart" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.709804, 0.192157, 0.12549, 1)
+text = "GAME MUST BE RESTARTED
+FOR THIS CHANGE TO TAKE EFFECT!"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "GAME MUST BE RESTARTED\\nFOR THIS CHANGE TO TAKE EFFECT!",
+"jp": "このせっていは ゲームをさいきどうしなければ\\n\\nこうかが ありません!"
+}
+
 [node name="AudioMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
 visible = false
 layout_mode = 2
 script = ExtResource("3_ebdoj")
 default_selection = NodePath("VBoxContainer/MusicSelection")
-labels = [NodePath("VBoxContainer/MusicSelection/Music"), NodePath("VBoxContainer/SFXSelection/SFX")]
+labels = [NodePath("VBoxContainer/MusicSelection/Music"), NodePath("VBoxContainer/SFXSelection/SFX"), NodePath("VBoxContainer/MusicSelection/Music/Label"), NodePath("VBoxContainer/SFXSelection/SFX/Label")]
 cursor = NodePath("Cursor")
 hide_cursor_on_lost_focus = true
 
@@ -238,14 +325,18 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/separation = 8
 
-[node name="MusicSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu", "label")]
+[node name="MusicSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer" node_paths=PackedStringArray("slider_label", "up_selection", "down_selection", "parent_menu", "label")]
 layout_mode = 2
-script = ExtResource("5_oiulk")
+script = ExtResource("10_joxj1")
+property = "music_volume_percentage"
+range = Vector2(0, 100)
+increment = 1.0
+slider_label = NodePath("Music/Label")
+format_string = "<%d>"
 up_selection = NodePath("../SFXSelection")
 down_selection = NodePath("../SFXSelection")
 parent_menu = NodePath("../..")
 label = NodePath("Music")
-cursor_offset = null
 
 [node name="Music" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer/MusicSelection"]
 layout_mode = 2
@@ -258,14 +349,26 @@ strings = {
 "jp": "おんがく おんりょう"
 }
 
-[node name="SFXSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu", "label")]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer/MusicSelection/Music"]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 168.0
+offset_bottom = 8.0
+text = "<100>"
+horizontal_alignment = 1
+
+[node name="SFXSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer" node_paths=PackedStringArray("slider_label", "up_selection", "down_selection", "parent_menu", "label")]
 layout_mode = 2
-script = ExtResource("5_oiulk")
+script = ExtResource("10_joxj1")
+property = "sfx_volume_percentage"
+range = Vector2(0, 100)
+increment = 1.0
+slider_label = NodePath("SFX/Label")
+format_string = "<%d>"
 up_selection = NodePath("../MusicSelection")
 down_selection = NodePath("../MusicSelection")
 parent_menu = NodePath("../..")
 label = NodePath("SFX")
-cursor_offset = null
 
 [node name="SFX" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer/SFXSelection"]
 layout_mode = 2
@@ -277,6 +380,13 @@ strings = {
 "en": "SFX VOLUME",
 "jp": "こうかおん おんりょう"
 }
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer/SFXSelection/SFX"]
+offset_left = 128.0
+offset_right = 168.0
+offset_bottom = 8.0
+text = "<100>"
+horizontal_alignment = 1
 
 [node name="ControlsMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
 visible = false
@@ -479,6 +589,56 @@ strings = {
 "en": "WHIP",
 "jp": "ムチ"
 }
+
+[node name="OtherMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+visible = false
+layout_mode = 2
+script = ExtResource("3_ebdoj")
+default_selection = NodePath("VBoxContainer/LanguageSelection")
+labels = [NodePath("VBoxContainer/LanguageSelection/Language"), NodePath("VBoxContainer/LanguageSelection/Language/Label")]
+cursor = NodePath("Cursor")
+hide_cursor_on_lost_focus = true
+
+[node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu"]
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("4_b7bed")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 8
+
+[node name="LanguageSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer" node_paths=PackedStringArray("selection_label", "parent_menu", "label")]
+layout_mode = 2
+script = ExtResource("9_8aiga")
+property = "current_language"
+selections = Array[String](["<ENGLISH>", "＜にほんご＞"])
+values = ["en", "jp"]
+selection_label = NodePath("Language/Label")
+parent_menu = NodePath("../..")
+label = NodePath("Language")
+
+[node name="Language" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/LanguageSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "LANGUAGE
+"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "LANGUAGE",
+"jp": "げんご"
+}
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/LanguageSelection/Language"]
+layout_mode = 0
+offset_left = 96.0
+offset_right = 168.0
+offset_bottom = 8.0
+theme = ExtResource("5_y3ais")
+text = "<ENGLISH>"
 
 [node name="Skulls2" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

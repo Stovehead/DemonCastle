@@ -74,6 +74,7 @@ func play_sound_effect(effect_id:int) -> AudioStreamPlayer:
 	new_audio_player.stream = audio_streams[effect_id]
 	new_audio_player.finished.connect(_audio_finished.bind(new_audio_player))
 	add_child(new_audio_player)
+	new_audio_player.volume_db = linear_to_db(Settings.sfx_volume_percentage/100.0)
 	new_audio_player.play()
 	return new_audio_player
 

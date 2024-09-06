@@ -138,7 +138,7 @@ func fade_out_music(fade_time:float) -> void:
 	await music_fade_tween.finished
 	music_fade_tween.stop()
 	music_player.stop()
-	music_player.volume_db = 0
+	music_player.volume_linear = Settings.music_volume_percentage/100.0
 	music_fade_tween = null
 	finished_music_fade.emit()
 
@@ -364,6 +364,7 @@ func _enter_tree():
 
 func _ready() -> void:
 	randomize()
+	music_player.volume_linear = Settings.music_volume_percentage/100.0
 	if(debug_mode):
 		debug_window.show()
 		debug_window.get_viewport().world_2d = get_viewport().world_2d
@@ -418,10 +419,7 @@ func _physics_process(delta) -> void:
 	if(debug_mode):
 		debug_window.get_node("CameraOutline").global_position = camera.get_screen_center_position() - Vector2(192, 108)
 	if(Input.is_action_just_pressed("fullscreen")):
-		if(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN):
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		else:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+		Settings.is_fullscreen = !Settings.is_fullscreen
 	if(camera_on_player):
 		move_camera_to_player()
 	else:
@@ -545,7 +543,7 @@ func _on_title_screen_select_start() -> void:
 	black_screen_timer.start()
 
 func _on_title_screen_select_quit() -> void:
-	get_tree().quit()
+	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
 func _on_title_screen_select_options() -> void:
 	title_screen.visible = false
