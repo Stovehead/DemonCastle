@@ -42,10 +42,8 @@ const INVINCIBLE_TIME_1:float = 1.73333
 const INVINCIBLE_TIME_2:float = 2.13333
 const NUM_STARTING_HEARTS:int = 5
 
-var player_direction:int = 1:
-	set(new_player_direction):
-		if(new_player_direction != player_direction):
-			player_direction = new_player_direction
+var player_direction:int = 1
+var pre_jump_direction:int
 var player_has_control:bool = true
 var can_move_horizontally:bool = true
 var cutscene_control:bool = false
@@ -348,6 +346,8 @@ func check_jump_input() -> void:
 func get_on_stair(step:int, direction:int, animation:String, step_position:float) -> void:
 	current_step = step
 	global_position.x = step_position
+	global_position.y = current_stair.global_position.y - Stairs.SINGLE_STAIR_HEIGHT * current_step * player_direction * -current_stair.direction - DEFAULT_COLLISION_SIZE.y/2
+	velocity = Vector2.ZERO
 	next_step = step_position + Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction * direction
 	on_stairs = true
 	going_up_stairs = true
@@ -416,6 +416,7 @@ func start_jump() -> void:
 	is_jumping = true
 	jump_timer.stop()
 	velocity.y = JUMP_SPEED
+	pre_jump_direction = Input.get_axis("left", "right")
 	animation_player.play("jump")
 
 func floor_movement(delta:float, did_horizontal_movement:bool) -> void:
@@ -456,10 +457,12 @@ func start_falling() -> void:
 		velocity.y = TERMINAL_VELOCITY
 	velocity.x = 0
 
-func air_movement() -> void:
+func air_movement(delta:float) -> void:
 	if(!is_jumping && !is_hurt):
 		start_falling()
 	check_floor_checker()
+	if(is_jumping):
+		velocity.x = clamp(velocity.x + ACCELERATION * delta * pre_jump_direction, -MAX_SPEED, MAX_SPEED)
 
 func normal_movement(delta:float) -> void:
 	var did_horizontal_movement:bool = false
@@ -477,7 +480,7 @@ func normal_movement(delta:float) -> void:
 	if(is_on_floor()):
 		floor_movement(delta, did_horizontal_movement)
 		return
-	air_movement()
+	air_movement(delta)
 
 func stop_movement(delta:float) -> void:
 	if(is_on_floor()):
@@ -677,6 +680,7 @@ func _on_hitbox_got_hit(attacker:Hurtbox) -> void:
 		velocity.y = KNOCKBACK_VELOCITY.y
 		is_hurt = true
 		is_whipping = false
+		is_jumping = false
 		animation_player.play("hurt")
 
 func _on_hp_changed(new_hp) -> void:
