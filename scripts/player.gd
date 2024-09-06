@@ -346,12 +346,15 @@ func check_jump_input() -> void:
 func get_on_stair(step:int, direction:int, animation:String, step_position:float) -> void:
 	current_step = step
 	global_position.x = step_position
-	global_position.y = current_stair.global_position.y - Stairs.SINGLE_STAIR_HEIGHT * current_step * player_direction * -current_stair.direction - DEFAULT_COLLISION_SIZE.y/2
+	player_direction = current_stair.direction * direction
+	if(player_direction == current_stair.direction):
+		global_position.y = current_stair.global_position.y - DEFAULT_COLLISION_SIZE.y / 2
+	else:
+		global_position.y = current_stair.global_position.y - step * Stairs.SINGLE_STAIR_HEIGHT - DEFAULT_COLLISION_SIZE.y / 2
 	velocity = Vector2.ZERO
 	next_step = step_position + Stairs.SINGLE_STAIR_HEIGHT * current_stair.direction * direction
 	on_stairs = true
 	going_up_stairs = true
-	player_direction = current_stair.direction * direction
 	animation_player.play(animation)
 	queued_jump = false
 	jump_timer.stop()

@@ -23,7 +23,7 @@ const ENDING_PATH:String = "res://scenes/ending.tscn"
 var debug_mode:bool = false
 
 var showing_logos:bool = true
-var load_test_stage:bool = false
+var load_test_stage:bool = true
 
 var current_stage:Stage
 var stage_to_load:String
@@ -79,7 +79,7 @@ signal finished_music_fade
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:LinearAudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_2.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_1_inside.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var boss_music:AudioStream = preload("res://media/music/poisonmind.ogg")
 @onready var gui:CanvasLayer = $GUI
