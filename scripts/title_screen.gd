@@ -28,6 +28,7 @@ signal select_quit
 @export var bottom_line:ColorRect
 @export var logo_en:TextureRect
 @export var logo_jp:TextureRect
+@export var bat_animation_player:AnimationPlayer
 var started:bool = false
 var current_option:int = 0
 
@@ -40,9 +41,14 @@ func reset() -> void:
 	menu.visible = false
 	copyright_text.modulate.a = 1
 	Globals.entered_konami_code = false
+	bat_animation_player.play("default")
+	bat_animation_player.queue("fly")
 
 func exit_options() -> void:
 	flash_timer.stop()
+	bat_animation_player.stop()
+	bat_animation_player.play("default")
+	bat_animation_player.queue("fly")
 
 func update_language() -> void:
 	match(Settings.current_language):
@@ -68,6 +74,8 @@ func update_language() -> void:
 func _ready() -> void:
 	update_language()
 	Settings.language_changed.connect(_language_changed)
+	bat_animation_player.play("default")
+	bat_animation_player.queue("fly")
 
 func _process(_delta: float) -> void:
 	if(Input.is_action_just_pressed("start") && !fades.visible && start_timer.is_stopped()):
@@ -99,12 +107,14 @@ func _process(_delta: float) -> void:
 				0:
 					flash_timer.start()
 					start_timer.start()
+					bat_animation_player.pause()
 				1:
 					flash_timer.start()
 					options_timer.start()
 					if(is_instance_valid(Globals.game_instance)):
 						Globals.game_instance.music_player.stream = options_music
 						Globals.game_instance.music_player.play()
+					bat_animation_player.pause()
 				2:
 					select_quit.emit()
 
