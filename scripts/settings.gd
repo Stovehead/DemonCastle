@@ -5,6 +5,8 @@ const RESOLUTION:Vector2i = Vector2i(384, 216)
 signal language_changed
 signal fullscreen_changed
 
+@onready var font:Font = preload("res://media/fonts/CastlevaniaNES.otf")
+
 var has_unsaved_changes:bool = false
 var must_restart:bool = false
 var initialized:bool = false
@@ -67,6 +69,77 @@ var force_integer_scaling:bool = false:
 		else:
 			ProjectSettings.set("display/window/stretch/scale_mode", "fractional")
 
+var default_keyboard_mappings:Dictionary = {
+	"up": KEY_UP,
+	"down": KEY_DOWN,
+	"left": KEY_LEFT,
+	"right": KEY_RIGHT,
+	"jump": KEY_Z,
+	"attack": KEY_X,
+	"crouch": KEY_DOWN,
+	"subweapon": KEY_NONE,
+	"start": KEY_ENTER,
+	"debug": KEY_SHIFT,
+	"accept": KEY_Z,
+	"cancel": KEY_X,
+	"fullscreen": KEY_F11,
+}
+
+var keyboard_mappings:Dictionary = {
+	"up": 0,
+	"down": 0,
+	"left": 0,
+	"right": 0,
+	"jump": 0,
+	"attack": 0,
+	"crouch": 0,
+	"subweapon": 0,
+	"start": 0,
+	"debug": 0,
+	"accept": 0,
+	"cancel": 0,
+	"fullscreen": 0,
+}
+
+var new_keyboard_mappings:Dictionary = {
+	"up": 0,
+	"down": 0,
+	"left": 0,
+	"right": 0,
+	"jump": 0,
+	"attack": 0,
+	"crouch": 0,
+	"subweapon": 0,
+	"start": 0,
+	"debug": 0,
+	"accept": 0,
+	"cancel": 0,
+	"fullscreen": 0,
+}
+
+func copy_mappings(source:Dictionary, destination:Dictionary) -> void:
+	for key in source:
+		if(destination.has(key)):
+			destination[key] = source[key]
+
+func reset_keyboard_mappings() -> void:
+	copy_mappings(default_keyboard_mappings, keyboard_mappings)
+	copy_mappings(default_keyboard_mappings, new_keyboard_mappings)
+	update_input_map()
+
+func initialize_mappings() -> void:
+	copy_mappings(default_keyboard_mappings, keyboard_mappings)
+	copy_mappings(default_keyboard_mappings, new_keyboard_mappings)
+	update_input_map()
+
+func update_input_map() -> void:
+	for action in InputMap.get_actions():
+		InputMap.action_erase_events(action)
+	for key in keyboard_mappings:
+		var new_input_event:InputEventKey = InputEventKey.new()
+		new_input_event.keycode = keyboard_mappings[key]
+		InputMap.action_add_event(key, new_input_event)
+
 func set_language_from_system() -> void:
 	if(OS.get_locale() == "ja"):
 		current_language = "jp"
@@ -79,6 +152,19 @@ func save_settings() -> void:
 		"window_scale": window_scale,
 		"is_fullscreen": is_fullscreen,
 		"force_integer_scaling": force_integer_scaling,
+		"up_key": keyboard_mappings["up"],
+		"down_key": keyboard_mappings["down"],
+		"left_key": keyboard_mappings["left"],
+		"right_key": keyboard_mappings["right"],
+		"jump_key": keyboard_mappings["jump"],
+		"attack_key": keyboard_mappings["attack"],
+		"crouch_key": keyboard_mappings["crouch"],
+		"subweapon_key": keyboard_mappings["subweapon"],
+		"start_key": keyboard_mappings["start"],
+		"debug_key": keyboard_mappings["debug"],
+		"accept_key": keyboard_mappings["accept"],
+		"cancel_key": keyboard_mappings["cancel"],
+		"fullscreen_key": keyboard_mappings["fullscreen"],
 	}
 	var save_file:FileAccess = FileAccess.open("user://settings.save", FileAccess.WRITE)
 	var json_string:String = JSON.stringify(save_dict)
@@ -91,6 +177,7 @@ func save_settings() -> void:
 func load_settings() -> void:
 	if(!FileAccess.file_exists("user://settings.save")):
 		set_language_from_system()
+		initialize_mappings()
 		initialized = true
 		return 
 	var save_file:FileAccess = FileAccess.open("user://settings.save", FileAccess.READ)
@@ -107,6 +194,21 @@ func load_settings() -> void:
 		music_volume_percentage = data["music_volume_percentage"]
 		sfx_volume_percentage = data["sfx_volume_percentage"]
 		window_scale = data["window_scale"]
+		keyboard_mappings["up"] = data["up_key"]
+		keyboard_mappings["down"] = data["down_key"]
+		keyboard_mappings["left"] = data["left_key"]
+		keyboard_mappings["right"] = data["right_key"]
+		keyboard_mappings["jump"] = data["jump_key"]
+		keyboard_mappings["attack"] = data["attack_key"]
+		keyboard_mappings["crouch"] = data["crouch_key"]
+		keyboard_mappings["subweapon"] = data["subweapon_key"]
+		keyboard_mappings["start"] = data["start_key"]
+		keyboard_mappings["debug"] = data["debug_key"]
+		keyboard_mappings["accept"] = data["accept_key"]
+		keyboard_mappings["cancel"] = data["cancel_key"]
+		keyboard_mappings["fullscreen"] = data["fullscreen_key"]
+		update_input_map()
+		copy_mappings(keyboard_mappings, new_keyboard_mappings)
 	initialized = true
 
 func _ready() -> void:

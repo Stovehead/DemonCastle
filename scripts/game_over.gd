@@ -17,7 +17,7 @@ func _physics_process(_delta) -> void:
 			heart.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 		else:
 			heart.size_flags_vertical = Control.SIZE_SHRINK_END
-	if(Input.is_action_just_pressed("start")):
+	if(Input.is_action_just_pressed("start") || Input.is_action_just_pressed("accept") || Input.is_action_just_pressed("ui_accept")):
 		if(current_selection == 0):
 			continue_game.emit()
 		else:

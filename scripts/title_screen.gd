@@ -102,27 +102,27 @@ func _process(_delta: float) -> void:
 			await get_tree().create_timer(FADE_LENGTH, true, true).timeout
 			started = true
 			fades.visible = false
-		else:
-			match(current_option):
-				0:
-					flash_timer.start()
-					start_timer.start()
-					bat_animation_player.pause()
-				1:
-					flash_timer.start()
-					options_timer.start()
-					if(is_instance_valid(Globals.game_instance)):
-						Globals.game_instance.music_player.stream = options_music
-						Globals.game_instance.music_player.play()
-					bat_animation_player.pause()
-				2:
-					select_quit.emit()
+	if((Input.is_action_just_pressed("accept") || Input.is_action_just_pressed("ui_accept")) && !fades.visible && start_timer.is_stopped() && started):
+		match(current_option):
+			0:
+				flash_timer.start()
+				start_timer.start()
+				bat_animation_player.pause()
+			1:
+				flash_timer.start()
+				options_timer.start()
+				if(is_instance_valid(Globals.game_instance)):
+					Globals.game_instance.music_player.stream = options_music
+					Globals.game_instance.music_player.play()
+				bat_animation_player.pause()
+			2:
+				select_quit.emit()
 
 	if(started):
 		var input_direction:int = 0
-		if(Input.is_action_just_pressed("up")):
+		if(Input.is_action_just_pressed("up") || Input.is_action_just_pressed("ui_up")):
 			input_direction -= 1
-		if(Input.is_action_just_pressed("down")):
+		if(Input.is_action_just_pressed("down") || Input.is_action_just_pressed("ui_down")):
 			input_direction += 1
 		if(input_direction != 0 && flash_timer.is_stopped()):
 			current_option += input_direction

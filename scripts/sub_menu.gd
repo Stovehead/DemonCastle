@@ -18,7 +18,7 @@ func _on_accepted() -> void:
 	parent_menu.focused = false
 
 func _process(_delta: float) -> void:
-	if(Input.is_action_just_pressed("cancel") && menu.active && menu.focused):
+	if(Input.is_action_just_pressed("cancel") && menu.active && menu.focused && !menu.just_mapped_key):
 		active = false
 		menu.focused = false
 		parent_menu.focused = true
