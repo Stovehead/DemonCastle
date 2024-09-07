@@ -12,6 +12,9 @@ config_version=5
 
 config/name="DemonCastle"
 run/main_scene="res://scenes/game.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="DemonCastle"
+config/project_settings_override="user://project.godot"
 config/features=PackedStringArray("4.3", "Mobile")
 run/max_fps=60
 boot_splash/bg_color=Color(0, 0, 0, 1)

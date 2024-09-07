@@ -170,7 +170,7 @@ func save_settings() -> void:
 	var json_string:String = JSON.stringify(save_dict)
 	save_file.store_line(json_string)
 	if(must_restart):
-		ProjectSettings.save()
+		ProjectSettings.save_custom("user://project.godot")
 	has_unsaved_changes = false
 	must_restart = false
 
