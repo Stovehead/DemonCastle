@@ -83,6 +83,14 @@ var default_keyboard_mappings:Dictionary = {
 	"accept": KEY_Z,
 	"cancel": KEY_X,
 	"fullscreen": KEY_F11,
+	"ui_up": KEY_UP,
+	"ui_down": KEY_DOWN,
+	"ui_left": KEY_LEFT,
+	"ui_right": KEY_RIGHT,
+	"ui_accept": KEY_ENTER,
+	"ui_cancel": KEY_ESCAPE,
+	"a": KEY_A,
+	"b": KEY_B,
 }
 
 var keyboard_mappings:Dictionary = {
@@ -99,6 +107,12 @@ var keyboard_mappings:Dictionary = {
 	"accept": 0,
 	"cancel": 0,
 	"fullscreen": 0,
+	"ui_left": 0,
+	"ui_right": 0,
+	"ui_accept": 0,
+	"ui_cancel": 0,
+	"a": 0,
+	"b": 0,
 }
 
 var new_keyboard_mappings:Dictionary = {
@@ -165,6 +179,12 @@ func save_settings() -> void:
 		"accept_key": keyboard_mappings["accept"],
 		"cancel_key": keyboard_mappings["cancel"],
 		"fullscreen_key": keyboard_mappings["fullscreen"],
+		"ui_up_key": keyboard_mappings["ui_up"],
+		"ui_down_key": keyboard_mappings["ui_down"],
+		"ui_left_key": keyboard_mappings["ui_left"],
+		"ui_right_key": keyboard_mappings["ui_right"],
+		"a_key": keyboard_mappings["a"],
+		"b_key": keyboard_mappings["b"],
 	}
 	var save_file:FileAccess = FileAccess.open("user://settings.save", FileAccess.WRITE)
 	var json_string:String = JSON.stringify(save_dict)
@@ -207,6 +227,12 @@ func load_settings() -> void:
 		keyboard_mappings["accept"] = data["accept_key"]
 		keyboard_mappings["cancel"] = data["cancel_key"]
 		keyboard_mappings["fullscreen"] = data["fullscreen_key"]
+		keyboard_mappings["ui_up"] = data["ui_up_key"]
+		keyboard_mappings["ui_down"] = data["ui_down_key"]
+		keyboard_mappings["ui_left"] = data["ui_left_key"]
+		keyboard_mappings["ui_right"] = data["ui_right_key"]
+		keyboard_mappings["a"] = data["a_key"]
+		keyboard_mappings["b"] = data["b_key"]
 		update_input_map()
 		copy_mappings(keyboard_mappings, new_keyboard_mappings)
 	initialized = true

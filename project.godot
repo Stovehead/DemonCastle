@@ -115,6 +115,14 @@ subweapon={
 "deadzone": 0.5,
 "events": []
 }
+a={
+"deadzone": 0.5,
+"events": []
+}
+b={
+"deadzone": 0.5,
+"events": []
+}
 
 [layer_names]
 

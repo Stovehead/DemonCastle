@@ -59,7 +59,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if(event is InputEventKey):
 		if(event.pressed && input_type == Type.KEYBOARD):
-			Settings.new_keyboard_mappings[action] = event.keycode
+			if(action == "accept" && event.keycode == InputMap.action_get_events("ui_cancel")[0].keycode):
+				pass
+			elif(action == "cancel" && event.keycode == InputMap.action_get_events("ui_accept")[0].keycode):
+				pass
+			else:
+				Settings.new_keyboard_mappings[action] = event.keycode
 			active = false
 			parent_menu.just_mapped_key = true
 			parent_menu.active = true
