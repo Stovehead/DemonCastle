@@ -300,7 +300,7 @@ FOR THIS CHANGE TO TAKE EFFECT!"
 script = ExtResource("5_lfo62")
 strings = {
 "en": "GAME MUST BE RESTARTED\\nFOR THIS CHANGE TO TAKE EFFECT!",
-"jp": "このせっていは ゲームをさいきどうしなければ\\n\\nこうかが ありません!"
+"jp": "このせっていは ゲームをさいきどうするまで\\n\\nはんえいされません!"
 }
 
 [node name="AudioMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
