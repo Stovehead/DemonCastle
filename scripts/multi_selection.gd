@@ -21,6 +21,7 @@ func _ready() -> void:
 	if(changed_signal != ""):
 		Settings.connect(changed_signal, _on_property_changed)
 	set_selection_to_current()
+	Settings.settings_reset.connect(set_selection_to_current)
 
 func _on_property_changed() -> void:
 	if(Settings.get(property) == values[current_selection]):

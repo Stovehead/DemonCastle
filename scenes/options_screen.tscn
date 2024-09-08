@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dkljxn86jf6ui"]
+[gd_scene load_steps=17 format=3 uid="uid://dkljxn86jf6ui"]
 
 [ext_resource type="Texture2D" uid="uid://b25hdoxabl6jq" path="res://media/graphics/options_skull.png" id="1_5ix5j"]
 [ext_resource type="Script" path="res://scripts/options_screen.gd" id="1_rvsu1"]
@@ -13,9 +13,13 @@
 [ext_resource type="Script" path="res://scripts/slider_selection.gd" id="10_joxj1"]
 [ext_resource type="Script" path="res://scripts/remapping_menu.gd" id="12_57l6q"]
 [ext_resource type="Script" path="res://scripts/control_selection.gd" id="12_s0lah"]
+[ext_resource type="Script" path="res://scripts/other_menu.gd" id="14_yylco"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wydf5"]
 bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7jbww"]
+line_spacing = 1.0
 
 [node name="OptionsScreen" type="Control"]
 layout_mode = 3
@@ -355,6 +359,7 @@ value_range = Vector2(0, 100)
 increment = 1.0
 slider_label = NodePath("SFX/Label")
 format_string = "<%d>"
+play_sfx = true
 up_selection = NodePath("../MusicSelection")
 down_selection = NodePath("../MusicSelection")
 parent_menu = NodePath("../..")
@@ -953,9 +958,11 @@ strings = {
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OtherMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+[node name="OtherMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("reset_all_selection", "yes_no_menu", "default_selection", "labels", "cursor")]
 layout_mode = 2
-script = ExtResource("3_ebdoj")
+script = ExtResource("14_yylco")
+reset_all_selection = NodePath("VBoxContainer/ResetAllSelection")
+yes_no_menu = NodePath("VBoxContainer/YesNoMenu")
 default_selection = NodePath("VBoxContainer/LanguageSelection")
 labels = [NodePath("VBoxContainer/LanguageSelection/Language"), NodePath("VBoxContainer/LanguageSelection/Language/Label"), NodePath("VBoxContainer/SubweaponSelection/Subweapon"), NodePath("VBoxContainer/SubweaponSelection/Subweapon/Label"), NodePath("VBoxContainer/ResetAllSelection/Subweapon")]
 cursor = NodePath("Cursor")
@@ -982,7 +989,7 @@ property = "current_language"
 selections = Array[String](["<ENGLISH>", "＜にほんご＞"])
 values = ["en", "jp"]
 selection_label = NodePath("Language/Label")
-up_selection = NodePath(".")
+up_selection = NodePath("../ResetAllSelection")
 down_selection = NodePath("../SubweaponSelection")
 parent_menu = NodePath("../..")
 label = NodePath("Language")
@@ -1024,6 +1031,7 @@ layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "USE SUBWEAPON WITH
 UP + WHIP"
+label_settings = SubResource("LabelSettings_7jbww")
 script = ExtResource("5_lfo62")
 strings = {
 "en": "USE SUBWEAPON WITH\\nUP + WHIP",
@@ -1057,6 +1065,72 @@ strings = {
 "jp": "すべての せっていを リセット"
 }
 
+[node name="YesNoMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+visible = false
+layout_mode = 2
+script = ExtResource("3_ebdoj")
+default_selection = NodePath("VBoxContainer2/HBoxContainer/YesSelection")
+labels = [NodePath("VBoxContainer2/HBoxContainer/YesSelection/Yes"), NodePath("VBoxContainer2/Label"), NodePath("VBoxContainer2/HBoxContainer/NoSelection/No")]
+cursor = NodePath("Cursor")
+hide_cursor_on_lost_focus = true
+
+[node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/YesNoMenu"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("4_b7bed")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/YesNoMenu"]
+layout_mode = 0
+offset_right = 272.0
+offset_bottom = 20.0
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/YesNoMenu/VBoxContainer2"]
+layout_mode = 2
+text = "ARE YOU SURE?"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "ARE YOU SURE?",
+"jp": "ほんとうに よろしいですか?"
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/YesNoMenu/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="YesSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/YesNoMenu/VBoxContainer2/HBoxContainer" node_paths=PackedStringArray("left_selection", "right_selection")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+left_selection = NodePath("../NoSelection")
+right_selection = NodePath("../NoSelection")
+
+[node name="Yes" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/YesNoMenu/VBoxContainer2/HBoxContainer/YesSelection"]
+layout_mode = 2
+text = "YES"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "YES",
+"jp": "はい"
+}
+
+[node name="NoSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/YesNoMenu/VBoxContainer2/HBoxContainer" node_paths=PackedStringArray("left_selection", "right_selection")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+left_selection = NodePath("../YesSelection")
+right_selection = NodePath("../YesSelection")
+
+[node name="No" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/YesNoMenu/VBoxContainer2/HBoxContainer/NoSelection"]
+layout_mode = 2
+text = "NO"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "NO",
+"jp": "いいえ"
+}
+
 [node name="Skulls2" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 10
@@ -1064,3 +1138,6 @@ texture = ExtResource("1_5ix5j")
 stretch_mode = 1
 
 [connection signal="selected_exit" from="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/VBoxContainer/ExitSelection" to="." method="_on_selected_exit"]
+[connection signal="selected" from="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/ResetAllSelection" to="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu" method="_on_reset_all"]
+[connection signal="selected" from="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/YesNoMenu/VBoxContainer2/HBoxContainer/YesSelection" to="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu" method="_on_yes"]
+[connection signal="selected" from="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/YesNoMenu/VBoxContainer2/HBoxContainer/NoSelection" to="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu" method="_on_no"]

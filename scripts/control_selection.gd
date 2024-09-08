@@ -42,6 +42,7 @@ func _ready() -> void:
 	timer.timeout.connect(_on_timer_timeout)
 	add_child(timer)
 	update_control_label()
+	Settings.settings_reset.connect(update_control_label)
 
 func _on_accepted() -> void:
 	super._on_accepted()
@@ -73,7 +74,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			else:
 				Settings.new_keyboard_mappings[action] = event.keycode
 			active = false
-			parent_menu.just_mapped_key = true
+			parent_menu.ignore_input = true
 			parent_menu.active = true
 			timer.stop()
 			update_control_label()

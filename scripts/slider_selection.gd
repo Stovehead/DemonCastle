@@ -6,6 +6,7 @@ extends Selection
 @export var increment:float
 @export var slider_label:Label
 @export var format_string:String
+@export var play_sfx:bool
 
 var current_value:float
 
@@ -16,6 +17,7 @@ func set_value_to_current() -> void:
 
 func _ready() -> void:
 	set_value_to_current()
+	Settings.settings_reset.connect(set_value_to_current)
 
 func _input(event: InputEvent) -> void:
 	if(!focused || !parent_menu.active):
@@ -31,6 +33,7 @@ func _input(event: InputEvent) -> void:
 	elif(current_value < value_range.x):
 		current_value = value_range.x
 	else:
-		SfxManager.play_sound_effect_no_overlap(SfxManager.HEART)
+		if(play_sfx):
+			SfxManager.play_sound_effect_no_overlap(SfxManager.HEART)
 		slider_label.text = format_string % current_value
 		Settings.set(property, current_value)

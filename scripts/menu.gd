@@ -10,7 +10,7 @@ const UNFOCUSED_COLOR:Color = Color(0.5, 0.5, 0.5)
 @export var grey_out_current_selection_on_lost_focus:bool = false
 
 var current_selection:Selection
-var just_mapped_key:bool = false
+var ignore_input:bool = false
 
 @export var active:bool:
 	set(new_active):
@@ -61,8 +61,8 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if(!active || !focused):
 		return
-	if(just_mapped_key):
-		just_mapped_key = false
+	if(ignore_input):
+		ignore_input = false
 	elif(Input.is_action_just_pressed("up") || Input.is_action_just_pressed("ui_up") && is_instance_valid(current_selection.up_selection)):
 		update_selection(current_selection.up_selection)
 	elif(Input.is_action_just_pressed("down") || Input.is_action_just_pressed("ui_down") && is_instance_valid(current_selection.down_selection)):

@@ -4,6 +4,7 @@ const RESOLUTION:Vector2i = Vector2i(384, 216)
 
 signal language_changed
 signal fullscreen_changed
+signal settings_reset
 
 @onready var font:Font = preload("res://media/fonts/CastlevaniaNES.otf")
 
@@ -173,6 +174,7 @@ func reset_settings() -> void:
 	force_integer_scaling = false
 	subweapon_with_up = true
 	initialize_mappings()
+	settings_reset.emit()
 
 func save_settings() -> void:
 	var save_dict:Dictionary = {

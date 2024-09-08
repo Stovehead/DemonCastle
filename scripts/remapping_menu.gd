@@ -37,7 +37,7 @@ func update_active_and_focus(new_active:bool, new_focused:bool) -> void:
 		revert()
 
 func return_from_yes_no_menu() -> void:
-	yes_no_menu.just_mapped_key = false
+	yes_no_menu.ignore_input = false
 	cursor.visible = true
 	yes_no_menu.visible = false
 	yes_no_menu.focused = false
@@ -63,7 +63,7 @@ func _on_no() -> void:
 	return_from_yes_no_menu()
 
 func _on_apply_or_reset() -> void:
-	yes_no_menu.just_mapped_key = true
+	yes_no_menu.ignore_input = true
 	cursor.visible = false
 	yes_no_menu.focused = true
 	yes_no_menu.active = true
