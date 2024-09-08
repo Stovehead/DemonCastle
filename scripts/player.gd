@@ -209,7 +209,7 @@ func do_attack() -> void:
 		entered_subweapon_input = true
 	if(attack == Subweapons.NONE || attack == Subweapons.STOPWATCH || !entered_subweapon_input || num_hearts <= 0 || !can_move_horizontally):
 		whip.play_animation()
-		if(attack == Subweapons.STOPWATCH && num_hearts >= STOPWATCH_COST && Input.is_action_pressed("up") && !is_time_stopped && can_move_horizontally):
+		if(attack == Subweapons.STOPWATCH && num_hearts >= STOPWATCH_COST && entered_subweapon_input && !is_time_stopped && can_move_horizontally):
 			do_stopwatch()
 	else:
 		create_subweapon(attack)
