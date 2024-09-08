@@ -792,7 +792,7 @@ text = "ACCEPT"
 script = ExtResource("5_lfo62")
 strings = {
 "en": "ACCEPT",
-"jp": "かくてい"
+"jp": "けってい"
 }
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/AcceptSelection/Accept"]
@@ -858,7 +858,7 @@ text = "APPLY"
 script = ExtResource("5_lfo62")
 strings = {
 "en": "APPLY",
-"jp": "けってい"
+"jp": "かくてい"
 }
 
 [node name="Spacer2" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/HBoxContainer"]
