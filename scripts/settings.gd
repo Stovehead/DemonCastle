@@ -163,7 +163,7 @@ func update_input_map() -> void:
 		InputMap.action_add_event(key, new_input_event)
 
 func set_language_from_system() -> void:
-	if(OS.get_locale() == "ja"):
+	if(OS.get_locale() == "ja_JP"):
 		current_language = "jp"
 
 func reset_settings() -> void:
