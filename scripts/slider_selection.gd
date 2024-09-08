@@ -2,7 +2,7 @@ class_name SliderSelection
 extends Selection
 
 @export var property:String
-@export var range:Vector2
+@export var value_range:Vector2
 @export var increment:float
 @export var slider_label:Label
 @export var format_string:String
@@ -26,10 +26,10 @@ func _input(event: InputEvent) -> void:
 		current_value += increment
 	else:
 		return
-	if(current_value > range.y):
-		current_value = range.y
-	elif(current_value < range.x):
-		current_value = range.x
+	if(current_value > value_range.y):
+		current_value = value_range.y
+	elif(current_value < value_range.x):
+		current_value = value_range.x
 	else:
 		SfxManager.play_sound_effect_no_overlap(SfxManager.SELECT)
 		slider_label.text = format_string % current_value

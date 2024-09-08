@@ -8,6 +8,6 @@ signal selected_exit
 func _on_selected_exit():
 	selected_exit.emit()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if(is_instance_valid(must_restart_text)):
 		must_restart_text.visible = Settings.must_restart
