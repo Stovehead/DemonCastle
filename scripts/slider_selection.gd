@@ -20,9 +20,9 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if(!focused || !parent_menu.active):
 		return
-	if(event.is_action_pressed("left", true)):
+	if(event.is_action_pressed("left", true) || event.is_action_pressed("ui_left", true)):
 		current_value -= increment
-	elif(event.is_action_pressed("right", true)):
+	elif(event.is_action_pressed("right", true) || event.is_action_pressed("ui_right", true)):
 		current_value += increment
 	else:
 		return
@@ -31,6 +31,6 @@ func _input(event: InputEvent) -> void:
 	elif(current_value < value_range.x):
 		current_value = value_range.x
 	else:
-		SfxManager.play_sound_effect_no_overlap(SfxManager.SELECT)
+		SfxManager.play_sound_effect_no_overlap(SfxManager.HEART)
 		slider_label.text = format_string % current_value
 		Settings.set(property, current_value)

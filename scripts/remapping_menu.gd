@@ -19,13 +19,13 @@ func revert() -> void:
 			selection.update_control_label()
 
 func apply() -> void:
-	SfxManager.play_sound_effect_no_overlap(SfxManager.SELECT)
+	SfxManager.play_sound_effect_no_overlap(SfxManager.HEART)
 	Settings.copy_mappings(Settings.new_keyboard_mappings, Settings.keyboard_mappings)
 	Settings.update_input_map()
 	Settings.has_unsaved_changes = true
 
 func reset() -> void:
-	SfxManager.play_sound_effect_no_overlap(SfxManager.SELECT)
+	SfxManager.play_sound_effect_no_overlap(SfxManager.HEART)
 	Settings.copy_mappings(Settings.default_keyboard_mappings, Settings.keyboard_mappings)
 	Settings.update_input_map()
 	revert()
@@ -37,6 +37,7 @@ func update_active_and_focus(new_active:bool, new_focused:bool) -> void:
 		revert()
 
 func return_from_yes_no_menu() -> void:
+	yes_no_menu.just_mapped_key = false
 	cursor.visible = true
 	yes_no_menu.visible = false
 	yes_no_menu.focused = false

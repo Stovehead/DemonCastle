@@ -161,6 +161,7 @@ func update_input_map() -> void:
 		var new_input_event:InputEventKey = InputEventKey.new()
 		new_input_event.keycode = keyboard_mappings[key]
 		InputMap.action_add_event(key, new_input_event)
+		Input.action_release(key)
 
 func set_language_from_system() -> void:
 	if(OS.get_locale() == "ja_JP"):
