@@ -17,7 +17,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wydf5"]
 bg_color = Color(0, 0, 0, 1)
 
-[node name="OptionsScreen" type="Control" node_paths=PackedStringArray("must_restart_text")]
+[node name="OptionsScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,7 +26,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("5_y3ais")
 script = ExtResource("1_rvsu1")
-must_restart_text = NodePath("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer/MustRestart")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 0
@@ -183,7 +182,7 @@ visible = false
 layout_mode = 2
 script = ExtResource("3_ebdoj")
 default_selection = NodePath("VBoxContainer/ScaleSelection")
-labels = [NodePath("VBoxContainer/ScaleSelection/Scale"), NodePath("VBoxContainer/ScaleSelection/Scale/Label"), NodePath("VBoxContainer/FullscreenSelection/Fullscreen"), NodePath("VBoxContainer/FullscreenSelection/Fullscreen/Label"), NodePath("VBoxContainer/ScalingSelection/Scaling"), NodePath("VBoxContainer/ScalingSelection/Scaling/Label"), NodePath("VBoxContainer/MustRestart")]
+labels = [NodePath("VBoxContainer/ScaleSelection/Scale"), NodePath("VBoxContainer/ScaleSelection/Scale/Label"), NodePath("VBoxContainer/FullscreenSelection/Fullscreen"), NodePath("VBoxContainer/FullscreenSelection/Fullscreen/Label"), NodePath("VBoxContainer/ScalingSelection/Scaling"), NodePath("VBoxContainer/ScalingSelection/Scaling/Label")]
 cursor = NodePath("Cursor")
 hide_cursor_on_lost_focus = true
 
@@ -292,18 +291,6 @@ offset_right = 224.0
 offset_bottom = 8.0
 text = "<OFF>"
 horizontal_alignment = 1
-
-[node name="MustRestart" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/WindowMenu/VBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_colors/font_color = Color(0.709804, 0.192157, 0.12549, 1)
-text = "GAME MUST BE RESTARTED
-FOR THIS CHANGE TO TAKE EFFECT!"
-script = ExtResource("5_lfo62")
-strings = {
-"en": "GAME MUST BE RESTARTED\\nFOR THIS CHANGE TO TAKE EFFECT!",
-"jp": "このせっていは ゲームをさいきどうするまで\\n\\nはんえいされません!"
-}
 
 [node name="AudioMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
 visible = false

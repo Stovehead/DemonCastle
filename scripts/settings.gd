@@ -8,7 +8,6 @@ signal fullscreen_changed
 @onready var font:Font = preload("res://media/fonts/CastlevaniaNES.otf")
 
 var has_unsaved_changes:bool = false
-var must_restart:bool = false
 var initialized:bool = false
 
 var current_language:String = "en":
@@ -63,11 +62,10 @@ var force_integer_scaling:bool = false:
 			force_integer_scaling = new_force_integer_scaling
 			if(initialized):
 				has_unsaved_changes = true
-				must_restart = true
 		if(new_force_integer_scaling):
-			ProjectSettings.set("display/window/stretch/scale_mode", "integer")
+			get_window().content_scale_stretch = Window.CONTENT_SCALE_STRETCH_INTEGER
 		else:
-			ProjectSettings.set("display/window/stretch/scale_mode", "fractional")
+			get_window().content_scale_stretch = Window.CONTENT_SCALE_STRETCH_FRACTIONAL
 var subweapon_with_up:bool = true:
 	set(new_subweapon_with_up):
 		if(new_subweapon_with_up != subweapon_with_up):
@@ -210,10 +208,7 @@ func save_settings() -> void:
 	var save_file:FileAccess = FileAccess.open("user://settings.save", FileAccess.WRITE)
 	var json_string:String = JSON.stringify(save_dict)
 	save_file.store_line(json_string)
-	if(must_restart):
-		ProjectSettings.save_custom("user://project.godot")
 	has_unsaved_changes = false
-	must_restart = false
 
 func load_settings() -> void:
 	if(!FileAccess.file_exists("user://settings.save")):
