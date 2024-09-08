@@ -470,7 +470,7 @@ func air_movement(delta:float) -> void:
 	if(!is_jumping && !is_hurt):
 		start_falling()
 	check_floor_checker()
-	if(is_jumping):
+	if(is_jumping && can_move_horizontally):
 		velocity.x = clamp(velocity.x + ACCELERATION * delta * pre_jump_direction, -MAX_SPEED, MAX_SPEED)
 
 func normal_movement(delta:float) -> void:
