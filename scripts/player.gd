@@ -202,7 +202,12 @@ func do_attack() -> void:
 	else:
 		play_floor_attack_animation()
 	var attack:int = get_weapon_to_attack()
-	if(attack == Subweapons.NONE || attack == Subweapons.STOPWATCH || !Input.is_action_pressed("up") || num_hearts <= 0 || !can_move_horizontally):
+	var entered_subweapon_input:bool = false
+	if(Settings.subweapon_with_up && Input.is_action_pressed("up")):
+		entered_subweapon_input = true
+	elif(Input.is_action_just_pressed("subweapon")):
+		entered_subweapon_input = true
+	if(attack == Subweapons.NONE || attack == Subweapons.STOPWATCH || !entered_subweapon_input || num_hearts <= 0 || !can_move_horizontally):
 		whip.play_animation()
 		if(attack == Subweapons.STOPWATCH && num_hearts >= STOPWATCH_COST && Input.is_action_pressed("up") && !is_time_stopped && can_move_horizontally):
 			do_stopwatch()
@@ -243,7 +248,7 @@ func cutscene_movement(delta:float) -> void:
 	is_hurt = false
 
 func check_attack_input() -> void:
-	if(!Input.is_action_just_pressed("attack")):
+	if(!Input.is_action_just_pressed("attack") && !Input.is_action_just_pressed("subweapon")):
 		return
 	if(is_whipping || is_hurt):
 		return

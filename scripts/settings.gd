@@ -68,6 +68,12 @@ var force_integer_scaling:bool = false:
 			ProjectSettings.set("display/window/stretch/scale_mode", "integer")
 		else:
 			ProjectSettings.set("display/window/stretch/scale_mode", "fractional")
+var subweapon_with_up:bool = true:
+	set(new_subweapon_with_up):
+		if(new_subweapon_with_up != subweapon_with_up):
+			subweapon_with_up = new_subweapon_with_up
+			if(initialized):
+				has_unsaved_changes = true
 
 var default_keyboard_mappings:Dictionary = {
 	"up": KEY_UP,
@@ -107,6 +113,8 @@ var keyboard_mappings:Dictionary = {
 	"accept": 0,
 	"cancel": 0,
 	"fullscreen": 0,
+	"ui_up": 0,
+	"ui_down": 0,
 	"ui_left": 0,
 	"ui_right": 0,
 	"ui_accept": 0,
@@ -158,6 +166,15 @@ func set_language_from_system() -> void:
 	if(OS.get_locale() == "ja"):
 		current_language = "jp"
 
+func reset_settings() -> void:
+	music_volume_percentage = 100.0
+	sfx_volume_percentage = 100.0
+	window_scale = 3
+	is_fullscreen = false
+	force_integer_scaling = false
+	subweapon_with_up = true
+	initialize_mappings()
+
 func save_settings() -> void:
 	var save_dict:Dictionary = {
 		"current_language": current_language,
@@ -166,6 +183,7 @@ func save_settings() -> void:
 		"window_scale": window_scale,
 		"is_fullscreen": is_fullscreen,
 		"force_integer_scaling": force_integer_scaling,
+		"subweapon_with_up": subweapon_with_up,
 		"up_key": keyboard_mappings["up"],
 		"down_key": keyboard_mappings["down"],
 		"left_key": keyboard_mappings["left"],
@@ -183,6 +201,8 @@ func save_settings() -> void:
 		"ui_down_key": keyboard_mappings["ui_down"],
 		"ui_left_key": keyboard_mappings["ui_left"],
 		"ui_right_key": keyboard_mappings["ui_right"],
+		"ui_accept_key": keyboard_mappings["ui_accept"],
+		"ui_cancel_key": keyboard_mappings["ui_cancel"],
 		"a_key": keyboard_mappings["a"],
 		"b_key": keyboard_mappings["b"],
 	}
@@ -210,6 +230,7 @@ func load_settings() -> void:
 		var data = json.get_data()
 		current_language = data["current_language"]
 		force_integer_scaling = data["force_integer_scaling"]
+		subweapon_with_up = data["subweapon_with_up"]
 		is_fullscreen = data["is_fullscreen"]
 		music_volume_percentage = data["music_volume_percentage"]
 		sfx_volume_percentage = data["sfx_volume_percentage"]
@@ -231,6 +252,8 @@ func load_settings() -> void:
 		keyboard_mappings["ui_down"] = data["ui_down_key"]
 		keyboard_mappings["ui_left"] = data["ui_left_key"]
 		keyboard_mappings["ui_right"] = data["ui_right_key"]
+		keyboard_mappings["ui_accept"] = data["ui_accept_key"]
+		keyboard_mappings["ui_cancel"] = data["ui_cancel_key"]
 		keyboard_mappings["a"] = data["a_key"]
 		keyboard_mappings["b"] = data["b_key"]
 		update_input_map()

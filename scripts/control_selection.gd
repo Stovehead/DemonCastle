@@ -3,6 +3,14 @@ extends Selection
 
 const WAIT_TIME:int = 5
 const FORMAT_STRING:String = "%d..."
+const RESERVED_KEYS:Array[int] = [
+	KEY_UP,
+	KEY_DOWN,
+	KEY_LEFT,
+	KEY_RIGHT,
+	KEY_ENTER,
+	KEY_ESCAPE,
+]
 
 enum Type{
 	KEYBOARD,
@@ -36,6 +44,7 @@ func _ready() -> void:
 	update_control_label()
 
 func _on_accepted() -> void:
+	super._on_accepted()
 	if(active):
 		return
 	parent_menu.active = false
@@ -59,9 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if(event is InputEventKey):
 		if(event.pressed && input_type == Type.KEYBOARD):
-			if(action == "accept" && event.keycode == InputMap.action_get_events("ui_cancel")[0].keycode):
-				pass
-			elif(action == "cancel" && event.keycode == InputMap.action_get_events("ui_accept")[0].keycode):
+			if(RESERVED_KEYS.has(event.keycode) && Settings.default_keyboard_mappings[action] != event.keycode):
 				pass
 			else:
 				Settings.new_keyboard_mappings[action] = event.keycode

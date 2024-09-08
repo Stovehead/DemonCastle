@@ -1,6 +1,8 @@
 class_name Selection
 extends MarginContainer
 
+signal selected
+
 @export var left_selection:Selection
 @export var right_selection:Selection
 @export var up_selection:Selection
@@ -24,4 +26,4 @@ func update_active_and_focus(_new_active:bool, _new_focused:bool):
 	pass
 
 func _on_accepted() -> void:
-	pass
+	selected.emit()

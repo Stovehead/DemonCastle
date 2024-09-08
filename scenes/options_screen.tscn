@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dkljxn86jf6ui"]
+[gd_scene load_steps=15 format=3 uid="uid://dkljxn86jf6ui"]
 
 [ext_resource type="Texture2D" uid="uid://b25hdoxabl6jq" path="res://media/graphics/options_skull.png" id="1_5ix5j"]
 [ext_resource type="Script" path="res://scripts/options_screen.gd" id="1_rvsu1"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://scripts/exit_selection.gd" id="8_ann8w"]
 [ext_resource type="Script" path="res://scripts/multi_selection.gd" id="9_8aiga"]
 [ext_resource type="Script" path="res://scripts/slider_selection.gd" id="10_joxj1"]
+[ext_resource type="Script" path="res://scripts/remapping_menu.gd" id="12_57l6q"]
 [ext_resource type="Script" path="res://scripts/control_selection.gd" id="12_s0lah"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wydf5"]
@@ -72,6 +73,7 @@ expand_mode = 1
 stretch_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu"]
+custom_minimum_size = Vector2(88, 0)
 layout_mode = 0
 offset_right = 88.0
 offset_bottom = 72.0
@@ -383,6 +385,7 @@ strings = {
 }
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/AudioMenu/VBoxContainer/SFXSelection/SFX"]
+layout_mode = 0
 offset_left = 128.0
 offset_right = 168.0
 offset_bottom = 8.0
@@ -390,6 +393,7 @@ text = "<100>"
 horizontal_alignment = 1
 
 [node name="ControlsMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+visible = false
 layout_mode = 2
 script = ExtResource("3_ebdoj")
 default_selection = NodePath("VBoxContainer/HBoxContainer/KeyboardSelection")
@@ -452,30 +456,43 @@ strings = {
 "jp": "コントローラー"
 }
 
-[node name="KeyboardMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+[node name="KeyboardMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("control_selections", "apply_selection", "reset_selection", "apply_reset_container", "yes_no_menu", "yes_selection", "no_selection", "default_selection", "labels", "cursor")]
 layout_mode = 2
-script = ExtResource("3_ebdoj")
-default_selection = NodePath("VBoxContainer/UpSelection")
-labels = [NodePath("VBoxContainer/UpSelection/Up"), NodePath("VBoxContainer/DownSelection/Down"), NodePath("VBoxContainer/LeftSelection/Left"), NodePath("VBoxContainer/RightSelection/Right"), NodePath("VBoxContainer/JumpSelection/Jump"), NodePath("VBoxContainer/WhipSelection/Whip"), NodePath("VBoxContainer/CrouchSelection/Crouch"), NodePath("VBoxContainer/SubweaponSelection/Subweapon"), NodePath("VBoxContainer/StartSelection/Start"), NodePath("VBoxContainer/AcceptSelection/Accept"), NodePath("VBoxContainer/CancelSelection/Cancel"), NodePath("VBoxContainer/UpSelection/Up/Label"), NodePath("VBoxContainer/DownSelection/Down/Label"), NodePath("VBoxContainer/LeftSelection/Left/Label"), NodePath("VBoxContainer/RightSelection/Right/Label"), NodePath("VBoxContainer/JumpSelection/Jump/Label"), NodePath("VBoxContainer/WhipSelection/Whip/Label"), NodePath("VBoxContainer/CrouchSelection/Crouch/Label"), NodePath("VBoxContainer/SubweaponSelection/Subweapon/Label"), NodePath("VBoxContainer/StartSelection/Start/Label"), NodePath("VBoxContainer/AcceptSelection/Accept/Label"), NodePath("VBoxContainer/CancelSelection/Cancel/Label")]
+script = ExtResource("12_57l6q")
+control_selections = [NodePath("VBoxContainer2/VBoxContainer/UpSelection"), NodePath("VBoxContainer2/VBoxContainer/DownSelection"), NodePath("VBoxContainer2/VBoxContainer/LeftSelection"), NodePath("VBoxContainer2/VBoxContainer/RightSelection"), NodePath("VBoxContainer2/VBoxContainer/JumpSelection"), NodePath("VBoxContainer2/VBoxContainer/WhipSelection"), NodePath("VBoxContainer2/VBoxContainer/CrouchSelection"), NodePath("VBoxContainer2/VBoxContainer/SubweaponSelection"), NodePath("VBoxContainer2/VBoxContainer/StartSelection"), NodePath("VBoxContainer2/VBoxContainer/AcceptSelection"), NodePath("VBoxContainer2/VBoxContainer/CancelSelection")]
+apply_selection = NodePath("VBoxContainer2/HBoxContainer/ApplySelection")
+reset_selection = NodePath("VBoxContainer2/HBoxContainer/ResetSelection")
+apply_reset_container = NodePath("VBoxContainer2/HBoxContainer")
+yes_no_menu = NodePath("VBoxContainer2/YesNoMenu")
+yes_selection = NodePath("VBoxContainer2/YesNoMenu/VBoxContainer2/HBoxContainer/YesSelection")
+no_selection = NodePath("VBoxContainer2/YesNoMenu/VBoxContainer2/HBoxContainer/NoSelection")
+default_selection = NodePath("VBoxContainer2/VBoxContainer/UpSelection")
+labels = [NodePath("VBoxContainer2/VBoxContainer/UpSelection/Up"), NodePath("VBoxContainer2/VBoxContainer/DownSelection/Down"), NodePath("VBoxContainer2/VBoxContainer/LeftSelection/Left"), NodePath("VBoxContainer2/VBoxContainer/RightSelection/Right"), NodePath("VBoxContainer2/VBoxContainer/JumpSelection/Jump"), NodePath("VBoxContainer2/VBoxContainer/WhipSelection/Whip"), NodePath("VBoxContainer2/VBoxContainer/CrouchSelection/Crouch"), NodePath("VBoxContainer2/VBoxContainer/SubweaponSelection/Subweapon"), NodePath("VBoxContainer2/VBoxContainer/StartSelection/Start"), NodePath("VBoxContainer2/VBoxContainer/AcceptSelection/Accept"), NodePath("VBoxContainer2/VBoxContainer/CancelSelection/Cancel"), NodePath("VBoxContainer2/VBoxContainer/UpSelection/Up/Label"), NodePath("VBoxContainer2/VBoxContainer/DownSelection/Down/Label"), NodePath("VBoxContainer2/VBoxContainer/LeftSelection/Left/Label"), NodePath("VBoxContainer2/VBoxContainer/RightSelection/Right/Label"), NodePath("VBoxContainer2/VBoxContainer/JumpSelection/Jump/Label"), NodePath("VBoxContainer2/VBoxContainer/WhipSelection/Whip/Label"), NodePath("VBoxContainer2/VBoxContainer/CrouchSelection/Crouch/Label"), NodePath("VBoxContainer2/VBoxContainer/SubweaponSelection/Subweapon/Label"), NodePath("VBoxContainer2/VBoxContainer/StartSelection/Start/Label"), NodePath("VBoxContainer2/VBoxContainer/AcceptSelection/Accept/Label"), NodePath("VBoxContainer2/VBoxContainer/CancelSelection/Cancel/Label"), NodePath("VBoxContainer2/HBoxContainer/ApplySelection/Apply"), NodePath("VBoxContainer2/HBoxContainer/ResetSelection/Reset")]
 cursor = NodePath("Cursor")
 hide_cursor_on_lost_focus = true
 grey_out_current_selection_on_lost_focus = true
 
 [node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu"]
+layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 texture = ExtResource("4_b7bed")
 expand_mode = 1
 stretch_mode = 2
 
-[node name="VBoxContainer" type="VFlowContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu"]
 layout_mode = 0
-offset_right = 264.0
-offset_bottom = 95.0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 8
+
+[node name="VBoxContainer" type="VFlowContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 88)
+layout_mode = 2
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 8
 
-[node name="UpSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+[node name="UpSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 script = ExtResource("12_s0lah")
@@ -483,12 +500,12 @@ action = "up"
 control_label = NodePath("Up/Label")
 left_selection = NodePath("../CrouchSelection")
 right_selection = NodePath("../CrouchSelection")
-up_selection = NodePath("../WhipSelection")
+up_selection = NodePath("../../HBoxContainer/ApplySelection")
 down_selection = NodePath("../DownSelection")
-parent_menu = NodePath("../..")
+parent_menu = NodePath("../../..")
 label = NodePath("Up")
 
-[node name="Up" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/UpSelection"]
+[node name="Up" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/UpSelection"]
 layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "UP
@@ -499,7 +516,7 @@ strings = {
 "jp": "うえ"
 }
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/UpSelection/Up"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/UpSelection/Up"]
 layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
@@ -507,7 +524,7 @@ offset_bottom = 8.0
 text = "AAAAAA"
 text_overrun_behavior = 1
 
-[node name="DownSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+[node name="DownSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 script = ExtResource("12_s0lah")
@@ -517,10 +534,10 @@ left_selection = NodePath("../SubweaponSelection")
 right_selection = NodePath("../SubweaponSelection")
 up_selection = NodePath("../UpSelection")
 down_selection = NodePath("../LeftSelection")
-parent_menu = NodePath("../..")
+parent_menu = NodePath("../../..")
 label = NodePath("Down")
 
-[node name="Down" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/DownSelection"]
+[node name="Down" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/DownSelection"]
 layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "DOWN"
@@ -530,7 +547,7 @@ strings = {
 "jp": "した"
 }
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/DownSelection/Down"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/DownSelection/Down"]
 layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
@@ -538,7 +555,7 @@ offset_bottom = 8.0
 text = "AAAAAA"
 text_overrun_behavior = 1
 
-[node name="LeftSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+[node name="LeftSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 script = ExtResource("12_s0lah")
@@ -548,10 +565,10 @@ left_selection = NodePath("../StartSelection")
 right_selection = NodePath("../StartSelection")
 up_selection = NodePath("../DownSelection")
 down_selection = NodePath("../RightSelection")
-parent_menu = NodePath("../..")
+parent_menu = NodePath("../../..")
 label = NodePath("Left")
 
-[node name="Left" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/LeftSelection"]
+[node name="Left" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/LeftSelection"]
 layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "LEFT"
@@ -561,7 +578,7 @@ strings = {
 "jp": "ひだり"
 }
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/LeftSelection/Left"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/LeftSelection/Left"]
 layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
@@ -569,7 +586,7 @@ offset_bottom = 8.0
 text = "AAAAAA"
 text_overrun_behavior = 1
 
-[node name="RightSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+[node name="RightSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 script = ExtResource("12_s0lah")
@@ -579,10 +596,10 @@ left_selection = NodePath("../AcceptSelection")
 right_selection = NodePath("../AcceptSelection")
 up_selection = NodePath("../LeftSelection")
 down_selection = NodePath("../JumpSelection")
-parent_menu = NodePath("../..")
+parent_menu = NodePath("../../..")
 label = NodePath("Right")
 
-[node name="Right" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/RightSelection"]
+[node name="Right" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/RightSelection"]
 layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "RIGHT"
@@ -592,7 +609,7 @@ strings = {
 "jp": "みぎ"
 }
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/RightSelection/Right"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/RightSelection/Right"]
 layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
@@ -600,7 +617,7 @@ offset_bottom = 8.0
 text = "AAAAAA"
 text_overrun_behavior = 1
 
-[node name="JumpSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+[node name="JumpSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 script = ExtResource("12_s0lah")
@@ -610,10 +627,10 @@ left_selection = NodePath("../CancelSelection")
 right_selection = NodePath("../CancelSelection")
 up_selection = NodePath("../RightSelection")
 down_selection = NodePath("../WhipSelection")
-parent_menu = NodePath("../..")
+parent_menu = NodePath("../../..")
 label = NodePath("Jump")
 
-[node name="Jump" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/JumpSelection"]
+[node name="Jump" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/JumpSelection"]
 layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "JUMP"
@@ -623,7 +640,7 @@ strings = {
 "jp": "ジャンプ"
 }
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/JumpSelection/Jump"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/JumpSelection/Jump"]
 layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
@@ -631,7 +648,7 @@ offset_bottom = 8.0
 text = "AAAAAA"
 text_overrun_behavior = 1
 
-[node name="WhipSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+[node name="WhipSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 script = ExtResource("12_s0lah")
@@ -640,11 +657,11 @@ control_label = NodePath("Whip/Label")
 left_selection = NodePath("../CancelSelection")
 right_selection = NodePath("../CancelSelection")
 up_selection = NodePath("../JumpSelection")
-down_selection = NodePath("../UpSelection")
-parent_menu = NodePath("../..")
+down_selection = NodePath("../../HBoxContainer/ApplySelection")
+parent_menu = NodePath("../../..")
 label = NodePath("Whip")
 
-[node name="Whip" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/WhipSelection"]
+[node name="Whip" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/WhipSelection"]
 layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "WHIP"
@@ -654,7 +671,7 @@ strings = {
 "jp": "ムチ"
 }
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/WhipSelection/Whip"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/WhipSelection/Whip"]
 layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
@@ -662,7 +679,7 @@ offset_bottom = 8.0
 text = "AAAAAA"
 text_overrun_behavior = 1
 
-[node name="CrouchSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+[node name="CrouchSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 script = ExtResource("12_s0lah")
@@ -670,12 +687,12 @@ action = "crouch"
 control_label = NodePath("Crouch/Label")
 left_selection = NodePath("../UpSelection")
 right_selection = NodePath("../UpSelection")
-up_selection = NodePath("../CancelSelection")
+up_selection = NodePath("../../HBoxContainer/ResetSelection")
 down_selection = NodePath("../SubweaponSelection")
-parent_menu = NodePath("../..")
+parent_menu = NodePath("../../..")
 label = NodePath("Crouch")
 
-[node name="Crouch" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/CrouchSelection"]
+[node name="Crouch" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/CrouchSelection"]
 layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "CROUCH"
@@ -685,7 +702,7 @@ strings = {
 "jp": "しゃがむ"
 }
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/CrouchSelection/Crouch"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/CrouchSelection/Crouch"]
 layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
@@ -693,7 +710,7 @@ offset_bottom = 8.0
 text = "AAAAAA"
 text_overrun_behavior = 1
 
-[node name="SubweaponSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+[node name="SubweaponSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 script = ExtResource("12_s0lah")
@@ -703,10 +720,10 @@ left_selection = NodePath("../DownSelection")
 right_selection = NodePath("../DownSelection")
 up_selection = NodePath("../CrouchSelection")
 down_selection = NodePath("../StartSelection")
-parent_menu = NodePath("../..")
+parent_menu = NodePath("../../..")
 label = NodePath("Subweapon")
 
-[node name="Subweapon" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/SubweaponSelection"]
+[node name="Subweapon" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/SubweaponSelection"]
 layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "SUBWEAPON"
@@ -716,7 +733,7 @@ strings = {
 "jp": "アイテム"
 }
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/SubweaponSelection/Subweapon"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/SubweaponSelection/Subweapon"]
 layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
@@ -724,7 +741,7 @@ offset_bottom = 8.0
 text = "AAAAAA"
 text_overrun_behavior = 1
 
-[node name="StartSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+[node name="StartSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 script = ExtResource("12_s0lah")
@@ -734,10 +751,10 @@ left_selection = NodePath("../LeftSelection")
 right_selection = NodePath("../LeftSelection")
 up_selection = NodePath("../SubweaponSelection")
 down_selection = NodePath("../AcceptSelection")
-parent_menu = NodePath("../..")
+parent_menu = NodePath("../../..")
 label = NodePath("Start")
 
-[node name="Start" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/StartSelection"]
+[node name="Start" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/StartSelection"]
 layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "START"
@@ -747,7 +764,7 @@ strings = {
 "jp": "スタート"
 }
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/StartSelection/Start"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/StartSelection/Start"]
 layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
@@ -755,7 +772,7 @@ offset_bottom = 8.0
 text = "AAAAAA"
 text_overrun_behavior = 1
 
-[node name="AcceptSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+[node name="AcceptSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 script = ExtResource("12_s0lah")
@@ -765,20 +782,20 @@ left_selection = NodePath("../RightSelection")
 right_selection = NodePath("../RightSelection")
 up_selection = NodePath("../StartSelection")
 down_selection = NodePath("../CancelSelection")
-parent_menu = NodePath("../..")
+parent_menu = NodePath("../../..")
 label = NodePath("Accept")
 
-[node name="Accept" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/AcceptSelection"]
+[node name="Accept" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/AcceptSelection"]
 layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "ACCEPT"
 script = ExtResource("5_lfo62")
 strings = {
 "en": "ACCEPT",
-"jp": "けってい"
+"jp": "かくてい"
 }
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/AcceptSelection/Accept"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/AcceptSelection/Accept"]
 layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
@@ -786,7 +803,7 @@ offset_bottom = 8.0
 text = "AAAAAA"
 text_overrun_behavior = 1
 
-[node name="CancelSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+[node name="CancelSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 script = ExtResource("12_s0lah")
@@ -795,11 +812,11 @@ control_label = NodePath("Cancel/Label")
 left_selection = NodePath("../JumpSelection")
 right_selection = NodePath("../JumpSelection")
 up_selection = NodePath("../AcceptSelection")
-down_selection = NodePath("../CrouchSelection")
-parent_menu = NodePath("../..")
+down_selection = NodePath("../../HBoxContainer/ResetSelection")
+parent_menu = NodePath("../../..")
 label = NodePath("Cancel")
 
-[node name="Cancel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/CancelSelection"]
+[node name="Cancel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/CancelSelection"]
 layout_mode = 2
 theme = ExtResource("5_y3ais")
 text = "CANCEL"
@@ -809,7 +826,7 @@ strings = {
 "jp": "キャンセル"
 }
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer/CancelSelection/Cancel"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/VBoxContainer/CancelSelection/Cancel"]
 layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
@@ -817,16 +834,148 @@ offset_bottom = 8.0
 text = "AAAAAA"
 text_overrun_behavior = 1
 
-[node name="OtherMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2"]
+layout_mode = 2
+alignment = 1
+
+[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ApplySelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/HBoxContainer" node_paths=PackedStringArray("left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+left_selection = NodePath("../ResetSelection")
+right_selection = NodePath("../ResetSelection")
+up_selection = NodePath("../../VBoxContainer/WhipSelection")
+down_selection = NodePath("../../VBoxContainer/UpSelection")
+parent_menu = NodePath("../../..")
+label = NodePath("Apply")
+
+[node name="Apply" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/HBoxContainer/ApplySelection"]
+layout_mode = 2
+text = "APPLY"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "APPLY",
+"jp": "けってい"
+}
+
+[node name="Spacer2" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ResetSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/HBoxContainer" node_paths=PackedStringArray("left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+left_selection = NodePath("../ApplySelection")
+right_selection = NodePath("../ApplySelection")
+up_selection = NodePath("../../VBoxContainer/CancelSelection")
+down_selection = NodePath("../../VBoxContainer/CrouchSelection")
+parent_menu = NodePath("../../..")
+label = NodePath("Reset")
+
+[node name="Reset" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/HBoxContainer/ResetSelection"]
+layout_mode = 2
+text = "RESET"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "RESET",
+"jp": "リセット"
+}
+
+[node name="Spacer3" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="YesNoMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
 visible = false
 layout_mode = 2
 script = ExtResource("3_ebdoj")
+default_selection = NodePath("VBoxContainer2/HBoxContainer/YesSelection")
+labels = [NodePath("VBoxContainer2/HBoxContainer/YesSelection/Yes"), NodePath("VBoxContainer2/Label"), NodePath("VBoxContainer2/HBoxContainer/NoSelection/No")]
+cursor = NodePath("Cursor")
+hide_cursor_on_lost_focus = true
+
+[node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/YesNoMenu"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("4_b7bed")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/YesNoMenu"]
+layout_mode = 0
+offset_right = 272.0
+offset_bottom = 20.0
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/YesNoMenu/VBoxContainer2"]
+layout_mode = 2
+text = "ARE YOU SURE?"
+horizontal_alignment = 1
+script = ExtResource("5_lfo62")
+strings = {
+"en": "ARE YOU SURE?",
+"jp": "ほんとうに よろしいですか?"
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/YesNoMenu/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/YesNoMenu/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="YesSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/YesNoMenu/VBoxContainer2/HBoxContainer" node_paths=PackedStringArray("left_selection", "right_selection")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+left_selection = NodePath("../NoSelection")
+right_selection = NodePath("../NoSelection")
+
+[node name="Yes" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/YesNoMenu/VBoxContainer2/HBoxContainer/YesSelection"]
+layout_mode = 2
+text = "YES"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "YES",
+"jp": "はい"
+}
+
+[node name="Spacer2" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/YesNoMenu/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NoSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/YesNoMenu/VBoxContainer2/HBoxContainer" node_paths=PackedStringArray("left_selection", "right_selection")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+left_selection = NodePath("../YesSelection")
+right_selection = NodePath("../YesSelection")
+
+[node name="No" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/YesNoMenu/VBoxContainer2/HBoxContainer/NoSelection"]
+layout_mode = 2
+text = "NO"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "NO",
+"jp": "いいえ"
+}
+
+[node name="Spacer3" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/KeyboardMenu/VBoxContainer2/YesNoMenu/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OtherMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+layout_mode = 2
+script = ExtResource("3_ebdoj")
 default_selection = NodePath("VBoxContainer/LanguageSelection")
-labels = [NodePath("VBoxContainer/LanguageSelection/Language"), NodePath("VBoxContainer/LanguageSelection/Language/Label")]
+labels = [NodePath("VBoxContainer/LanguageSelection/Language"), NodePath("VBoxContainer/LanguageSelection/Language/Label"), NodePath("VBoxContainer/SubweaponSelection/Subweapon"), NodePath("VBoxContainer/SubweaponSelection/Subweapon/Label"), NodePath("VBoxContainer/ResetAllSelection/Subweapon")]
 cursor = NodePath("Cursor")
 hide_cursor_on_lost_focus = true
 
 [node name="Cursor" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu"]
+layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 texture = ExtResource("4_b7bed")
@@ -834,17 +983,20 @@ expand_mode = 1
 stretch_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu"]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/separation = 8
 
-[node name="LanguageSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer" node_paths=PackedStringArray("selection_label", "parent_menu", "label")]
+[node name="LanguageSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer" node_paths=PackedStringArray("selection_label", "up_selection", "down_selection", "parent_menu", "label")]
 layout_mode = 2
 script = ExtResource("9_8aiga")
 property = "current_language"
 selections = Array[String](["<ENGLISH>", "＜にほんご＞"])
 values = ["en", "jp"]
 selection_label = NodePath("Language/Label")
+up_selection = NodePath(".")
+down_selection = NodePath("../SubweaponSelection")
 parent_menu = NodePath("../..")
 label = NodePath("Language")
 
@@ -866,6 +1018,57 @@ offset_right = 168.0
 offset_bottom = 8.0
 theme = ExtResource("5_y3ais")
 text = "<ENGLISH>"
+horizontal_alignment = 1
+
+[node name="SubweaponSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer" node_paths=PackedStringArray("selection_label", "up_selection", "down_selection", "parent_menu", "label")]
+layout_mode = 2
+script = ExtResource("9_8aiga")
+property = "subweapon_with_up"
+selections = Array[String](["<ON>", "<OFF>"])
+values = [true, false]
+selection_label = NodePath("Subweapon/Label")
+up_selection = NodePath("../LanguageSelection")
+down_selection = NodePath("../ResetAllSelection")
+parent_menu = NodePath("../..")
+label = NodePath("Subweapon")
+
+[node name="Subweapon" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/SubweaponSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "USE SUBWEAPON WITH
+UP + WHIP"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "USE SUBWEAPON WITH\\nUP + WHIP",
+"jp": "うえ+ムチボタンで\\nアイテムしよう"
+}
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/SubweaponSelection/Subweapon"]
+layout_mode = 0
+offset_left = 96.0
+offset_right = 272.0
+offset_bottom = 8.0
+theme = ExtResource("5_y3ais")
+text = "<ON>"
+horizontal_alignment = 1
+
+[node name="ResetAllSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu", "label")]
+layout_mode = 2
+script = ExtResource("5_oiulk")
+up_selection = NodePath("../SubweaponSelection")
+down_selection = NodePath("../LanguageSelection")
+parent_menu = NodePath("../..")
+label = NodePath("Subweapon")
+
+[node name="Subweapon" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/ResetAllSelection"]
+layout_mode = 2
+theme = ExtResource("5_y3ais")
+text = "RESET ALL SETTINGS"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "RESET ALL SETTINGS",
+"jp": "すべての せっていを リセット"
+}
 
 [node name="Skulls2" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
