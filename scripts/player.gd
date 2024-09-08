@@ -338,9 +338,9 @@ func stair_movement() -> void:
 		stop_on_stairs(just_stair_transitioned)
 
 func check_crouch_input() -> void:
-	if(Input.is_action_just_pressed("down") && !in_stair_top):
+	if(Input.is_action_just_pressed("crouch")):
 		is_crouching = true
-	if(Input.is_action_just_released("down") && stun_timer.is_stopped()):
+	if(Input.is_action_just_released("crouch") && stun_timer.is_stopped()):
 		is_crouching = false
 
 func check_jump_input() -> void:
@@ -365,7 +365,7 @@ func get_on_stair(step:int, direction:int, animation:String, step_position:float
 	jump_timer.stop()
 
 func move_towards_stair(delta:float, step:int, is_in_stair:bool, direction:int, step_position:float, animation:String) -> bool:
-	if(!is_in_stair || is_whipping || is_jumping || !is_on_floor()):
+	if(!is_in_stair || is_whipping || is_jumping || is_crouching || !is_on_floor()):
 		return false
 	if(Globals.crossed_point(global_position.x, step_position, get_position_delta().x)):
 		get_on_stair(step, direction, animation, step_position)
@@ -375,6 +375,7 @@ func move_towards_stair(delta:float, step:int, is_in_stair:bool, direction:int, 
 	return true
 
 func check_stair_bottom(delta:float) -> bool:
+	
 	if(!Input.is_action_pressed("up")):
 		return false
 	if(!is_instance_valid(current_stair)):
@@ -481,7 +482,8 @@ func normal_movement(delta:float) -> void:
 		did_horizontal_movement = true
 	else:
 		# Crouching
-		check_crouch_input()
+		if(!did_horizontal_movement):
+			check_crouch_input()
 		# Jump timer
 		check_jump_input()
 
@@ -660,7 +662,7 @@ func _on_hitbox_area_exited(area) -> void:
 			in_stair_top = false
 
 func _on_stun_timer_timeout() -> void:
-	if(!Input.is_action_pressed("down")):
+	if(!Input.is_action_pressed("crouch")):
 		is_crouching = false
 
 func _on_hitbox_got_hit(attacker:Hurtbox) -> void:
