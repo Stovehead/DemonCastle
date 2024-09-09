@@ -6,7 +6,6 @@ extends MultiSelection
 func update_text() -> void:
 	if(translatable_selections.has(Settings.current_language)):
 		selections = translatable_selections[Settings.current_language]
-	print(selections)
 	set_selection_to_current()
 
 func _ready() -> void:
