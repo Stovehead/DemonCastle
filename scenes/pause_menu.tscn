@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://2717eimwbrwp"]
+
+[ext_resource type="Theme" uid="uid://01naekklebon" path="res://scenes/theme.tres" id="1_j1jf1"]
+[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="2_5xy0a"]
+[ext_resource type="Texture2D" uid="uid://hfqx1mlweo18" path="res://media/graphics/heart_icon.png" id="3_bdcw3"]
+[ext_resource type="Script" path="res://scripts/selection.gd" id="4_y186j"]
+
+[node name="PauseMenu" type="Control" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_j1jf1")
+script = ExtResource("2_5xy0a")
+default_selection = NodePath("CenterContainer/VBoxContainer2/ContinueSelection")
+labels = [NodePath("CenterContainer/VBoxContainer2/ContinueSelection/Continue"), NodePath("CenterContainer/VBoxContainer2/EndSelection/End")]
+cursor = NodePath("Cursor")
+active = true
+focused = true
+
+[node name="Cursor" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+offset_left = 188.0
+offset_top = 120.0
+offset_right = 196.0
+offset_bottom = 128.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+texture = ExtResource("3_bdcw3")
+expand_mode = 5
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 384.0
+offset_bottom = 216.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ContinueSelection" type="MarginContainer" parent="CenterContainer/VBoxContainer2" node_paths=PackedStringArray("up_selection", "down_selection")]
+layout_mode = 2
+script = ExtResource("4_y186j")
+up_selection = NodePath("../EndSelection")
+down_selection = NodePath("../EndSelection")
+
+[node name="Continue" type="Label" parent="CenterContainer/VBoxContainer2/ContinueSelection"]
+layout_mode = 2
+text = "CONTINUE"
+
+[node name="EndSelection" type="MarginContainer" parent="CenterContainer/VBoxContainer2" node_paths=PackedStringArray("up_selection", "down_selection")]
+layout_mode = 2
+script = ExtResource("4_y186j")
+up_selection = NodePath("../ContinueSelection")
+down_selection = NodePath("../ContinueSelection")
+
+[node name="End" type="Label" parent="CenterContainer/VBoxContainer2/EndSelection"]
+layout_mode = 2
+text = "END"
+
+[connection signal="selected" from="CenterContainer/VBoxContainer2/ContinueSelection" to="." method="_on_continue"]
+[connection signal="selected" from="CenterContainer/VBoxContainer2/EndSelection" to="." method="_on_end"]

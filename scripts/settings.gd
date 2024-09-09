@@ -286,7 +286,6 @@ func determine_controller_type() -> void:
 
 func get_default_controller_mappings() -> Dictionary:
 	if(detect_controller):
-		print("here")
 		determine_controller_type()
 	match(current_controller_type):
 		Controllers.PLAYSTATION:
@@ -362,6 +361,7 @@ func reset_settings() -> void:
 	controller_type = Controllers.AUTOMATIC
 	initialize_mappings()
 	settings_reset.emit()
+	controller_type_changed.emit()
 
 func save_settings() -> void:
 	var save_dict:Dictionary = {

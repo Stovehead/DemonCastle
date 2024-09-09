@@ -43,6 +43,7 @@ func reset() -> void:
 	start_option.modulate.a = 1
 	options_option.modulate.a = 1
 	Globals.entered_konami_code = false
+	bat_animation_player.stop()
 	bat_animation_player.play("default")
 	bat_animation_player.queue("fly")
 

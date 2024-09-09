@@ -70,7 +70,8 @@ func _process(_delta:float) -> void:
 	super._process(_delta)
 	if(Input.get_connected_joypads().size() == 0):
 		last_controller_name = ""
-		Settings.determine_controller_type()
+		if(Settings.detect_controller):
+			Settings.determine_controller_type()
 		return
 	if(last_controller_name == ""):
 		last_controller_name = Input.get_joy_name(0)

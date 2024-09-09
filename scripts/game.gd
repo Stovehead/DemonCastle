@@ -59,6 +59,8 @@ var doing_time_countdown:bool = false
 var doing_hearts_countdown:bool = false
 var ending_instance:Ending
 var hard_mode:bool = false
+var finished_thank_you_screen:bool = false
+var game_paused:bool = false
 
 signal finished_fade
 signal finished_camera_tween
@@ -95,6 +97,8 @@ signal finished_music_fade
 @onready var options_screen:OptionsScreen = $GUI/OptionsScreen
 @onready var fade_rect:ColorRect = $Fade/ColorRect
 @onready var flash_rect:ColorRect = $Flash/ColorRect
+@onready var dim_rect:ColorRect = $Dim/ColorRect
+@onready var pause_menu:PauseMenu = $Dim/ColorRect/PauseMenu
 @onready var logos:Logos = $GUI/Logos
 @onready var logos_timer:Timer = $LogosTimer
 @onready var time_stop_timer:Timer = $TimeStopTimer
@@ -128,6 +132,36 @@ func unpause_music() -> void:
 	music_player.stream_paused = false
 	if(is_instance_valid(music_fade_tween)):
 		music_fade_tween.play()
+
+func pause_game() -> void:
+	pause_music()
+	ShaderTime.time_scale = 0
+	dim_rect.visible = true
+	pause_menu.ignore_input = true
+	game_paused = true
+	get_tree().paused = true
+
+func unpause_game() -> void:
+	unpause_music()
+	ShaderTime.time_scale = 1
+	dim_rect.visible = false
+	game_paused = false
+	get_tree().paused = false
+
+func return_to_title() -> void:
+	unload_current_stage(false)
+	music_player.stop()
+	hard_mode = false
+	score = 0
+	score_changed.emit()
+	last_checkpoint = null
+	title_screen.reset()
+	game_over_screen.reset()
+	full_blackout.visible = true
+	await get_tree().create_timer(0.233, true, true).timeout
+	title_screen.visible = true
+	title_screen.process_mode = Node.PROCESS_MODE_INHERIT
+	full_blackout.visible = false
 
 func fade_out_music(fade_time:float) -> void:
 	music_fade_tween = get_tree().create_tween()
@@ -416,6 +450,15 @@ func _physics_process(delta) -> void:
 					await finished_fade
 					title_screen.process_mode = Node.PROCESS_MODE_INHERIT
 					showing_logos = false
+	elif(finished_thank_you_screen):
+		if(Input.is_action_just_pressed("start") || Input.is_action_just_pressed("accept") || Input.is_action_just_pressed("ui_accept")):
+			fade_to_black(FADE_TIME)
+			await finished_fade
+			fade_rect.visible = false
+			finished_thank_you_screen = false
+			thank_you_text.visible = false
+			thank_you_text.text = thank_you_text.text.substr(0, thank_you_text.text.length() - 6)
+			return_to_title()
 	if(debug_mode):
 		debug_window.get_node("CameraOutline").global_position = camera.get_screen_center_position() - Vector2(192, 108)
 	if(Input.is_action_just_pressed("fullscreen")):
@@ -501,6 +544,7 @@ func _on_continue_game():
 func _on_end_game():
 	music_player.stop()
 	hard_mode = false
+	score = 0
 	game_over_screen.process_mode = Node.PROCESS_MODE_DISABLED
 	game_over_screen.visible = false
 	last_checkpoint = null
@@ -582,9 +626,12 @@ func _on_go_to_next_level_timer_timeout() -> void:
 		gui.add_child(ending_instance)
 		ending_instance.credits_finished.connect(_on_credits_finished)
 	else:
+		Globals.current_player.queue_free()
 		thank_you_text.text += "%06d" % clamp(score, 0, 999999)
 		thank_you_text.visible = true
 		fade_from_black(FADE_TIME)
+		await get_tree().create_timer(5.0, true, true).timeout
+		finished_thank_you_screen = true
 
 func _on_credits_finished() -> void:
 	if(is_instance_valid(ending_instance)):

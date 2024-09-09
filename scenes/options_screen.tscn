@@ -1610,6 +1610,7 @@ strings = {
 }
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/ControllerTypeSelection/ControllerType"]
+layout_mode = 0
 offset_left = 96.0
 offset_right = 272.0
 offset_bottom = 8.0
