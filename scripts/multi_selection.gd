@@ -2,7 +2,7 @@ class_name MultiSelection
 extends Selection
 
 @export var property:String
-@export var selections:Array[String]
+@export var selections:Array
 @export var values:Array[Variant]
 @export var selection_label:Label
 @export var default_selection:int = 0
