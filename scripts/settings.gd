@@ -275,6 +275,9 @@ func determine_controller_type() -> void:
 	if(controller_name.contains("DualShock")):
 		current_controller_type = Controllers.PLAYSTATION
 		return
+	if(controller_name.contains("Sony")):
+		current_controller_type = Controllers.PLAYSTATION
+		return
 	if(controller_name.contains("Xbox")):
 		current_controller_type = Controllers.XBOX
 		return
