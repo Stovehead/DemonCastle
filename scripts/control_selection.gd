@@ -74,7 +74,10 @@ func _on_timer_timeout() -> void:
 	if(time_left <= 0):
 		active = false
 		parent_menu.active = true
-		update_control_label()
+		if(input_type == Type.KEYBOARD):
+			update_control_label()
+		elif(input_type == Type.CONTROLLER):
+			update_control_label_from_index(Settings.controller_mappings[action])
 		timer.stop()
 	else:
 		time_left -= 1

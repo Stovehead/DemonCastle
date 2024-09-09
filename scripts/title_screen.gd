@@ -78,7 +78,7 @@ func _ready() -> void:
 	bat_animation_player.queue("fly")
 
 func _process(_delta: float) -> void:
-	if(Input.is_action_just_pressed("start") && !fades.visible && start_timer.is_stopped()):
+	if((Input.is_action_just_pressed("start") || Input.is_action_just_pressed("ui_accept")) && !fades.visible && start_timer.is_stopped()):
 		if(!started):
 			fades.visible = true
 			fade_1.visible = true
@@ -102,7 +102,7 @@ func _process(_delta: float) -> void:
 			await get_tree().create_timer(FADE_LENGTH, true, true).timeout
 			started = true
 			fades.visible = false
-	if((Input.is_action_just_pressed("accept") || Input.is_action_just_pressed("ui_accept")) && !fades.visible && start_timer.is_stopped() && started):
+	if((Input.is_action_just_pressed("accept") || Input.is_action_just_pressed("ui_accept") || Input.is_action_just_pressed("start")) && !fades.visible && start_timer.is_stopped() && started):
 		match(current_option):
 			0:
 				flash_timer.start()

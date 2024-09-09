@@ -38,7 +38,10 @@ func reset() -> void:
 	elif(input_type == ControlSelection.Type.CONTROLLER):
 		Settings.reset_controller_mappings()
 	for selection in control_selections:
-		selection.update_control_label()
+		if(input_type == ControlSelection.Type.KEYBOARD):
+			selection.update_control_label()
+		elif(input_type == ControlSelection.Type.CONTROLLER):
+			selection.update_control_label_from_index(Settings.controller_mappings[selection.action])
 	Settings.has_unsaved_changes = true
 
 func update_active_and_focus(new_active:bool, new_focused:bool) -> void:

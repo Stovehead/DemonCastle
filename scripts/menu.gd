@@ -71,5 +71,5 @@ func _process(_delta: float) -> void:
 		update_selection(current_selection.left_selection)
 	elif(Input.is_action_just_pressed("right") || Input.is_action_just_pressed("ui_right") && is_instance_valid(current_selection.right_selection)):
 		update_selection(current_selection.right_selection)
-	elif(Input.is_action_just_pressed("accept") || Input.is_action_just_pressed("ui_accept")):
+	elif(Input.is_action_just_pressed("accept") || Input.is_action_just_pressed("ui_accept") || Input.is_action_just_pressed("start")):
 		current_selection._on_accepted()

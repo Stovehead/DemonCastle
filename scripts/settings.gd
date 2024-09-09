@@ -21,7 +21,7 @@ signal controller_type_changed
 
 var has_unsaved_changes:bool = false
 var initialized:bool = false
-var current_controller_type:Controllers = Controllers.NINTENDO
+var current_controller_type:Controllers = Controllers.PLAYSTATION
 
 var current_language:String = "en":
 	set(new_language):
@@ -382,21 +382,21 @@ func get_button_string_from_index(index:int) -> String:
 	if(index >= 128):
 		match(index):
 			128:
-				return "r"
-			129:
-				return "s"
-			130:
 				return "p"
-			131:
+			129:
 				return "q"
+			130:
+				return "r"
+			131:
+				return "s"
 			132:
-				return "v"
-			133:
-				return "w"
-			134:
 				return "t"
-			135:
+			133:
 				return "u"
+			134:
+				return "v"
+			135:
+				return "w"
 			136:
 				match(current_controller_type):
 					Controllers.GENERIC:
@@ -542,9 +542,9 @@ func int_to_axis(value:int) -> Array[Variant]:
 	return [null, null]
 
 func _ready() -> void:
+	print(Input.get_joy_name(0))
 	get_tree().set_auto_accept_quit(false)
 	load_settings()
-	print(InputMap.action_get_events("start"))
 
 func _notification(what:int) -> void:
 	if(what == NOTIFICATION_WM_CLOSE_REQUEST):
