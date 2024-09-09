@@ -20,7 +20,10 @@ func revert() -> void:
 	elif(input_type == ControlSelection.Type.CONTROLLER):
 		Settings.copy_mappings(Settings.controller_mappings, Settings.new_controller_mappings)
 	for selection in control_selections:
-		selection.update_control_label()
+		if(input_type == ControlSelection.Type.KEYBOARD):
+			selection.update_control_label()
+		elif(input_type == ControlSelection.Type.CONTROLLER):
+			selection.update_control_label_from_index(Settings.controller_mappings[selection.action])
 
 func apply() -> void:
 	SfxManager.play_sound_effect_no_overlap(SfxManager.HEART)
