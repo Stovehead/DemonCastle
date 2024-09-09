@@ -298,6 +298,7 @@ func unload_current_stage(retain_player:bool) -> void:
 		Globals.current_player.process_mode = Node.PROCESS_MODE_DISABLED
 	if(is_instance_valid(current_stage)):
 		current_stage.queue_free()
+	time_timer.stop()
 
 func load_next_stage(stage:PackedScene, load_position:Vector2):
 	time_timer.stop()
