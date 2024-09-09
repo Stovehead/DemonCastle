@@ -20,10 +20,14 @@ const STAGE_1_PATH:String = "res://scenes/castlevania_stage_1.tscn"
 const FINAL_STAGE_PATH:String = "res://scenes/castlevania_stage_18.tscn"
 const ENDING_PATH:String = "res://scenes/ending.tscn"
 
+const THANK_YOU_LINE_1:String = "THANK YOU FOR PLAYING!\n\n"
+const THANK_YOU_LINE_2:String = "PLEASE ENTER KONAMI CODE\nON TITLE SCREEN.\n\n"
+const THANK_YOU_LINE_3:String = "FINAL SCORE-"
+
 var debug_mode:bool = false
 
 var showing_logos:bool = true
-var load_test_stage:bool = false
+var load_test_stage:bool = true
 
 var current_stage:Stage
 var stage_to_load:String
@@ -81,7 +85,7 @@ signal finished_music_fade
 @onready var debug_window:Window = $DebugWindow
 @onready var camera:Camera2D = $Camera
 @onready var music_player:LinearAudioStreamPlayer = $MusicPlayer
-@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_1_inside.tscn")
+@onready var test_stage:PackedScene = load("res://scenes/castlevania_stage_3.tscn")
 @onready var game_over_music:AudioStream = preload("res://media/music/game_over.ogg")
 @onready var boss_music:AudioStream = preload("res://media/music/poisonmind.ogg")
 @onready var gui:CanvasLayer = $GUI
@@ -457,7 +461,6 @@ func _physics_process(delta) -> void:
 			fade_rect.visible = false
 			finished_thank_you_screen = false
 			thank_you_text.visible = false
-			thank_you_text.text = thank_you_text.text.substr(0, thank_you_text.text.length() - 6)
 			return_to_title()
 	if(debug_mode):
 		debug_window.get_node("CameraOutline").global_position = camera.get_screen_center_position() - Vector2(192, 108)
@@ -627,6 +630,10 @@ func _on_go_to_next_level_timer_timeout() -> void:
 		ending_instance.credits_finished.connect(_on_credits_finished)
 	else:
 		Globals.current_player.queue_free()
+		if(hard_mode):
+			thank_you_text.text = THANK_YOU_LINE_1 + THANK_YOU_LINE_3
+		else:
+			thank_you_text.text = THANK_YOU_LINE_1 + THANK_YOU_LINE_2 + THANK_YOU_LINE_3
 		thank_you_text.text += "%06d" % clamp(score, 0, 999999)
 		thank_you_text.visible = true
 		fade_from_black(FADE_TIME)
