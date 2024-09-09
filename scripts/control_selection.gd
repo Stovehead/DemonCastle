@@ -1,6 +1,7 @@
 class_name ControlSelection
 extends Selection
 
+const DEADZONE:float = 0.5
 const WAIT_TIME:int = 5
 const FORMAT_STRING:String = "%d..."
 const RESERVED_KEYS:Array[int] = [
@@ -33,11 +34,18 @@ func update_control_label() -> void:
 			if(!Settings.font.has_char(label_text.unicode_at(i))):
 				label_text[i] = '?'
 		control_label.text = label_text
-	elif(input_type == Type.CONTROLLER):
-		var label_text:String = str(Settings.new_controller_mappings[action])
-		if(label_text == "-1"):
-			label_text = ""
-		control_label.text = label_text
+
+func update_control_label_from_input_event(event:InputEvent) -> void:
+	if(active):
+		control_label.text = FORMAT_STRING % time_left
+		return
+	control_label.text = Settings.get_button_string(event)
+
+func update_control_label_from_index(index:int) -> void:
+	if(active):
+		control_label.text = FORMAT_STRING % time_left
+		return
+	control_label.text = Settings.get_button_string_from_index(index)
 
 func _ready() -> void:
 	timer = Timer.new()
@@ -46,7 +54,10 @@ func _ready() -> void:
 	timer.one_shot = false
 	timer.timeout.connect(_on_timer_timeout)
 	add_child(timer)
-	update_control_label()
+	if(input_type == Type.KEYBOARD):
+		update_control_label()
+	elif(input_type == Type.CONTROLLER):
+		update_control_label_from_index(Settings.controller_mappings[action])
 	Settings.settings_reset.connect(update_control_label)
 
 func _on_accepted() -> void:
@@ -69,6 +80,9 @@ func _on_timer_timeout() -> void:
 		time_left -= 1
 		update_control_label()
 
+func _on_controller_changed() -> void:
+	update_control_label_from_index(Settings.controller_mappings[action])
+
 func _unhandled_input(event: InputEvent) -> void:
 	if(!active):
 		return
@@ -82,9 +96,20 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 	elif(event is InputEventJoypadButton && input_type == Type.CONTROLLER):
 		if(event.pressed):
-			Settings.new_controller_mappings = event.button_index
+			Settings.new_controller_mappings[action] = event.button_index
+			active = false
+			update_control_label_from_input_event(event)
 		else:
 			return
+	elif(event is InputEventJoypadMotion):
+		if(input_type != Type.CONTROLLER):
+			return
+		if(event.axis_value < DEADZONE && event.axis_value > -DEADZONE):
+			return
+		var index:int = Settings.axis_to_int(event.axis, event.axis_value)
+		Settings.new_controller_mappings[action] = index
+		active = false
+		update_control_label_from_input_event(event)
 	else:
 		return
 	active = false

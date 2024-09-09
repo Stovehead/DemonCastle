@@ -138,6 +138,15 @@ func emit_signals() -> void:
 	subweapon_changed.emit(current_subweapon)
 	max_subweapons_changed.emit(max_num_subweapons)
 
+func get_axis(negative_input:String, positive_input:String) -> float:
+	var negative_pressed:bool = Input.is_action_pressed(negative_input)
+	var positive_pressed:bool = Input.is_action_pressed(positive_input)
+	if(negative_pressed == positive_pressed):
+		return 0.0
+	elif(negative_pressed):
+		return -1.0
+	return 1.0
+
 func start_invincibility() -> void:
 	if(is_invincible):
 		return
@@ -309,8 +318,8 @@ func stop_on_stairs(just_stair_transitioned: bool) -> void:
 	if(queued_whip):
 		do_attack()
 		return
-	var vertical_input_direction:int = Input.get_axis("down", "up")
-	var horizontal_input_direction:int = Input.get_axis("left", "right") * current_stair.direction
+	var vertical_input_direction:int = get_axis("down", "up")
+	var horizontal_input_direction:int = get_axis("left", "right") * current_stair.direction
 	# If not holding a direction
 	if(vertical_input_direction == 0 && horizontal_input_direction == 0):
 		go_to_idle_on_stairs()
@@ -414,7 +423,7 @@ func hit_floor_after_hit() -> void:
 		die()
 
 func check_horizontal_input(delta:float) -> void:
-	var input_direction:int = Input.get_axis("left", "right")
+	var input_direction:int = get_axis("left", "right")
 	if(is_crouching):
 		horizontal_movement(0, 1, delta)
 	else:
@@ -425,7 +434,7 @@ func start_jump() -> void:
 	is_jumping = true
 	jump_timer.stop()
 	velocity.y = JUMP_SPEED
-	pre_jump_direction = Input.get_axis("left", "right")
+	pre_jump_direction = get_axis("left", "right")
 	animation_player.play("jump")
 
 func floor_movement(delta:float, did_horizontal_movement:bool) -> void:

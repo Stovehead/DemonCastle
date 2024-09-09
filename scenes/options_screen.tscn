@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dkljxn86jf6ui"]
+[gd_scene load_steps=18 format=3 uid="uid://dkljxn86jf6ui"]
 
 [ext_resource type="Texture2D" uid="uid://b25hdoxabl6jq" path="res://media/graphics/options_skull.png" id="1_5ix5j"]
 [ext_resource type="Script" path="res://scripts/options_screen.gd" id="1_rvsu1"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/slider_selection.gd" id="10_joxj1"]
 [ext_resource type="Script" path="res://scripts/remapping_menu.gd" id="12_57l6q"]
 [ext_resource type="Script" path="res://scripts/control_selection.gd" id="12_s0lah"]
+[ext_resource type="FontFile" uid="uid://b7pw01rss3n70" path="res://media/fonts/buttons.png" id="14_8iiqq"]
 [ext_resource type="Script" path="res://scripts/other_menu.gd" id="14_yylco"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wydf5"]
@@ -385,7 +386,6 @@ text = "<100>"
 horizontal_alignment = 1
 
 [node name="ControlsMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
-visible = false
 layout_mode = 2
 script = ExtResource("3_ebdoj")
 default_selection = NodePath("VBoxContainer/HBoxContainer/KeyboardSelection")
@@ -450,6 +450,7 @@ strings = {
 }
 
 [node name="KeyboardMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer" node_paths=PackedStringArray("control_selections", "apply_selection", "reset_selection", "apply_reset_container", "yes_no_menu", "yes_selection", "no_selection", "default_selection", "labels", "cursor")]
+visible = false
 layout_mode = 2
 script = ExtResource("12_57l6q")
 control_selections = [NodePath("VBoxContainer2/VBoxContainer/UpSelection"), NodePath("VBoxContainer2/VBoxContainer/DownSelection"), NodePath("VBoxContainer2/VBoxContainer/LeftSelection"), NodePath("VBoxContainer2/VBoxContainer/RightSelection"), NodePath("VBoxContainer2/VBoxContainer/JumpSelection"), NodePath("VBoxContainer2/VBoxContainer/WhipSelection"), NodePath("VBoxContainer2/VBoxContainer/CrouchSelection"), NodePath("VBoxContainer2/VBoxContainer/SubweaponSelection"), NodePath("VBoxContainer2/VBoxContainer/StartSelection"), NodePath("VBoxContainer2/VBoxContainer/AcceptSelection"), NodePath("VBoxContainer2/VBoxContainer/CancelSelection")]
@@ -1026,7 +1027,8 @@ layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 8.0
-text = "AAAAAA"
+theme_override_fonts/font = ExtResource("14_8iiqq")
+text = "0"
 text_overrun_behavior = 1
 
 [node name="DownSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/ControllerMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
@@ -1058,7 +1060,8 @@ layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 8.0
-text = "AAAAAA"
+theme_override_fonts/font = ExtResource("14_8iiqq")
+text = "0"
 text_overrun_behavior = 1
 
 [node name="LeftSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/ControllerMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
@@ -1090,7 +1093,8 @@ layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 8.0
-text = "AAAAAA"
+theme_override_fonts/font = ExtResource("14_8iiqq")
+text = "0"
 text_overrun_behavior = 1
 
 [node name="RightSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/ControllerMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
@@ -1122,7 +1126,8 @@ layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 8.0
-text = "AAAAAA"
+theme_override_fonts/font = ExtResource("14_8iiqq")
+text = "0"
 text_overrun_behavior = 1
 
 [node name="JumpSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/ControllerMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
@@ -1154,7 +1159,8 @@ layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 8.0
-text = "AAAAAA"
+theme_override_fonts/font = ExtResource("14_8iiqq")
+text = "0"
 text_overrun_behavior = 1
 
 [node name="WhipSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/ControllerMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
@@ -1186,7 +1192,8 @@ layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 8.0
-text = "AAAAAA"
+theme_override_fonts/font = ExtResource("14_8iiqq")
+text = "0"
 text_overrun_behavior = 1
 
 [node name="CrouchSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/ControllerMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
@@ -1218,7 +1225,8 @@ layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 8.0
-text = "AAAAAA"
+theme_override_fonts/font = ExtResource("14_8iiqq")
+text = "0"
 text_overrun_behavior = 1
 
 [node name="SubweaponSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/ControllerMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
@@ -1250,7 +1258,8 @@ layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 8.0
-text = "AAAAAA"
+theme_override_fonts/font = ExtResource("14_8iiqq")
+text = "0"
 text_overrun_behavior = 1
 
 [node name="StartSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/ControllerMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
@@ -1282,7 +1291,8 @@ layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 8.0
-text = "AAAAAA"
+theme_override_fonts/font = ExtResource("14_8iiqq")
+text = "0"
 text_overrun_behavior = 1
 
 [node name="AcceptSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/ControllerMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
@@ -1314,7 +1324,8 @@ layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 8.0
-text = "AAAAAA"
+theme_override_fonts/font = ExtResource("14_8iiqq")
+text = "0"
 text_overrun_behavior = 1
 
 [node name="CancelSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/ControllerMenu/VBoxContainer2/VBoxContainer" node_paths=PackedStringArray("control_label", "left_selection", "right_selection", "up_selection", "down_selection", "parent_menu", "label")]
@@ -1346,7 +1357,8 @@ layout_direction = 3
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 8.0
-text = "AAAAAA"
+theme_override_fonts/font = ExtResource("14_8iiqq")
+text = "0"
 text_overrun_behavior = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/ControlsMenu/VBoxContainer/ControllerMenu/VBoxContainer2"]
@@ -1482,6 +1494,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="OtherMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("reset_all_selection", "yes_no_menu", "default_selection", "labels", "cursor")]
+visible = false
 layout_mode = 2
 script = ExtResource("14_yylco")
 reset_all_selection = NodePath("VBoxContainer/ResetAllSelection")
