@@ -138,6 +138,66 @@ var new_keyboard_mappings:Dictionary = {
 	"fullscreen": 0,
 }
 
+var default_controller_mappings_a:Dictionary = {
+	"up": 11,
+	"down": 12,
+	"left": 13,
+	"right": 14,
+	"jump": 1,
+	"attack": 0,
+	"crouch": 12,
+	"subweapon": -1,
+	"start": 6,
+	"debug": 4,
+	"accept": 1,
+	"cancel": 0,
+}
+
+var default_controller_mappings_b:Dictionary = {
+	"up": 11,
+	"down": 12,
+	"left": 13,
+	"right": 14,
+	"jump": 1,
+	"attack": 0,
+	"crouch": 12,
+	"subweapon": -1,
+	"start": 6,
+	"debug": 4,
+	"accept": 0,
+	"cancel": 1,
+}
+
+var controller_mappings:Dictionary = {
+	"up": -1,
+	"down": -1,
+	"left": -1,
+	"right": -1,
+	"jump": -1,
+	"attack": -1,
+	"crouch": -1,
+	"subweapon": -1,
+	"start": -1,
+	"debug": -1,
+	"accept": -1,
+	"cancel": -1,
+}
+
+var new_controller_mappings:Dictionary = {
+	"up": -1,
+	"down": -1,
+	"left": -1,
+	"right": -1,
+	"jump": -1,
+	"attack": -1,
+	"crouch": -1,
+	"subweapon": -1,
+	"start": -1,
+	"debug": -1,
+	"accept": -1,
+	"cancel": -1,
+}
+
 func copy_mappings(source:Dictionary, destination:Dictionary) -> void:
 	for key in source:
 		if(destination.has(key)):
@@ -148,18 +208,30 @@ func reset_keyboard_mappings() -> void:
 	copy_mappings(default_keyboard_mappings, new_keyboard_mappings)
 	update_input_map()
 
+func reset_controller_mappings() -> void:
+	copy_mappings(default_controller_mappings_a, controller_mappings)
+	copy_mappings(default_controller_mappings_a, new_controller_mappings)
+	update_input_map()
+
 func initialize_mappings() -> void:
 	copy_mappings(default_keyboard_mappings, keyboard_mappings)
 	copy_mappings(default_keyboard_mappings, new_keyboard_mappings)
+	copy_mappings(default_controller_mappings_a, controller_mappings)
+	copy_mappings(default_controller_mappings_a, new_controller_mappings)
 	update_input_map()
 
 func update_input_map() -> void:
 	for action in InputMap.get_actions():
 		InputMap.action_erase_events(action)
 	for key in keyboard_mappings:
-		var new_input_event:InputEventKey = InputEventKey.new()
-		new_input_event.keycode = keyboard_mappings[key]
-		InputMap.action_add_event(key, new_input_event)
+		var new_input_event_key:InputEventKey = InputEventKey.new()
+		new_input_event_key.keycode = keyboard_mappings[key]
+		InputMap.action_add_event(key, new_input_event_key)
+		Input.action_release(key)
+	for key in controller_mappings:
+		var new_input_event_button:InputEventJoypadButton = InputEventJoypadButton.new()
+		new_input_event_button.button_index = controller_mappings[key]
+		InputMap.action_add_event(key, new_input_event_button)
 		Input.action_release(key)
 
 func set_language_from_system() -> void:
@@ -261,6 +333,7 @@ func load_settings() -> void:
 func _ready() -> void:
 	get_tree().set_auto_accept_quit(false)
 	load_settings()
+	print(InputMap.action_get_events("start"))
 
 func _notification(what:int) -> void:
 	if(what == NOTIFICATION_WM_CLOSE_REQUEST):

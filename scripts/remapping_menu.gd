@@ -3,6 +3,7 @@ extends Menu
 
 const OVERLAPPING_COLOR:Color = Color("bcbe00")
 
+@export var input_type:ControlSelection.Type
 @export var control_selections:Array[ControlSelection]
 @export var apply_selection:Selection
 @export var reset_selection:Selection
@@ -14,21 +15,30 @@ const OVERLAPPING_COLOR:Color = Color("bcbe00")
 var has_overlapping_inputs:bool = false
 
 func revert() -> void:
-	Settings.copy_mappings(Settings.keyboard_mappings, Settings.new_keyboard_mappings)
+	if(input_type == ControlSelection.Type.KEYBOARD):
+		Settings.copy_mappings(Settings.keyboard_mappings, Settings.new_keyboard_mappings)
+	elif(input_type == ControlSelection.Type.CONTROLLER):
+		Settings.copy_mappings(Settings.controller_mappings, Settings.new_controller_mappings)
 	for selection in control_selections:
-			selection.update_control_label()
+		selection.update_control_label()
 
 func apply() -> void:
 	SfxManager.play_sound_effect_no_overlap(SfxManager.HEART)
-	Settings.copy_mappings(Settings.new_keyboard_mappings, Settings.keyboard_mappings)
+	if(input_type == ControlSelection.Type.KEYBOARD):
+		Settings.copy_mappings(Settings.new_keyboard_mappings, Settings.keyboard_mappings)
+	elif(input_type == ControlSelection.Type.CONTROLLER):
+		Settings.copy_mappings(Settings.new_controller_mappings, Settings.controller_mappings)
 	Settings.update_input_map()
 	Settings.has_unsaved_changes = true
 
 func reset() -> void:
 	SfxManager.play_sound_effect_no_overlap(SfxManager.HEART)
-	Settings.copy_mappings(Settings.default_keyboard_mappings, Settings.keyboard_mappings)
-	Settings.update_input_map()
-	revert()
+	if(input_type == ControlSelection.Type.KEYBOARD):
+		Settings.reset_keyboard_mappings()
+	elif(input_type == ControlSelection.Type.CONTROLLER):
+		Settings.reset_controller_mappings()
+	for selection in control_selections:
+		selection.update_control_label()
 	Settings.has_unsaved_changes = true
 
 func update_active_and_focus(new_active:bool, new_focused:bool) -> void:

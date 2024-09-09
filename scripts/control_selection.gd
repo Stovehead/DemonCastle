@@ -27,11 +27,16 @@ var timer:Timer
 func update_control_label() -> void:
 	if(active):
 		control_label.text = FORMAT_STRING % time_left
-	else:
-		var label_text = OS.get_keycode_string(Settings.new_keyboard_mappings[action]).to_upper()
+	elif(input_type == Type.KEYBOARD):
+		var label_text:String = OS.get_keycode_string(Settings.new_keyboard_mappings[action]).to_upper()
 		for i in range(label_text.length()):
 			if(!Settings.font.has_char(label_text.unicode_at(i))):
 				label_text[i] = '?'
+		control_label.text = label_text
+	elif(input_type == Type.CONTROLLER):
+		var label_text:String = str(Settings.new_controller_mappings[action])
+		if(label_text == "-1"):
+			label_text = ""
 		control_label.text = label_text
 
 func _ready() -> void:
@@ -67,14 +72,23 @@ func _on_timer_timeout() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if(!active):
 		return
-	if(event is InputEventKey):
-		if(event.pressed && input_type == Type.KEYBOARD):
+	if(event is InputEventKey && input_type == Type.KEYBOARD):
+		if(event.pressed):
 			if(RESERVED_KEYS.has(event.keycode) && Settings.default_keyboard_mappings[action] != event.keycode):
-				pass
+				return
 			else:
 				Settings.new_keyboard_mappings[action] = event.keycode
-			active = false
-			parent_menu.ignore_input = true
-			parent_menu.active = true
-			timer.stop()
-			update_control_label()
+		else:
+			return
+	elif(event is InputEventJoypadButton && input_type == Type.CONTROLLER):
+		if(event.pressed):
+			Settings.new_controller_mappings = event.button_index
+		else:
+			return
+	else:
+		return
+	active = false
+	parent_menu.ignore_input = true
+	parent_menu.active = true
+	timer.stop()
+	update_control_label()
