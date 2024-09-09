@@ -40,6 +40,8 @@ func reset() -> void:
 	start_text.visible = true
 	menu.visible = false
 	copyright_text.modulate.a = 1
+	start_option.modulate.a = 1
+	options_option.modulate.a = 1
 	Globals.entered_konami_code = false
 	bat_animation_player.play("default")
 	bat_animation_player.queue("fly")
