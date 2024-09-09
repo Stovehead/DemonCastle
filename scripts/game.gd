@@ -157,7 +157,7 @@ func return_to_title() -> void:
 	music_player.stop()
 	hard_mode = false
 	score = 0
-	score_changed.emit()
+	score_changed.emit(score)
 	last_checkpoint = null
 	title_screen.reset()
 	game_over_screen.reset()
