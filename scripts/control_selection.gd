@@ -35,7 +35,7 @@ func update_control_label() -> void:
 				label_text[i] = '?'
 		control_label.text = label_text
 	elif(input_type == Type.CONTROLLER):
-		update_control_label_from_index(Settings.controller_mappings[action])
+		update_control_label_from_index(Settings.new_controller_mappings[action])
 
 func update_control_label_from_input_event(event:InputEvent) -> void:
 	if(active):
@@ -111,6 +111,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if(input_type != Type.CONTROLLER):
 			return
 		if(event.axis_value < DEADZONE && event.axis_value > -DEADZONE):
+			return
+		if(event.axis <= JOY_AXIS_INVALID || event.axis >= JOY_AXIS_MAX):
 			return
 		var index:int = Settings.axis_to_int(event.axis, event.axis_value)
 		Settings.new_controller_mappings[action] = index
