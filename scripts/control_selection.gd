@@ -34,6 +34,8 @@ func update_control_label() -> void:
 			if(!Settings.font.has_char(label_text.unicode_at(i))):
 				label_text[i] = '?'
 		control_label.text = label_text
+	elif(input_type == Type.CONTROLLER):
+		update_control_label_from_index(Settings.controller_mappings[action])
 
 func update_control_label_from_input_event(event:InputEvent) -> void:
 	if(active):
@@ -58,6 +60,7 @@ func _ready() -> void:
 		update_control_label()
 	elif(input_type == Type.CONTROLLER):
 		update_control_label_from_index(Settings.controller_mappings[action])
+		Settings.controller_type_changed.connect(update_control_label)
 	Settings.settings_reset.connect(update_control_label)
 
 func _on_accepted() -> void:

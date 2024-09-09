@@ -34,6 +34,7 @@ func update_active_and_focus(new_active:bool, new_focused:bool):
 		if(new_active && new_focused):
 			cursor.modulate.a = 1
 			cursor.self_modulate = Color.WHITE
+			update_cursor()
 		elif(!new_focused):
 			if(hide_cursor_on_lost_focus):
 				cursor.modulate.a = 0
@@ -42,7 +43,7 @@ func update_active_and_focus(new_active:bool, new_focused:bool):
 
 func update_cursor() -> void:
 	cursor.global_position = current_selection.global_position + current_selection.cursor_offset
-	update_active_and_focus(active, focused)
+	#update_active_and_focus(active, focused)
 
 func update_selection(new_selection:Selection) -> void:
 	if(new_selection == null):

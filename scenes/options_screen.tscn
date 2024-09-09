@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dkljxn86jf6ui"]
+[gd_scene load_steps=19 format=3 uid="uid://dkljxn86jf6ui"]
 
 [ext_resource type="Texture2D" uid="uid://b25hdoxabl6jq" path="res://media/graphics/options_skull.png" id="1_5ix5j"]
 [ext_resource type="Script" path="res://scripts/options_screen.gd" id="1_rvsu1"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://scripts/control_selection.gd" id="12_s0lah"]
 [ext_resource type="FontFile" uid="uid://b7pw01rss3n70" path="res://media/fonts/buttons.png" id="14_8iiqq"]
 [ext_resource type="Script" path="res://scripts/other_menu.gd" id="14_yylco"]
+[ext_resource type="Script" path="res://scripts/translatable_multi_selection.gd" id="16_5vwm6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wydf5"]
 bg_color = Color(0, 0, 0, 1)
@@ -386,6 +387,7 @@ text = "<100>"
 horizontal_alignment = 1
 
 [node name="ControlsMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("default_selection", "labels", "cursor")]
+visible = false
 layout_mode = 2
 script = ExtResource("3_ebdoj")
 default_selection = NodePath("VBoxContainer/HBoxContainer/KeyboardSelection")
@@ -1494,13 +1496,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="OtherMenu" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer" node_paths=PackedStringArray("reset_all_selection", "yes_no_menu", "default_selection", "labels", "cursor")]
-visible = false
 layout_mode = 2
 script = ExtResource("14_yylco")
 reset_all_selection = NodePath("VBoxContainer/ResetAllSelection")
 yes_no_menu = NodePath("VBoxContainer/YesNoMenu")
 default_selection = NodePath("VBoxContainer/LanguageSelection")
-labels = [NodePath("VBoxContainer/LanguageSelection/Language"), NodePath("VBoxContainer/LanguageSelection/Language/Label"), NodePath("VBoxContainer/SubweaponSelection/Subweapon"), NodePath("VBoxContainer/SubweaponSelection/Subweapon/Label"), NodePath("VBoxContainer/ResetAllSelection/Subweapon")]
+labels = [NodePath("VBoxContainer/LanguageSelection/Language"), NodePath("VBoxContainer/LanguageSelection/Language/Label"), NodePath("VBoxContainer/SubweaponSelection/Subweapon"), NodePath("VBoxContainer/SubweaponSelection/Subweapon/Label"), NodePath("VBoxContainer/ResetAllSelection/Subweapon"), NodePath("VBoxContainer/ControllerTypeSelection/ControllerType"), NodePath("VBoxContainer/ControllerTypeSelection/ControllerType/Label")]
 cursor = NodePath("Cursor")
 hide_cursor_on_lost_focus = true
 
@@ -1558,7 +1559,7 @@ selections = Array[String](["<ON>", "<OFF>"])
 values = [true, false]
 selection_label = NodePath("Subweapon/Label")
 up_selection = NodePath("../LanguageSelection")
-down_selection = NodePath("../ResetAllSelection")
+down_selection = NodePath("../ControllerTypeSelection")
 parent_menu = NodePath("../..")
 label = NodePath("Subweapon")
 
@@ -1583,10 +1584,43 @@ theme = ExtResource("5_y3ais")
 text = "<ON>"
 horizontal_alignment = 1
 
+[node name="ControllerTypeSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer" node_paths=PackedStringArray("selection_label", "up_selection", "down_selection", "parent_menu", "label")]
+layout_mode = 2
+script = ExtResource("16_5vwm6")
+translatable_selections = {
+"en": Array[String](["<AUTOMATIC>", "<PLAYSTATION>", "<NINTENDO>", "<XBOX>", "<GENERIC>"]),
+"jp": Array[String](["＜じどうはんてい＞", "＜プレイステーション＞", "＜ニンテンドー＞", "<XBOX>", "＜そのた＞"])
+}
+property = "controller_type"
+selections = Array[String](["<AUTOMATIC>", "<PLAYSTATION>", "<NINTENDO>", "<XBOX>", "<GENERIC>"])
+values = [0, 1, 2, 3, 4]
+selection_label = NodePath("ControllerType/Label")
+up_selection = NodePath("../SubweaponSelection")
+down_selection = NodePath("../ResetAllSelection")
+parent_menu = NodePath("../..")
+label = NodePath("ControllerType")
+
+[node name="ControllerType" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/ControllerTypeSelection"]
+layout_mode = 2
+text = "CONTROLLER TYPE"
+script = ExtResource("5_lfo62")
+strings = {
+"en": "CONTROLLER TYPE",
+"jp": "コントローラータイプ"
+}
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer/ControllerTypeSelection/ControllerType"]
+offset_left = 96.0
+offset_right = 272.0
+offset_bottom = 8.0
+theme = ExtResource("5_y3ais")
+text = "<AUTOMATIC>"
+horizontal_alignment = 1
+
 [node name="ResetAllSelection" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/Menu/HBoxContainer/OtherMenu/VBoxContainer" node_paths=PackedStringArray("up_selection", "down_selection", "parent_menu", "label")]
 layout_mode = 2
 script = ExtResource("5_oiulk")
-up_selection = NodePath("../SubweaponSelection")
+up_selection = NodePath("../ControllerTypeSelection")
 down_selection = NodePath("../LanguageSelection")
 parent_menu = NodePath("../..")
 label = NodePath("Subweapon")

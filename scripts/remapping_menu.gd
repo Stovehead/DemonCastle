@@ -13,6 +13,7 @@ const OVERLAPPING_COLOR:Color = Color("bcbe00")
 @export var no_selection:Selection
 
 var has_overlapping_inputs:bool = false
+var last_controller_name:String = ""
 
 func revert() -> void:
 	if(input_type == ControlSelection.Type.KEYBOARD):
@@ -67,6 +68,21 @@ func _ready() -> void:
 	reset_selection.selected.connect(_on_apply_or_reset)
 	yes_selection.selected.connect(_on_yes)
 	no_selection.selected.connect(_on_no)
+
+func _process(_delta:float) -> void:
+	super._process(_delta)
+	if(Input.get_connected_joypads().size() == 0):
+		last_controller_name = ""
+		Settings.determine_controller_type()
+		return
+	if(last_controller_name == ""):
+		last_controller_name = Input.get_joy_name(0)
+		if(Settings.detect_controller):
+			Settings.determine_controller_type()
+	elif(Input.get_joy_name(0) != last_controller_name):
+		last_controller_name = Input.get_joy_name(0)
+		if(Settings.detect_controller):
+			Settings.determine_controller_type()
 
 func _on_yes() -> void:
 	return_from_yes_no_menu()

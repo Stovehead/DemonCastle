@@ -1,10 +1,11 @@
 extends Node
 
 enum Controllers{
-	GENERIC,
+	AUTOMATIC,
 	PLAYSTATION,
 	NINTENDO,
-	XBOX
+	XBOX,
+	GENERIC
 }
 
 const RESOLUTION:Vector2i = Vector2i(384, 216)
@@ -21,8 +22,11 @@ signal controller_type_changed
 
 var has_unsaved_changes:bool = false
 var initialized:bool = false
-var current_controller_type:Controllers = Controllers.PLAYSTATION
-
+var current_controller_type:Controllers = Controllers.GENERIC:
+	set(new_current_controller_type):
+		if(new_current_controller_type != current_controller_type):
+			current_controller_type = new_current_controller_type
+			controller_type_changed.emit()
 var current_language:String = "en":
 	set(new_language):
 		if(new_language != current_language):
@@ -85,6 +89,20 @@ var subweapon_with_up:bool = true:
 			subweapon_with_up = new_subweapon_with_up
 			if(initialized):
 				has_unsaved_changes = true
+var controller_type:Controllers = Controllers.AUTOMATIC:
+	set(new_controller_type):
+		if(new_controller_type != controller_type):
+			controller_type = new_controller_type
+			if(initialized):
+				has_unsaved_changes = true
+		if(new_controller_type == Controllers.AUTOMATIC):
+			detect_controller = true
+			determine_controller_type()
+			return
+		detect_controller = false
+		current_controller_type = new_controller_type
+
+var detect_controller:bool = true
 
 var default_keyboard_mappings:Dictionary = {
 	"up": KEY_UP,
@@ -210,6 +228,79 @@ var new_controller_mappings:Dictionary = {
 	"cancel": -1,
 }
 
+func determine_controller_type() -> void:
+	if(Input.get_connected_joypads().size() == 0):
+		current_controller_type = Controllers.GENERIC
+		return
+	var controller_name:String = Input.get_joy_name(0)
+	if(controller_name.contains("Nintendo")):
+		current_controller_type = Controllers.NINTENDO
+		return
+	if(controller_name.contains("NES")):
+		current_controller_type = Controllers.NINTENDO
+		return
+	if(controller_name.contains("GameCube")):
+		current_controller_type = Controllers.NINTENDO
+		return
+	if(controller_name.contains("Wii")):
+		current_controller_type = Controllers.NINTENDO
+		return
+	if(controller_name.contains("Switch")):
+		current_controller_type = Controllers.NINTENDO
+		return
+	if(controller_name.contains("8BitDo")):
+		current_controller_type = Controllers.NINTENDO
+		return
+	if(controller_name.contains("PlayStation")):
+		current_controller_type = Controllers.PLAYSTATION
+		return
+	if(controller_name.contains("PS5")):
+		current_controller_type = Controllers.PLAYSTATION
+		return
+	if(controller_name.contains("PS4")):
+		current_controller_type = Controllers.PLAYSTATION
+		return
+	if(controller_name.contains("PS3")):
+		current_controller_type = Controllers.PLAYSTATION
+		return
+	if(controller_name.contains("PS2")):
+		current_controller_type = Controllers.PLAYSTATION
+		return
+	if(controller_name.contains("PS1")):
+		current_controller_type = Controllers.PLAYSTATION
+		return
+	if(controller_name.contains("PSX")):
+		current_controller_type = Controllers.PLAYSTATION
+		return
+	if(controller_name.contains("DualShock")):
+		current_controller_type = Controllers.PLAYSTATION
+		return
+	if(controller_name.contains("Xbox")):
+		current_controller_type = Controllers.XBOX
+		return
+	if(controller_name.contains("XInput")):
+		current_controller_type = Controllers.XBOX
+		return
+	current_controller_type = Controllers.GENERIC
+	return
+
+func get_default_controller_mappings() -> Dictionary:
+	if(detect_controller):
+		print("here")
+		determine_controller_type()
+	match(current_controller_type):
+		Controllers.PLAYSTATION:
+			if(current_language == "en"):
+				return default_controller_mappings_b
+			return default_controller_mappings_a
+		Controllers.NINTENDO:
+			return default_controller_mappings_a
+		Controllers.XBOX:
+			return default_controller_mappings_b
+	if(current_language == "en"):
+		return default_controller_mappings_b
+	return default_controller_mappings_a
+
 func copy_mappings(source:Dictionary, destination:Dictionary) -> void:
 	for key in source:
 		if(destination.has(key)):
@@ -221,15 +312,17 @@ func reset_keyboard_mappings() -> void:
 	update_input_map()
 
 func reset_controller_mappings() -> void:
-	copy_mappings(default_controller_mappings_a, controller_mappings)
-	copy_mappings(default_controller_mappings_a, new_controller_mappings)
+	var default_controller_mappings:Dictionary = get_default_controller_mappings()
+	copy_mappings(default_controller_mappings, controller_mappings)
+	copy_mappings(default_controller_mappings, new_controller_mappings)
 	update_input_map()
 
 func initialize_mappings() -> void:
+	var default_controller_mappings:Dictionary = get_default_controller_mappings()
 	copy_mappings(default_keyboard_mappings, keyboard_mappings)
 	copy_mappings(default_keyboard_mappings, new_keyboard_mappings)
-	copy_mappings(default_controller_mappings_a, controller_mappings)
-	copy_mappings(default_controller_mappings_a, new_controller_mappings)
+	copy_mappings(default_controller_mappings, controller_mappings)
+	copy_mappings(default_controller_mappings, new_controller_mappings)
 	update_input_map()
 
 func update_input_map() -> void:
@@ -266,6 +359,7 @@ func reset_settings() -> void:
 	is_fullscreen = false
 	force_integer_scaling = false
 	subweapon_with_up = true
+	controller_type = Controllers.AUTOMATIC
 	initialize_mappings()
 	settings_reset.emit()
 
@@ -311,6 +405,7 @@ func save_settings() -> void:
 		"debug_button": controller_mappings["debug"],
 		"accept_button": controller_mappings["accept"],
 		"cancel_button": controller_mappings["cancel"],
+		"controller_type": controller_type,
 	}
 	var save_file:FileAccess = FileAccess.open("user://settings.save", FileAccess.WRITE)
 	var json_string:String = JSON.stringify(save_dict)
@@ -371,6 +466,7 @@ func load_settings() -> void:
 		controller_mappings["debug"] = data["debug_button"]
 		controller_mappings["accept"] = data["accept_button"]
 		controller_mappings["cancel"] = data["cancel_button"]
+		controller_type = data["controller_type"]
 		update_input_map()
 		copy_mappings(keyboard_mappings, new_keyboard_mappings)
 		copy_mappings(controller_mappings, new_controller_mappings)
@@ -542,7 +638,6 @@ func int_to_axis(value:int) -> Array[Variant]:
 	return [null, null]
 
 func _ready() -> void:
-	print(Input.get_joy_name(0))
 	get_tree().set_auto_accept_quit(false)
 	load_settings()
 
