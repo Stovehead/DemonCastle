@@ -6,9 +6,12 @@ const MAX_NUM_FLASHES:int = 16
 @onready var tripler_icon:Texture = preload("res://media/graphics/tripler_icon.png")
 @onready var flash_timer:Timer = $FlashTimer
 
-var num_flashes = 0
+var num_flashes:int = 0
+var last_max_subweapons:int = 0
 
 func _on_max_subweapons_changed(new_max_subweapons:int) -> void:
+	if(last_max_subweapons == new_max_subweapons):
+		return
 	match(new_max_subweapons):
 		2:
 			flash_timer.start()
@@ -21,6 +24,7 @@ func _on_max_subweapons_changed(new_max_subweapons:int) -> void:
 		_:
 			flash_timer.stop()
 			modulate.a = 0
+	last_max_subweapons = new_max_subweapons
 
 func _on_flash_timer_timeout() -> void:
 	if(modulate.a == 1):
