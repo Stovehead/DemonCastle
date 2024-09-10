@@ -177,16 +177,16 @@ func get_weapon_to_attack() -> int:
 
 func play_stair_attack_animation() -> void:
 	if(player_direction == current_stair.direction):
-		animation_player.play("stair_up_whip")
+		animation_player.play.call_deferred("stair_up_whip")
 	else:
-		animation_player.play("stair_down_whip")
+		animation_player.play.call_deferred("stair_down_whip")
 	velocity = Vector2.ZERO
 
 func play_floor_attack_animation() -> void:
 	if(is_crouching && is_on_floor()):
-		animation_player.play("crouch_whip")
+		animation_player.play.call_deferred("crouch_whip")
 		return
-	animation_player.play("whip")
+	animation_player.play.call_deferred("whip")
 	if(collision.shape.get_rect().size.y < DEFAULT_COLLISION_SIZE.y):
 		global_position.y -= (DEFAULT_COLLISION_SIZE.y - collision.shape.get_rect().size.y)/2
 

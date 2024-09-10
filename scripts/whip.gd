@@ -30,11 +30,11 @@ var current_level:int = 1:
 func play_animation() -> void:
 	animation_player.stop()
 	if(current_level == 1):
-		animation_player.play("level1")
+		animation_player.play.call_deferred("level1")
 	elif(current_level == 2):
-		animation_player.play("level2")
+		animation_player.play.call_deferred("level2")
 	else:
-		animation_player.play("level3")
+		animation_player.play.call_deferred("level3")
 
 func play_sound() -> void:
 	if(!played_sound && visible):
@@ -43,6 +43,7 @@ func play_sound() -> void:
 
 func reset() -> void:
 	animation_player.play.call_deferred("RESET")
+	modulate.a = 0
 	if(is_instance_valid(current_sfx)):
 		SfxManager.stop_sound_effect(current_sfx)
 

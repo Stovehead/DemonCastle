@@ -483,6 +483,8 @@ frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 callback_mode_process = 0
+callback_mode_method = 1
+callback_mode_discrete = 0
 libraries = {
 "": SubResource("AnimationLibrary_l2f8t")
 }
