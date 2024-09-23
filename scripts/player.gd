@@ -36,11 +36,12 @@ const KNOCKBACK_VELOCITY:Vector2 = Vector2(60, -130)
 const DEFAULT_COLLISION_SIZE = Vector2(15, 30)
 const SMALL_COLLISION_SIZE = Vector2(15, 23)
 const STOPWATCH_COST:int = 5
-const DEFAULT_PALETTE:Array[Vector4] = [Vector4(0.337, 0.114, 0, 1), Vector4(0.918, 0.620, 0.133, 1), Vector4(0.969, 0.847, 0.647, 1)]
-const INVINCIBLE_PALETTE:Array[Vector4] = [Vector4(0.753, 0.875, 1, 1), Vector4(0.969, 0.847, 0.647, 1), Vector4(0.918, 0.620, 0.133, 1)]
 const INVINCIBLE_TIME_1:float = 1.73333
 const INVINCIBLE_TIME_2:float = 2.13333
 const NUM_STARTING_HEARTS:int = 5
+
+var default_palette:Array[Vector4] = [Vector4(0.337, 0.114, 0, 1), Vector4(0.918, 0.620, 0.133, 1), Vector4(0.969, 0.847, 0.647, 1)]
+var invincible_palette:Array[Vector4] = [Vector4(0.753, 0.875, 1, 1), Vector4(0.969, 0.847, 0.647, 1), Vector4(0.918, 0.620, 0.133, 1)]
 
 var player_direction:int = 1
 var pre_jump_direction:int
@@ -79,6 +80,7 @@ var is_dead:bool = false
 var time_up:bool = false
 var is_invincible:bool = false
 var is_time_stopped:bool = false
+var skip_move_and_slide:bool = false
 
 @onready var collision:CollisionShape2D = $Collision
 @onready var jump_timer:Timer = $JumpTimer
@@ -284,6 +286,7 @@ func go_up_stairs() -> void:
 func get_off_stairs() -> bool:
 	if(current_stair is TransitionalStairs && current_step == current_stair.height * current_stair.target):
 		current_stair.transition(self)
+		skip_move_and_slide = true
 		return true
 	on_stairs = false
 	animation_player.play("idle")
@@ -625,8 +628,8 @@ func _ready() -> void:
 	animation_player.play("idle")
 	last_grounded_y = global_position.y
 	sprite.material = ShaderMaterial.new()
-	sprite.material.set_shader_parameter("original_palette", DEFAULT_PALETTE)
-	sprite.material.set_shader_parameter("new_palettes", INVINCIBLE_PALETTE)
+	sprite.material.set_shader_parameter("original_palette", default_palette)
+	sprite.material.set_shader_parameter("new_palettes", invincible_palette)
 	sprite.material.set_shader_parameter("num_new_palettes", 1)
 
 func _process(_delta: float) -> void:
@@ -640,7 +643,9 @@ func _physics_process(delta:float) -> void:
 		collision.disabled = false
 		velocity = gravity_component.apply_gravity_with_terminal_velocity(velocity, TERMINAL_VELOCITY, delta)
 	var old_velocity = velocity.x
-	move_and_slide()
+	if(!skip_move_and_slide):
+		move_and_slide()
+	skip_move_and_slide = false
 	velocity.x = old_velocity
 	handle_animation()
 	move_in_bounds()

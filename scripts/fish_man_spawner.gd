@@ -62,9 +62,8 @@ func _on_spawn_timer_timeout() -> void:
 
 func _on_fish_died() -> void:
 	num_fish -= 1
-	if(fish_spawn_queued):
-		if(is_instance_valid(queued_spawn_timer)):
-			queued_spawn_timer.start()
+	if(fish_spawn_queued && is_inside_tree()):
+		queued_spawn_timer.start()
 		fish_spawn_queued = false
 
 func _on_queued_spawn_timer_timeout() -> void:
